@@ -11,9 +11,11 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-m32" />
 					<Add directory="../common" />
 				</Compiler>
 				<Linker>
+					<Add option="-m32" />
 					<Add library="Xm" />
 				</Linker>
 			</Target>

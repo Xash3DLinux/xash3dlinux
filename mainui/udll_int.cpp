@@ -58,6 +58,13 @@ static UI_FUNCTIONS gFunctionTable =
 	UI_FinalCredits
 };
 
+#ifndef _WIN32
+extern "C" //fix func declaration
+{
+  int PRINT_API GetMenuAPI( UI_FUNCTIONS *pFunctionTable, ui_enginefuncs_t* pEngfuncsFromEngine, ui_globalvars_t *pGlobals );
+}
+#endif
+
 //=======================================================================
 //			GetApi
 //=======================================================================
