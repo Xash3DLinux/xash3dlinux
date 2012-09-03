@@ -17,6 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
@@ -110,6 +113,32 @@ typedef struct
 	unsigned int bmp_offset;
 } bmphdr_t;
 #pragma pack(pop)
+
+#ifndef _WIN32
+struct BITMAPFILEHEADER
+{
+    WORD    bfType;
+    DWORD   bfSize;
+    WORD    bfReserved1;
+    WORD    bfReserved2;
+    DWORD   bfOffBits;
+};
+
+struct BITMAPINFOHEADER
+{
+    DWORD    biSize;
+    DWORD    biWidth;
+    DWORD    biHeight;
+    WORD    biPlanes;
+    WORD    biBitCount;
+    DWORD    biCompression;
+    DWORD    biSizeImage;
+    DWORD    biXPelsPerMeter;
+    DWORD    biYPelsPerMeter;
+    DWORD    biClrUsed;
+    DWORD    biClrImportant;
+};
+#endif
 
 /*
 =================

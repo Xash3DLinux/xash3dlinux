@@ -17,6 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
@@ -98,8 +102,6 @@ UI_Background_Ownerdraw
 */
 static void UI_Background_Ownerdraw( void *self )
 {
-	menuCommon_s	*item = (menuCommon_s *)self;
-
 	// map has background
 	if( CVAR_GET_FLOAT( "sv_background" )) return;
 

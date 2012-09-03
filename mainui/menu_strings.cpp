@@ -12,13 +12,19 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <ctype.h>
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
 #include "utils.h"
 #include "menu_strings.h"
 
-char *MenuStrings[HINT_MAXSTRINGS] =
+char *MenuStrings[HINT_MAXSTRINGS]
+#ifdef _WIN32
+ =
 {
 "",
 "",
@@ -571,7 +577,9 @@ char *MenuStrings[HINT_MAXSTRINGS] =
 "",
 "",
 "",	// 550
-};
+}
+#endif
+;
 
 void UI_InitAliasStrings( void )
 {

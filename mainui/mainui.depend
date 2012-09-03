@@ -1,0 +1,294 @@
+# depslib dependency file v1.0
+1346674813 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_btns.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+
+1346670704 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/recdefs.h
+	"wintypes.h"
+	<features.h>
+	<bits/wordsize.h>
+
+1346674471 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wintypes.h
+
+1340892706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/features.h
+
+1346672969 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/extdll.h
+	"windows.h"
+	<assert.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"menu_int.h"
+
+1318679790 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/menu_int.h
+	"cvardef.h"
+	"gameinfo.h"
+	"wrect.h"
+
+1287950366 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/cvardef.h
+
+1303770598 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/gameinfo.h
+
+1303770642 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wrect.h
+
+1337181768 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/basemenu.h
+	"netadr.h"
+
+1289752706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/netadr.h
+
+1321371374 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/utils.h
+	"enginecallback.h"
+	"gameinfo.h"
+	"cvardef.h"
+
+1332687260 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/enginecallback.h
+
+1309288758 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_btnsbmp_table.h
+
+1346676077 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/ui_title_anim.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"ui_title_anim.h"
+
+1333887402 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/ui_title_anim.h
+
+1346674627 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/basemenu.cpp
+	"recdefs.h"
+	<sys/mman.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<sys/time.h>
+	<sys/wait.h>
+	<features.h>
+	<stdlib.h>
+	<ctype.h>
+	"extdll.h"
+	"basemenu.h"
+	"keydefs.h"
+	"menufont.H"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+	"ui_title_anim.h"
+
+1287946514 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/keydefs.h
+
+1310064618 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menufont.H
+
+1346674702 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_audio.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+
+1346674836 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_configuration.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346674927 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_controls.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346674946 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_creategame.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346674959 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_credits.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+
+1346675039 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_customgame.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346675051 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_gameoptions.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346675210 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_internetgames.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346675257 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_langame.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346675305 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_main.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+	"menu_strings.h"
+
+1309298498 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_strings.h
+
+1346675676 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_strings.cpp
+	"recdefs.h"
+	<ctype.h>
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_strings.h"
+
+1346675692 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_video.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+
+1346675736 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_vidmodes.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+	"menu_strings.h"
+
+1346676011 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_vidoptions.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+
+1346676547 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/udll_int.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+
+1346676269 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/utils.cpp
+	"recdefs.h"
+	<ctype.h>
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+	"ui_title_anim.h"
+
+1346674693 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_advcontrols.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"../cl_dll/kbutton.h"
+	"menu_btnsbmp_table.h"
+	"menu_strings.h"
+
+1033631976 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/cl_dll/kbutton.h
+
+1346675275 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_loadgame.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346675333 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_multiplayer.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+
+1346675338 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_newgame.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+	"menu_strings.h"
+
+1346675356 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_playersetup.cpp
+	"recdefs.h"
+	"mathlib.h"
+	"extdll.h"
+	"const.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"ref_params.h"
+	"cl_entity.h"
+	"entity_types.h"
+	"menu_btnsbmp_table.h"
+
+1340640872 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/mathlib.h
+	<math.h>
+
+1339612666 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/const.h
+
+1289511428 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/ref_params.h
+
+1292794234 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/cl_entity.h
+	"entity_state.h"
+	"event_args.h"
+
+1287955530 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/entity_state.h
+	"pm_info.h"
+	"weaponinfo.h"
+
+1289684822 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_info.h
+
+1288023688 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/weaponinfo.h
+
+1287956394 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/event_args.h
+
+1292432972 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/entity_types.h
+
+1346675373 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_savegame.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"keydefs.h"
+	"menu_btnsbmp_table.h"
+
+1346675387 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/mainui/menu_saveload.cpp
+	"recdefs.h"
+	"extdll.h"
+	"basemenu.h"
+	"utils.h"
+	"menu_btnsbmp_table.h"
+

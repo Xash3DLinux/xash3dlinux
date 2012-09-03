@@ -12,20 +12,31 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
 #include "utils.h"
 
+#ifdef _WIN32
+#define  PRINT_API
+#else
+#define  PRINT_API __attribute__ ((__visibility__("default"))) //Hack for export func
+#endif
+
 ui_enginefuncs_t	g_engfuncs;
 ui_globalvars_t	*gpGlobals;
 CMenu gMenu;
 
+#ifdef _WIN32
 // main DLL entry point
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 {
 	return TRUE;
 }
+#endif
 
 static UI_FUNCTIONS gFunctionTable = 
 {
@@ -50,7 +61,7 @@ static UI_FUNCTIONS gFunctionTable =
 //=======================================================================
 //			GetApi
 //=======================================================================
-int GetMenuAPI( UI_FUNCTIONS *pFunctionTable, ui_enginefuncs_t* pEngfuncsFromEngine, ui_globalvars_t *pGlobals )
+int PRINT_API GetMenuAPI( UI_FUNCTIONS *pFunctionTable, ui_enginefuncs_t* pEngfuncsFromEngine, ui_globalvars_t *pGlobals )
 {
 	if( !pFunctionTable || !pEngfuncsFromEngine )
 	{

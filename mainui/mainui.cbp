@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="mainui" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="bin/Release/mainui" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-fPIC" />
+					<Add option="-fvisibility=hidden" />
+					<Add directory="./" />
+					<Add directory="../common" />
+					<Add directory="../pm_shared" />
+					<Add directory="../engine" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-fPIC" />
+					<Add option="-fvisibility=hidden" />
+				</Linker>
+			</Target>
+			<Target title="Debug">
+				<Option output="bin/Debug/mainui" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-fPIC" />
+					<Add option="-fvisibility=hidden" />
+					<Add directory="./" />
+					<Add directory="../common" />
+					<Add directory="../pm_shared" />
+					<Add directory="../engine" />
+				</Compiler>
+				<Linker>
+					<Add option="-fPIC" />
+					<Add option="-fvisibility=hidden" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="basemenu.cpp" />
+		<Unit filename="basemenu.h" />
+		<Unit filename="enginecallback.h" />
+		<Unit filename="extdll.h" />
+		<Unit filename="menu_advcontrols.cpp" />
+		<Unit filename="menu_audio.cpp" />
+		<Unit filename="menu_btns.cpp" />
+		<Unit filename="menu_btnsbmp_table.h" />
+		<Unit filename="menu_configuration.cpp" />
+		<Unit filename="menu_controls.cpp" />
+		<Unit filename="menu_creategame.cpp" />
+		<Unit filename="menu_credits.cpp" />
+		<Unit filename="menu_customgame.cpp" />
+		<Unit filename="menu_gameoptions.cpp" />
+		<Unit filename="menu_internetgames.cpp" />
+		<Unit filename="menu_langame.cpp" />
+		<Unit filename="menu_loadgame.cpp" />
+		<Unit filename="menu_main.cpp" />
+		<Unit filename="menu_multiplayer.cpp" />
+		<Unit filename="menu_newgame.cpp" />
+		<Unit filename="menu_playersetup.cpp" />
+		<Unit filename="menu_savegame.cpp" />
+		<Unit filename="menu_saveload.cpp" />
+		<Unit filename="menu_strings.cpp" />
+		<Unit filename="menu_strings.h" />
+		<Unit filename="menu_video.cpp" />
+		<Unit filename="menu_vidmodes.cpp" />
+		<Unit filename="menu_vidoptions.cpp" />
+		<Unit filename="menufont.H" />
+		<Unit filename="udll_int.cpp" />
+		<Unit filename="ui_title_anim.cpp" />
+		<Unit filename="ui_title_anim.h" />
+		<Unit filename="utils.cpp" />
+		<Unit filename="utils.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

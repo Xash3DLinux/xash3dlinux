@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="basemenu.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="874" topLine="15" />
+	</File>
+	<File name="menu_advcontrols.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="792" topLine="12" />
+	</File>
+	<File name="menu_audio.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="746" topLine="6" />
+	</File>
+	<File name="menu_btns.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="782" topLine="13" />
+	</File>
+	<File name="menu_configuration.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="6" />
+	</File>
+	<File name="menu_controls.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="7696" topLine="264" />
+	</File>
+	<File name="menu_creategame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="790" topLine="3" />
+	</File>
+	<File name="menu_credits.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="790" topLine="3" />
+	</File>
+	<File name="menu_customgame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="9" />
+	</File>
+	<File name="menu_gameoptions.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="0" />
+	</File>
+	<File name="menu_internetgames.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="9" />
+	</File>
+	<File name="menu_langame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="3" />
+	</File>
+	<File name="menu_loadgame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="782" topLine="6" />
+	</File>
+	<File name="menu_main.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="747" topLine="0" />
+	</File>
+	<File name="menu_multiplayer.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="782" topLine="3" />
+	</File>
+	<File name="menu_newgame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="783" topLine="9" />
+	</File>
+	<File name="menu_playersetup.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="783" topLine="0" />
+	</File>
+	<File name="menu_savegame.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="783" topLine="6" />
+	</File>
+	<File name="menu_saveload.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="746" topLine="3" />
+	</File>
+	<File name="menu_strings.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="745" topLine="15" />
+	</File>
+	<File name="menu_video.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="789" topLine="0" />
+	</File>
+	<File name="menu_vidmodes.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="746" topLine="3" />
+	</File>
+	<File name="menu_vidoptions.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="922" topLine="14" />
+	</File>
+	<File name="udll_int.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="790" topLine="11" />
+	</File>
+	<File name="ui_title_anim.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="136" topLine="81" />
+	</File>
+	<File name="utils.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="60293" topLine="2220" />
+	</File>
+</CodeBlocks_layout_file>

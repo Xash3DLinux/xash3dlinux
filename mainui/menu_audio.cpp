@@ -17,6 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
@@ -90,6 +93,7 @@ static void UI_Audio_GetConfig( void )
 UI_Audio_SetConfig
 =================
 */
+#ifdef _WIN32
 static void UI_Audio_SetConfig( void )
 {
 	CVAR_SET_FLOAT( "volume", uiAudio.soundVolume.curValue );
@@ -98,6 +102,7 @@ static void UI_Audio_SetConfig( void )
 	CVAR_SET_FLOAT( "s_lerping", uiAudio.lerping.enabled );
 	CVAR_SET_FLOAT( "dsp_off", uiAudio.noDSP.enabled );
 }
+#endif
 
 /*
 =================

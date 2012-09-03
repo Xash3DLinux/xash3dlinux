@@ -19,3 +19,6 @@ typedef void *LPVOID;
 typedef void *PVOID;
 typedef PVOID HANDLE;
 typedef HANDLE HWND;
+
+#define TRUE 1
+#define FALSE 0

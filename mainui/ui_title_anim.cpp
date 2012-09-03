@@ -1,3 +1,7 @@
+#ifndef _WIN32
+#include "recdefs.h"
+#endif
+
 #include "extdll.h"
 #include "basemenu.h"
 #include "utils.h"

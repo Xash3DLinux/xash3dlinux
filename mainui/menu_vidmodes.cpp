@@ -17,6 +17,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
@@ -90,7 +93,9 @@ UI_VidModes_GetModesList
 */
 static void UI_VidModes_GetConfig( void )
 {
-	for( int i = 0; i < MAX_VIDMODES-1; i++ )
+	int i = 0;
+
+	for( i = 0; i < MAX_VIDMODES-1; i++ )
 		uiVidModes.videoModesPtr[i] = uiVideoModes[i];
 	uiVidModes.videoModesPtr[i] = NULL;	// terminator
 

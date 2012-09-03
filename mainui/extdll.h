@@ -16,6 +16,7 @@ GNU General Public License for more details.
 #ifndef EXTDLL_H
 #define EXTDLL_H
 
+#ifdef _WIN32
 // shut-up compiler warnings
 #pragma warning(disable : 4305)	// int or float data truncation
 #pragma warning(disable : 4201)	// nameless struct/union
@@ -24,6 +25,7 @@ GNU General Public License for more details.
 #pragma warning(disable : 4244)	// conversion from 'float' to 'int', possible loss of data
 
 #include "windows.h"
+#endif
 
 // Misc C-runtime library headers
 #include <assert.h>

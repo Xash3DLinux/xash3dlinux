@@ -17,6 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+
+template <class T> const T& min ( const T& a, const T& b ) {
+  return !(b<a)?a:b;     // or: return !comp(b,a)?a:b; for the comp version
+}
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"

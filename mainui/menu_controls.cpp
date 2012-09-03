@@ -17,6 +17,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+
+#define strcmp stricmp
+#define strnicmp strncmp
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
@@ -271,7 +277,6 @@ static void UI_Controls_ResetKeysList( void )
 	char *afile = (char *)LOAD_FILE( "gfx/shell/kb_def.lst", NULL );
 	char *pfile = afile;
 	char token[1024];
-	int i = 0;
 
 	if( !afile )
 	{

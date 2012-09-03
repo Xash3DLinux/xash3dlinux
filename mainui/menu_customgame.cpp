@@ -17,6 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "basemenu.h"
@@ -126,10 +130,11 @@ static void UI_CustomGame_GetModList( void )
 {
 	int	numGames;
 	GAMEINFO	**games;
+	int i = 0;
 
 	games = GET_GAMES_LIST( &numGames );
 
-	for( int i = 0; i < numGames; i++ )
+	for( i = 0; i < numGames; i++ )
 	{
 		strncpy( uiCustomGame.modsDir[i], games[i]->gamefolder, sizeof( uiCustomGame.modsDir[i] ));
 		strncpy( uiCustomGame.modsWebSites[i], games[i]->game_url, sizeof( uiCustomGame.modsWebSites[i] ));

@@ -22,10 +22,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // ui_menu.c -- main menu interface
 #define OEMRESOURCE		// for OCR_* cursor junk
 
+#ifndef _WIN32
+#include "recdefs.h"
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/wait.h>
+#include <features.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define stricmp strcmp
+#endif
+
 #include "extdll.h"
 #include "basemenu.h"
 #include "keydefs.h"
-#include "menufont.h"	// built-in menu font
+#include "menufont.H"	// built-in menu font
 #include "utils.h"
 #include "menu_btnsbmp_table.h"
 //CR
@@ -201,7 +215,8 @@ void UI_DrawString( int x, int y, int w, int h, const char *string, const int co
 {
 	int	modulate, shadowModulate;
 	char	line[1024], *l;
-	int	xx, yy, ofsX, ofsY, len, ch;
+	int	yy, ofsX, ofsY, len, ch;
+	int xx = 0; //for C++ standart
 
 	if( !string || !string[0] )
 		return;
@@ -288,6 +303,7 @@ UI_DrawMouseCursor
 */
 void UI_DrawMouseCursor( void )
 {
+#ifdef _WIN32
 	menuCommon_s	*item;
 	HICON		hCursor = NULL;
 	int		i;
@@ -319,6 +335,9 @@ void UI_DrawMouseCursor( void )
 	if( !hCursor ) hCursor = (HICON)LoadCursor( NULL, (LPCTSTR)OCR_NORMAL );
 
 	SET_CURSOR( hCursor );
+#else
+	//Later
+#endif
 }
 
 /*
@@ -1114,6 +1133,8 @@ void UI_CharEvent( int key )
 		{
 		case QMTYPE_FIELD:
 			UI_Field_Char((menuField_s *)item, key );
+			break;
+		default:
 			break;
 		}
 	}
