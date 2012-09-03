@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1346670916 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/game_launch/game.cpp
+	<windows.h>
+	"recdefs.h"
+	<stdlib.h>
+	<sys/types.h>
+	<dlfcn.h>
+	<Xm/Xm.h>
+	<Xm/PushB.h>
+
+1346670704 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/recdefs.h
+	"wintypes.h"
+	<features.h>
+	<bits/wordsize.h>
+
+1346670781 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wintypes.h
+
+1340892706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/features.h
+
