@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -13,9 +13,15 @@
 *
 ****/
 //=========================================================
-// schedule.cpp - functions and data pertaining to the 
+// schedule.cpp - functions and data pertaining to the
 // monsters' AI scheduling system.
 //=========================================================
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -60,7 +66,7 @@ void CBaseMonster :: ClearSchedule( void )
 BOOL CBaseMonster :: FScheduleDone ( void )
 {
 	ASSERT( m_pSchedule != NULL );
-	
+
 	if ( m_iScheduleIndex == m_pSchedule->cTasks )
 	{
 		return TRUE;
@@ -99,14 +105,14 @@ void CBaseMonster :: ChangeSchedule ( Schedule_t *pNewSchedule )
 		ALERT( at_console, "Schedule %s not in table!!!\n", pNewSchedule->pName );
 	}
 #endif
-	
+
 // this is very useful code if you can isolate a test case in a level with a single monster. It will notify
 // you of every schedule selection the monster makes.
 #if 0
 	if ( FClassnameIs( pev, "monster_human_grunt" ) )
 	{
 		Task_t *pTask = GetTask();
-		
+
 		if ( pTask )
 		{
 			const char *pName = NULL;
@@ -119,7 +125,7 @@ void CBaseMonster :: ChangeSchedule ( Schedule_t *pNewSchedule )
 			{
 				pName = "No Schedule";
 			}
-			
+
 			if ( !pName )
 			{
 				pName = "Unknown";
@@ -146,7 +152,7 @@ void CBaseMonster :: NextScheduledTask ( void )
 	{
 		// just completed last task in schedule, so make it invalid by clearing it.
 		SetConditions( bits_COND_SCHEDULE_DONE );
-		//ClearSchedule();	
+		//ClearSchedule();
 	}
 }
 
@@ -161,7 +167,7 @@ int CBaseMonster :: IScheduleFlags ( void )
 	{
 		return 0;
 	}
-	
+
 	// strip off all bits excepts the ones capable of breaking this schedule.
 	return m_afConditions & m_pSchedule->iInterruptMask;
 }
@@ -196,7 +202,7 @@ BOOL CBaseMonster :: FScheduleValid ( void )
 		// some condition has interrupted the schedule, or the schedule is done
 		return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -215,14 +221,14 @@ void CBaseMonster :: MaintainSchedule ( void )
 	{
 		if ( m_pSchedule != NULL && TaskIsComplete() )
 		{
-			NextScheduledTask();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+			NextScheduledTask();
 		}
 
-	// validate existing schedule 
+	// validate existing schedule
 		if ( !FScheduleValid() || m_MonsterState != m_IdealMonsterState )
 		{
 			// if we come into this block of code, the schedule is going to have to be changed.
-			// if the previous schedule was interrupted by a condition, GetIdealState will be 
+			// if the previous schedule was interrupted by a condition, GetIdealState will be
 			// called. Else, a schedule finished normally.
 
 			// Notify the monster that his schedule is changing
@@ -234,7 +240,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 			// - schedule is done but schedule indicates it wants GetIdealState called
 			//   after successful completion (by setting bits_COND_SCHEDULE_DONE in iInterruptMask)
 			// DEAD & SCRIPT are not suggestions, they are commands!
-			if ( m_IdealMonsterState != MONSTERSTATE_DEAD && 
+			if ( m_IdealMonsterState != MONSTERSTATE_DEAD &&
 				 (m_IdealMonsterState != MONSTERSTATE_SCRIPT || m_IdealMonsterState == m_MonsterState) )
 			{
 				if (	(m_afConditions && !HasConditions(bits_COND_SCHEDULE_DONE)) ||
@@ -266,7 +272,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 		}
 
 		if ( m_iTaskStatus == TASKSTATUS_NEW )
-		{	
+		{
 			Task_t *pTask = GetTask();
 			ASSERT( pTask != NULL );
 			TaskBegin();
@@ -278,7 +284,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 		{
 			SetActivity ( m_IdealActivity );
 		}
-		
+
 		if ( !TaskIsComplete() && m_iTaskStatus != TASKSTATUS_NEW )
 			break;
 	}
@@ -300,7 +306,7 @@ void CBaseMonster :: MaintainSchedule ( void )
 }
 
 //=========================================================
-// RunTask 
+// RunTask
 //=========================================================
 void CBaseMonster :: RunTask ( Task_t *pTask )
 {
@@ -399,7 +405,7 @@ void CBaseMonster :: RunTask ( Task_t *pTask )
 	case TASK_WAIT_FACE_ENEMY:
 		{
 			MakeIdealYaw ( m_vecEnemyLKP );
-			ChangeYaw( pev->yaw_speed ); 
+			ChangeYaw( pev->yaw_speed );
 
 			if ( gpGlobals->time >= m_flWaitFinished )
 			{
@@ -453,14 +459,14 @@ void CBaseMonster :: RunTask ( Task_t *pTask )
 			if ( m_fSequenceFinished && pev->frame >= 255 )
 			{
 				pev->deadflag = DEAD_DEAD;
-				
+
 				SetThink ( NULL );
 				StopAnimation();
 
 				if ( !BBoxFlat() )
 				{
 					// a bit of a hack. If a corpses' bbox is positioned such that being left solid so that it can be attacked will
-					// block the player on a slope or stairs, the corpse is made nonsolid. 
+					// block the player on a slope or stairs, the corpse is made nonsolid.
 //					pev->solid = SOLID_NOT;
 					UTIL_SetSize ( pev, Vector ( -4, -4, 0 ), Vector ( 4, 4, 1 ) );
 				}
@@ -566,7 +572,7 @@ void CBaseMonster :: SetTurnActivity ( void )
 //=========================================================
 // Start task - selects the correct activity and performs
 // any necessary calculations to start the next task on the
-// schedule. 
+// schedule.
 //=========================================================
 void CBaseMonster :: StartTask ( Task_t *pTask )
 {
@@ -575,7 +581,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 	case TASK_TURN_RIGHT:
 		{
 			float flCurrentYaw;
-			
+
 			flCurrentYaw = UTIL_AngleMod( pev->angles.y );
 			pev->ideal_yaw = UTIL_AngleMod( flCurrentYaw - pTask->flData );
 			SetTurnActivity();
@@ -584,7 +590,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 	case TASK_TURN_LEFT:
 		{
 			float flCurrentYaw;
-			
+
 			flCurrentYaw = UTIL_AngleMod( pev->angles.y );
 			pev->ideal_yaw = UTIL_AngleMod( flCurrentYaw + pTask->flData );
 			SetTurnActivity();
@@ -664,7 +670,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 			Schedule_t *pNewSchedule;
 
 			pNewSchedule = GetScheduleOfType( (int)pTask->flData );
-			
+
 			if ( pNewSchedule )
 			{
 				ChangeSchedule( pNewSchedule );
@@ -819,17 +825,17 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 			SetTurnActivity();
 			break;
 		}
-	
+
 	case TASK_FACE_LASTPOSITION:
 		MakeIdealYaw ( m_vecLastPosition );
-		SetTurnActivity(); 
+		SetTurnActivity();
 		break;
 
 	case TASK_FACE_TARGET:
 		if ( m_hTargetEnt != NULL )
 		{
 			MakeIdealYaw ( m_hTargetEnt->pev->origin );
-			SetTurnActivity(); 
+			SetTurnActivity();
 		}
 		else
 			TaskFail();
@@ -837,7 +843,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 	case TASK_FACE_ENEMY:
 		{
 			MakeIdealYaw ( m_vecEnemyLKP );
-			SetTurnActivity(); 
+			SetTurnActivity();
 			break;
 		}
 	case TASK_FACE_IDEAL:
@@ -868,7 +874,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 	case TASK_WAIT:
 	case TASK_WAIT_FACE_ENEMY:
 		{// set a future time that tells us when the wait is over.
-			m_flWaitFinished = gpGlobals->time + pTask->flData;	
+			m_flWaitFinished = gpGlobals->time + pTask->flData;
 			break;
 		}
 	case TASK_WAIT_RANDOM:
@@ -904,7 +910,7 @@ void CBaseMonster :: StartTask ( Task_t *pTask )
 				// This monster can't do this!
 				if ( LookupActivity( newActivity ) == ACTIVITY_NOT_AVAILABLE )
 					TaskComplete();
-				else 
+				else
 				{
 					if ( m_hTargetEnt == NULL || !MoveToTarget( newActivity, 2 ) )
 					{
@@ -1120,7 +1126,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 			{
 				// no way to get there =(
 				ALERT ( at_aiconsole, "GetPathToBestScent failed!!\n" );
-				
+
 				TaskFail();
 			}
 			break;
@@ -1158,7 +1164,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 		}
 	case TASK_STRAFE_PATH:
 		{
-			Vector2D	vec2DirToPoint; 
+			Vector2D	vec2DirToPoint;
 			Vector2D	vec2RightSide;
 
 			// to start strafing, we have to first figure out if the target is on the left side or right side
@@ -1204,8 +1210,8 @@ case TASK_GET_PATH_TO_BESTSCENT:
 		}
 	case TASK_DIE:
 		{
-			RouteClear();	
-			
+			RouteClear();
+
 			m_IdealActivity = GetDeathActivity();
 
 			pev->deadflag = DEAD_DYING;
@@ -1244,7 +1250,7 @@ case TASK_GET_PATH_TO_BESTSCENT:
 	case TASK_SOUND_ANGRY:
 		{
 			// sounds are complete as soon as we get here, cause we've already played them.
-			ALERT ( at_aiconsole, "SOUND\n" );			
+			ALERT ( at_aiconsole, "SOUND\n" );
 			TaskComplete();
 			break;
 		}
@@ -1325,10 +1331,10 @@ case TASK_GET_PATH_TO_BESTSCENT:
 }
 
 //=========================================================
-// GetTask - returns a pointer to the current 
+// GetTask - returns a pointer to the current
 // scheduled task. NULL if there's a problem.
 //=========================================================
-Task_t	*CBaseMonster :: GetTask ( void ) 
+Task_t	*CBaseMonster :: GetTask ( void )
 {
 	if ( m_iScheduleIndex < 0 || m_iScheduleIndex >= m_pSchedule->cTasks )
 	{
@@ -1450,7 +1456,7 @@ Schedule_t *CBaseMonster :: GetSchedule ( void )
 					return GetScheduleOfType( SCHED_CHASE_ENEMY );
 				}
 			}
-			else  
+			else
 			{
 				// we can see the enemy
 				if ( HasConditions(bits_COND_CAN_RANGE_ATTACK1) )

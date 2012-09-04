@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,6 +12,12 @@
 *   without written permission from Valve LLC.
 *
 ****/
+
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "util.h"
@@ -72,7 +78,7 @@ void CMP5::Precache( void )
 	PRECACHE_MODEL("models/grenade.mdl");	// grenade
 
 	PRECACHE_MODEL("models/w_9mmARclip.mdl");
-	PRECACHE_SOUND("items/9mmclip1.wav");              
+	PRECACHE_SOUND("items/9mmclip1.wav");
 
 	PRECACHE_SOUND("items/clipinsert1.wav");
 	PRECACHE_SOUND("items/cliprelease1.wav");
@@ -216,7 +222,7 @@ void CMP5::SecondaryAttack( void )
 
 	m_pPlayer->m_iExtraSoundTypes = bits_SOUND_DANGER;
 	m_pPlayer->m_flStopExtraSoundTime = UTIL_WeaponTimeBase() + 0.2;
-			
+
 	m_pPlayer->m_rgAmmo[m_iSecondaryAmmoType]--;
 
 	// player "shoot" animation
@@ -225,8 +231,8 @@ void CMP5::SecondaryAttack( void )
  	UTIL_MakeVectors( m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle );
 
 	// we don't add in player velocity anymore.
-	CGrenade::ShootContact( m_pPlayer->pev, 
-							m_pPlayer->pev->origin + m_pPlayer->pev->view_ofs + gpGlobals->v_forward * 16, 
+	CGrenade::ShootContact( m_pPlayer->pev,
+							m_pPlayer->pev->origin + m_pPlayer->pev->view_ofs + gpGlobals->v_forward * 16,
 							gpGlobals->v_forward * 800 );
 
 	int flags;
@@ -237,7 +243,7 @@ void CMP5::SecondaryAttack( void )
 #endif
 
 	PLAYBACK_EVENT( flags, m_pPlayer->edict(), m_usMP52 );
-	
+
 	m_flNextPrimaryAttack = UTIL_WeaponTimeBase() + 1;
 	m_flNextSecondaryAttack = UTIL_WeaponTimeBase() + 1;
 	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 5;// idle pretty soon after shooting.
@@ -268,10 +274,10 @@ void CMP5::WeaponIdle( void )
 	int iAnim;
 	switch ( RANDOM_LONG( 0, 1 ) )
 	{
-	case 0:	
-		iAnim = MP5_LONGIDLE;	
+	case 0:
+		iAnim = MP5_LONGIDLE;
 		break;
-	
+
 	default:
 	case 1:
 		iAnim = MP5_IDLE1;
@@ -288,7 +294,7 @@ void CMP5::WeaponIdle( void )
 class CMP5AmmoClip : public CBasePlayerAmmo
 {
 	void Spawn( void )
-	{ 
+	{
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_9mmARclip.mdl");
 		CBasePlayerAmmo::Spawn( );
@@ -298,8 +304,8 @@ class CMP5AmmoClip : public CBasePlayerAmmo
 		PRECACHE_MODEL ("models/w_9mmARclip.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
-	BOOL AddAmmo( CBaseEntity *pOther ) 
-	{ 
+	BOOL AddAmmo( CBaseEntity *pOther )
+	{
 		int bResult = (pOther->GiveAmmo( AMMO_MP5CLIP_GIVE, "9mm", _9MM_MAX_CARRY) != -1);
 		if (bResult)
 		{
@@ -316,7 +322,7 @@ LINK_ENTITY_TO_CLASS( ammo_9mmAR, CMP5AmmoClip );
 class CMP5Chainammo : public CBasePlayerAmmo
 {
 	void Spawn( void )
-	{ 
+	{
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_chainammo.mdl");
 		CBasePlayerAmmo::Spawn( );
@@ -326,8 +332,8 @@ class CMP5Chainammo : public CBasePlayerAmmo
 		PRECACHE_MODEL ("models/w_chainammo.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
-	BOOL AddAmmo( CBaseEntity *pOther ) 
-	{ 
+	BOOL AddAmmo( CBaseEntity *pOther )
+	{
 		int bResult = (pOther->GiveAmmo( AMMO_CHAINBOX_GIVE, "9mm", _9MM_MAX_CARRY) != -1);
 		if (bResult)
 		{
@@ -342,7 +348,7 @@ LINK_ENTITY_TO_CLASS( ammo_9mmbox, CMP5Chainammo );
 class CMP5AmmoGrenade : public CBasePlayerAmmo
 {
 	void Spawn( void )
-	{ 
+	{
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_ARgrenade.mdl");
 		CBasePlayerAmmo::Spawn( );
@@ -352,8 +358,8 @@ class CMP5AmmoGrenade : public CBasePlayerAmmo
 		PRECACHE_MODEL ("models/w_ARgrenade.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
-	BOOL AddAmmo( CBaseEntity *pOther ) 
-	{ 
+	BOOL AddAmmo( CBaseEntity *pOther )
+	{
 		int bResult = (pOther->GiveAmmo( AMMO_M203BOX_GIVE, "ARgrenades", M203_GRENADE_MAX_CARRY ) != -1);
 
 		if (bResult)

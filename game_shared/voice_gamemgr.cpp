@@ -1,9 +1,16 @@
 //========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
 //
-// Purpose: 
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#define stricmp strcmp
+#endif
 
 #include "voice_gamemgr.h"
 #include <string.h>
@@ -51,7 +58,7 @@ static CBasePlayer* FindPlayerByName(const char *pTestName)
 		{
 			CBaseEntity *pEnt = CBaseEntity::Instance(pEdict);
 			if(pEnt && pEnt->IsPlayer())
-			{			
+			{
 				const char *pNetName = STRING(pEnt->pev->netname);
 				if(stricmp(pNetName, pTestName) == 0)
 				{
@@ -73,7 +80,13 @@ static void VoiceServerDebug( char const *pFmt, ... )
 		return;
 
 	va_start( marker, pFmt );
+
+#ifdef _WIN32
 	_vsnprintf( msg, sizeof(msg), pFmt, marker );
+#else
+	vsprintf( msg, pFmt, marker );
+#endif
+
 	va_end( marker );
 
 	ALERT( at_console, "%s", msg );
@@ -100,14 +113,14 @@ CVoiceGameMgr::~CVoiceGameMgr()
 bool CVoiceGameMgr::Init(
 	IVoiceGameMgrHelper *pHelper,
 	int maxClients)
-{		  
+{
 	m_pHelper = pHelper;
 	m_nMaxPlayers = VOICE_MAX_PLAYERS < maxClients ? VOICE_MAX_PLAYERS : maxClients;
 	g_engfuncs.pfnPrecacheModel("sprites/voiceicon.spr");
 
 	m_msgPlayerVoiceMask = REG_USER_MSG( "VoiceMask", VOICE_MAX_PLAYERS_DW*4 * 2 );
 	m_msgRequestState = REG_USER_MSG( "ReqState", 0 );
-	
+
 	// register voice_serverdebug if it hasn't been registered already
 	if ( !CVAR_GET_POINTER( "voice_serverdebug" ) )
 		CVAR_REGISTER( &voice_serverdebug );
@@ -139,7 +152,7 @@ void CVoiceGameMgr::Update(double frametime)
 void CVoiceGameMgr::ClientConnected(edict_t *pEdict)
 {
 	int index = ENTINDEX(pEdict) - 1;
-	
+
 	// Clear out everything we use for deltas on this guy.
 	g_bWantModEnable[index] = true;
 	g_SentGameRulesMasks[index].Init(0);
@@ -193,7 +206,7 @@ bool CVoiceGameMgr::ClientCommand(CBasePlayer *pPlayer, const char *cmd)
 		}
 
 		// Force it to update the masks now.
-		//UpdateMasks();		
+		//UpdateMasks();
 		return true;
 	}
 	else if(stricmp(cmd, "VModEnable") == 0 && CMD_ARGC() >= 2)
@@ -201,7 +214,7 @@ bool CVoiceGameMgr::ClientCommand(CBasePlayer *pPlayer, const char *cmd)
 		VoiceServerDebug( "CVoiceGameMgr::ClientCommand: VModEnable (%d)\n", !!atoi(CMD_ARGV(1)) );
 		g_PlayerModEnable[playerClientIndex] = !!atoi(CMD_ARGV(1));
 		g_bWantModEnable[playerClientIndex] = false;
-		//UpdateMasks();		
+		//UpdateMasks();
 		return true;
 	}
 	else
@@ -239,7 +252,7 @@ void CVoiceGameMgr::UpdateMasks()
 			for(int iOtherClient=0; iOtherClient < m_nMaxPlayers; iOtherClient++)
 			{
 				CBaseEntity *pEnt = UTIL_PlayerByIndex(iOtherClient+1);
-				if(pEnt && pEnt->IsPlayer() && 
+				if(pEnt && pEnt->IsPlayer() &&
 					(bAllTalk || m_pHelper->CanPlayerHearPlayer(pPlayer, (CBasePlayer*)pEnt)) )
 				{
 					gameRulesMask[iOtherClient] = true;
@@ -247,8 +260,8 @@ void CVoiceGameMgr::UpdateMasks()
 			}
 		}
 
-		// If this is different from what the client has, send an update. 
-		if(gameRulesMask != g_SentGameRulesMasks[iClient] || 
+		// If this is different from what the client has, send an update.
+		if(gameRulesMask != g_SentGameRulesMasks[iClient] ||
 			g_BanMasks[iClient] != g_SentBanMasks[iClient])
 		{
 			g_SentGameRulesMasks[iClient] = gameRulesMask;

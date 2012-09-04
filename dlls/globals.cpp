@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -22,6 +22,11 @@
   variable, to better document what globals they care about.
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "util.h"

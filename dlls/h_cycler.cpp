@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -19,6 +19,11 @@
   The Halflife Cycler Monsters
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "util.h"
@@ -53,7 +58,7 @@ public:
 	int			m_animate;
 };
 
-TYPEDESCRIPTION	CCycler::m_SaveData[] = 
+TYPEDESCRIPTION	CCycler::m_SaveData[] =
 {
 	DEFINE_FIELD( CCycler, m_animate, FIELD_INTEGER ),
 };
@@ -79,7 +84,7 @@ LINK_ENTITY_TO_CLASS( cycler, CGenericCycler );
 //
 class CCyclerProbe : public CCycler
 {
-public:	
+public:
 	void Spawn( void );
 };
 LINK_ENTITY_TO_CLASS( cycler_prdroid, CCyclerProbe );
@@ -123,7 +128,7 @@ void CCycler :: Spawn( )
 	pev->yaw_speed		= 5;
 	pev->ideal_yaw		= pev->angles.y;
 	ChangeYaw( 360 );
-	
+
 	m_flFrameRate		= 75;
 	m_flGroundSpeed		= 0;
 
@@ -237,7 +242,7 @@ public:
 
 LINK_ENTITY_TO_CLASS( cycler_sprite, CCyclerSprite );
 
-TYPEDESCRIPTION	CCyclerSprite::m_SaveData[] = 
+TYPEDESCRIPTION	CCyclerSprite::m_SaveData[] =
 {
 	DEFINE_FIELD( CCyclerSprite, m_animate, FIELD_INTEGER ),
 	DEFINE_FIELD( CCyclerSprite, m_lastTime, FIELD_TIME ),
@@ -293,7 +298,7 @@ int	CCyclerSprite::TakeDamage( entvars_t* pevInflictor, entvars_t* pevAttacker, 
 }
 
 void CCyclerSprite::Animate( float frames )
-{ 
+{
 	pev->frame += frames;
 	if ( m_maxFrame > 0 )
 		pev->frame = fmod( pev->frame, m_maxFrame );
@@ -334,7 +339,7 @@ void CWeaponCycler::Spawn( )
 
 	UTIL_SetOrigin( pev, pev->origin );
 	UTIL_SetSize(pev, Vector(-16, -16, 0), Vector(16, 16, 16));
-	SetTouch( DefaultTouch );
+	SetTouch( &CWeaponCycler::DefaultTouch );
 }
 
 
@@ -400,7 +405,7 @@ class CWreckage : public CBaseMonster
 
 	int m_flStartTime;
 };
-TYPEDESCRIPTION	CWreckage::m_SaveData[] = 
+TYPEDESCRIPTION	CWreckage::m_SaveData[] =
 {
 	DEFINE_FIELD( CWreckage, m_flStartTime, FIELD_TIME ),
 };
@@ -452,9 +457,9 @@ void CWreckage::Think( void )
 			return;
 		}
 	}
-	
+
 	Vector VecSrc;
-	
+
 	VecSrc.x = RANDOM_FLOAT( pev->absmin.x, pev->absmax.x );
 	VecSrc.y = RANDOM_FLOAT( pev->absmin.y, pev->absmax.y );
 	VecSrc.z = RANDOM_FLOAT( pev->absmin.z, pev->absmax.z );

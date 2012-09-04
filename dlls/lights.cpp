@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -19,6 +19,11 @@
   spawn and think functions for editor-placed lights
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "util.h"
@@ -29,13 +34,13 @@
 class CLight : public CPointEntity
 {
 public:
-	virtual void	KeyValue( KeyValueData* pkvd ); 
+	virtual void	KeyValue( KeyValueData* pkvd );
 	virtual void	Spawn( void );
 	void	Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 
 	virtual int		Save( CSave &save );
 	virtual int		Restore( CRestore &restore );
-	
+
 	static	TYPEDESCRIPTION m_SaveData[];
 
 private:
@@ -44,7 +49,7 @@ private:
 };
 LINK_ENTITY_TO_CLASS( light, CLight );
 
-TYPEDESCRIPTION	CLight::m_SaveData[] = 
+TYPEDESCRIPTION	CLight::m_SaveData[] =
 {
 	DEFINE_FIELD( CLight, m_iStyle, FIELD_INTEGER ),
 	DEFINE_FIELD( CLight, m_iszPattern, FIELD_STRING ),
@@ -93,7 +98,7 @@ void CLight :: Spawn( void )
 		REMOVE_ENTITY(ENT(pev));
 		return;
 	}
-	
+
 	if (m_iStyle >= 32)
 	{
 //		CHANGE_METHOD(ENT(pev), em_use, light_use);
@@ -139,7 +144,7 @@ LINK_ENTITY_TO_CLASS( light_spot, CLight );
 class CEnvLight : public CLight
 {
 public:
-	void	KeyValue( KeyValueData* pkvd ); 
+	void	KeyValue( KeyValueData* pkvd );
 	void	Spawn( void );
 };
 

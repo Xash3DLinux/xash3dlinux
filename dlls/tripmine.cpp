@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,6 +12,12 @@
 *   without written permission from Valve LLC.
 *
 ****/
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -52,7 +58,7 @@ class CTripmineGrenade : public CGrenade
 	static	TYPEDESCRIPTION m_SaveData[];
 
 	int TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType );
-	
+
 	void EXPORT WarningThink( void );
 	void EXPORT PowerupThink( void );
 	void EXPORT BeamBreakThink( void );
@@ -76,7 +82,7 @@ class CTripmineGrenade : public CGrenade
 
 LINK_ENTITY_TO_CLASS( monster_tripmine, CTripmineGrenade );
 
-TYPEDESCRIPTION	CTripmineGrenade::m_SaveData[] = 
+TYPEDESCRIPTION	CTripmineGrenade::m_SaveData[] =
 {
 	DEFINE_FIELD( CTripmineGrenade, m_flPowerUp, FIELD_TIME ),
 	DEFINE_FIELD( CTripmineGrenade, m_vecDir, FIELD_VECTOR ),
@@ -105,7 +111,7 @@ void CTripmineGrenade :: Spawn( void )
 	pev->sequence = TRIPMINE_WORLD;
 	ResetSequenceInfo( );
 	pev->framerate = 0;
-	
+
 	UTIL_SetSize(pev, Vector( -8, -8, -8), Vector(8, 8, 8));
 	UTIL_SetOrigin( pev, pev->origin );
 
@@ -120,7 +126,7 @@ void CTripmineGrenade :: Spawn( void )
 		m_flPowerUp = gpGlobals->time + 2.5;
 	}
 
-	SetThink( PowerupThink );
+	SetThink( &CTripmineGrenade::PowerupThink );
 	pev->nextthink = gpGlobals->time + 0.2;
 
 	pev->takedamage = DAMAGE_YES;
@@ -158,7 +164,7 @@ void CTripmineGrenade :: WarningThink( void  )
 	// EMIT_SOUND( ENT(pev), CHAN_VOICE, "buttons/Blip2.wav", 1.0, ATTN_NORM );
 
 	// set to power up
-	SetThink( PowerupThink );
+	SetThink( &CTripmineGrenade::PowerupThink );
 	pev->nextthink = gpGlobals->time + 1.0;
 }
 
@@ -191,7 +197,7 @@ void CTripmineGrenade :: PowerupThink( void  )
 		{
 			STOP_SOUND( ENT(pev), CHAN_VOICE, "weapons/mine_deploy.wav" );
 			STOP_SOUND( ENT(pev), CHAN_BODY, "weapons/mine_charge.wav" );
-			SetThink( SUB_Remove );
+			SetThink( &CTripmineGrenade::SUB_Remove );
 			pev->nextthink = gpGlobals->time + 0.1;
 			ALERT( at_console, "WARNING:Tripmine at %.0f, %.0f, %.0f removed\n", pev->origin.x, pev->origin.y, pev->origin.z );
 			KillBeam();
@@ -206,13 +212,13 @@ void CTripmineGrenade :: PowerupThink( void  )
 		CBaseEntity *pMine = Create( "weapon_tripmine", pev->origin + m_vecDir * 24, pev->angles );
 		pMine->pev->spawnflags |= SF_NORESPAWN;
 
-		SetThink( SUB_Remove );
+		SetThink( &CTripmineGrenade::SUB_Remove );
 		KillBeam();
 		pev->nextthink = gpGlobals->time + 0.1;
 		return;
 	}
 	// ALERT( at_console, "%d %.0f %.0f %0.f\n", pev->owner, m_pOwner->pev->origin.x, m_pOwner->pev->origin.y, m_pOwner->pev->origin.z );
- 
+
 	if (gpGlobals->time > m_flPowerUp)
 	{
 		// make solid
@@ -249,7 +255,7 @@ void CTripmineGrenade :: MakeBeam( void )
 	m_flBeamLength = tr.flFraction;
 
 	// set to follow laser spot
-	SetThink( BeamBreakThink );
+	SetThink( &CTripmineGrenade::BeamBreakThink );
 	pev->nextthink = gpGlobals->time + 0.1;
 
 	Vector vecTmpEnd = pev->origin + m_vecDir * 2048 * m_flBeamLength;
@@ -274,7 +280,7 @@ void CTripmineGrenade :: BeamBreakThink( void  )
 
 	// ALERT( at_console, "%f : %f\n", tr.flFraction, m_flBeamLength );
 
-	// respawn detect. 
+	// respawn detect.
 	if ( !m_pBeam )
 	{
 		MakeBeam( );
@@ -300,7 +306,7 @@ void CTripmineGrenade :: BeamBreakThink( void  )
 	{
 		// a bit of a hack, but all CGrenade code passes pev->owner along to make sure the proper player gets credit for the kill
 		// so we have to restore pev->owner from pRealOwner, because an entity's tracelines don't strike it's pev->owner which meant
-		// that a player couldn't trigger his own tripmine. Now that the mine is exploding, it's safe the restore the owner so the 
+		// that a player couldn't trigger his own tripmine. Now that the mine is exploding, it's safe the restore the owner so the
 		// CGrenade code knows who the explosive really belongs to.
 		pev->owner = m_pRealOwner;
 		pev->health = 0;
@@ -317,7 +323,7 @@ int CTripmineGrenade :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttac
 	{
 		// disable
 		// Create( "weapon_tripmine", pev->origin + m_vecDir * 24, pev->angles );
-		SetThink( SUB_Remove );
+		SetThink( &CTripmineGrenade::SUB_Remove );
 		pev->nextthink = gpGlobals->time + 0.1;
 		KillBeam();
 		return FALSE;
@@ -328,14 +334,14 @@ int CTripmineGrenade :: TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttac
 void CTripmineGrenade::Killed( entvars_t *pevAttacker, int iGib )
 {
 	pev->takedamage = DAMAGE_NO;
-	
+
 	if ( pevAttacker && ( pevAttacker->flags & FL_CLIENT ) )
 	{
 		// some client has destroyed this mine, he'll get credit for any kills
 		pev->owner = ENT( pevAttacker );
 	}
 
-	SetThink( DelayDeathThink );
+	SetThink( &CTripmineGrenade::DelayDeathThink );
 	pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.1, 0.3 );
 
 	EMIT_SOUND( ENT(pev), CHAN_BODY, "common/null.wav", 0.5, ATTN_NORM ); // shut off chargeup
@@ -375,7 +381,7 @@ void CTripmine::Spawn( )
 	if ( !g_pGameRules->IsDeathmatch() )
 #endif
 	{
-		UTIL_SetSize(pev, Vector(-16, -16, 0), Vector(16, 16, 28) ); 
+		UTIL_SetSize(pev, Vector(-16, -16, 0), Vector(16, 16, 28) );
 	}
 }
 
@@ -420,7 +426,7 @@ void CTripmine::Holster( int skiplocal /* = 0 */ )
 	{
 		// out of mines
 		m_pPlayer->pev->weapons &= ~(1<<WEAPON_TRIPMINE);
-		SetThink( DestroyItem );
+		SetThink( &CTripmine::DestroyItem );
 		pev->nextthink = gpGlobals->time + 0.1;
 	}
 
@@ -463,10 +469,10 @@ void CTripmine::PrimaryAttack( void )
 
 			// player "shoot" animation
 			m_pPlayer->SetAnimation( PLAYER_ATTACK1 );
-			
+
 			if ( m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType] <= 0 )
 			{
-				// no more mines! 
+				// no more mines!
 				RetireWeapon();
 				return;
 			}
@@ -480,7 +486,7 @@ void CTripmine::PrimaryAttack( void )
 	{
 
 	}
-	
+
 	m_flNextPrimaryAttack = UTIL_WeaponTimeBase() + 0.3;
 	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + UTIL_SharedRandomFloat( m_pPlayer->random_seed, 10, 15 );
 }
@@ -496,7 +502,7 @@ void CTripmine::WeaponIdle( void )
 	}
 	else
 	{
-		RetireWeapon(); 
+		RetireWeapon();
 		return;
 	}
 

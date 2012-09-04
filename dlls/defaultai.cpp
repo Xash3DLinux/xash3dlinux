@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -15,6 +15,12 @@
 //=========================================================
 // Default behaviors.
 //=========================================================
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include	"extdll.h"
 #include	"util.h"
 #include	"cbase.h"
@@ -59,9 +65,9 @@ Task_t	tlIdleStand1[] =
 
 Schedule_t	slIdleStand[] =
 {
-	{ 
+	{
 		tlIdleStand1,
-		ARRAYSIZE ( tlIdleStand1 ), 
+		ARRAYSIZE ( tlIdleStand1 ),
 		bits_COND_NEW_ENEMY		|
 		bits_COND_SEE_FEAR		|
 		bits_COND_LIGHT_DAMAGE	|
@@ -85,9 +91,9 @@ Schedule_t	slIdleStand[] =
 
 Schedule_t	slIdleTrigger[] =
 {
-	{ 
+	{
 		tlIdleStand1,
-		ARRAYSIZE ( tlIdleStand1 ), 
+		ARRAYSIZE ( tlIdleStand1 ),
 		bits_COND_LIGHT_DAMAGE	|
 		bits_COND_HEAVY_DAMAGE,
 		0,
@@ -104,9 +110,9 @@ Task_t	tlIdleWalk1[] =
 
 Schedule_t	slIdleWalk[] =
 {
-	{ 
+	{
 		tlIdleWalk1,
-		ARRAYSIZE ( tlIdleWalk1 ), 
+		ARRAYSIZE ( tlIdleWalk1 ),
 		bits_COND_NEW_ENEMY		|
 		bits_COND_LIGHT_DAMAGE	|
 		bits_COND_HEAVY_DAMAGE	|
@@ -125,7 +131,7 @@ Schedule_t	slIdleWalk[] =
 };
 
 //=========================================================
-// Ambush - monster stands in place and waits for a new 
+// Ambush - monster stands in place and waits for a new
 // enemy, or chance to attack an existing enemy.
 //=========================================================
 Task_t	tlAmbush[] =
@@ -137,9 +143,9 @@ Task_t	tlAmbush[] =
 
 Schedule_t	slAmbush[] =
 {
-	{ 
+	{
 		tlAmbush,
-		ARRAYSIZE ( tlAmbush ), 
+		ARRAYSIZE ( tlAmbush ),
 		bits_COND_NEW_ENEMY		|
 		bits_COND_LIGHT_DAMAGE	|
 		bits_COND_HEAVY_DAMAGE	|
@@ -152,9 +158,9 @@ Schedule_t	slAmbush[] =
 
 //=========================================================
 // ActiveIdle schedule - !!!BUGBUG - if this schedule doesn't
-// complete on its own, the monster's HintNode will not be 
+// complete on its own, the monster's HintNode will not be
 // cleared, and the rest of the monster's group will avoid
-// that node because they think the group member that was 
+// that node because they think the group member that was
 // previously interrupted is still using that node to active
 // idle.
 ///=========================================================
@@ -227,7 +233,7 @@ Task_t	tlAlertFace1[] =
 
 Schedule_t	slAlertFace[] =
 {
-	{ 
+	{
 		tlAlertFace1,
 		ARRAYSIZE ( tlAlertFace1 ),
 		bits_COND_NEW_ENEMY		|
@@ -254,7 +260,7 @@ Task_t	tlAlertSmallFlinch[] =
 
 Schedule_t	slAlertSmallFlinch[] =
 {
-	{ 
+	{
 		tlAlertSmallFlinch,
 		ARRAYSIZE ( tlAlertSmallFlinch ),
 		0,
@@ -276,9 +282,9 @@ Task_t	tlAlertStand1[] =
 
 Schedule_t	slAlertStand[] =
 {
-	{ 
+	{
 		tlAlertStand1,
-		ARRAYSIZE ( tlAlertStand1 ), 
+		ARRAYSIZE ( tlAlertStand1 ),
 		bits_COND_NEW_ENEMY				|
 		bits_COND_SEE_ENEMY				|
 		bits_COND_SEE_FEAR				|
@@ -303,7 +309,7 @@ Schedule_t	slAlertStand[] =
 
 //=========================================================
 // InvestigateSound - sends a monster to the location of the
-// sound that was just heard, to check things out. 
+// sound that was just heard, to check things out.
 //=========================================================
 Task_t tlInvestigateSound[] =
 {
@@ -323,15 +329,15 @@ Task_t tlInvestigateSound[] =
 
 Schedule_t	slInvestigateSound[] =
 {
-	{ 
+	{
 		tlInvestigateSound,
-		ARRAYSIZE ( tlInvestigateSound ), 
+		ARRAYSIZE ( tlInvestigateSound ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_SEE_FEAR			|
 		bits_COND_LIGHT_DAMAGE		|
 		bits_COND_HEAVY_DAMAGE		|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"InvestigateSound"
 	},
@@ -349,14 +355,14 @@ Task_t	tlCombatStand1[] =
 
 Schedule_t	slCombatStand[] =
 {
-	{ 
+	{
 		tlCombatStand1,
-		ARRAYSIZE ( tlCombatStand1 ), 
+		ARRAYSIZE ( tlCombatStand1 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
 		bits_COND_HEAVY_DAMAGE		|
-		bits_COND_CAN_ATTACK, 
+		bits_COND_CAN_ATTACK,
 		0,
 		"Combat Stand"
 	},
@@ -374,9 +380,9 @@ Task_t	tlCombatFace1[] =
 
 Schedule_t	slCombatFace[] =
 {
-	{ 
+	{
 		tlCombatFace1,
-		ARRAYSIZE ( tlCombatFace1 ), 
+		ARRAYSIZE ( tlCombatFace1 ),
 		bits_COND_CAN_ATTACK			|
 		bits_COND_NEW_ENEMY				|
 		bits_COND_ENEMY_DEAD,
@@ -386,8 +392,8 @@ Schedule_t	slCombatFace[] =
 };
 
 //=========================================================
-// Standoff schedule. Used in combat when a monster is 
-// hiding in cover or the enemy has moved out of sight. 
+// Standoff schedule. Used in combat when a monster is
+// hiding in cover or the enemy has moved out of sight.
 // Should we look around in this schedule?
 //=========================================================
 Task_t	tlStandoff[] =
@@ -397,7 +403,7 @@ Task_t	tlStandoff[] =
 	{ TASK_WAIT_FACE_ENEMY,			(float)2					},
 };
 
-Schedule_t slStandoff[] = 
+Schedule_t slStandoff[] =
 {
 	{
 		tlStandoff,
@@ -407,7 +413,7 @@ Schedule_t slStandoff[] =
 		bits_COND_ENEMY_DEAD			|
 		bits_COND_NEW_ENEMY				|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"Standoff"
 	}
@@ -422,7 +428,7 @@ Task_t	tlArmWeapon[] =
 	{ TASK_PLAY_SEQUENCE,	(float) ACT_ARM }
 };
 
-Schedule_t slArmWeapon[] = 
+Schedule_t slArmWeapon[] =
 {
 	{
 		tlArmWeapon,
@@ -442,7 +448,7 @@ Task_t	tlReload[] =
 	{ TASK_PLAY_SEQUENCE,		float(ACT_RELOAD)	},
 };
 
-Schedule_t slReload[] = 
+Schedule_t slReload[] =
 {
 	{
 		tlReload,
@@ -467,9 +473,9 @@ Task_t	tlRangeAttack1[] =
 
 Schedule_t	slRangeAttack1[] =
 {
-	{ 
+	{
 		tlRangeAttack1,
-		ARRAYSIZE ( tlRangeAttack1 ), 
+		ARRAYSIZE ( tlRangeAttack1 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
@@ -477,7 +483,7 @@ Schedule_t	slRangeAttack1[] =
 		bits_COND_ENEMY_OCCLUDED	|
 		bits_COND_NO_AMMO_LOADED	|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"Range Attack1"
 	},
@@ -493,16 +499,16 @@ Task_t	tlRangeAttack2[] =
 
 Schedule_t	slRangeAttack2[] =
 {
-	{ 
+	{
 		tlRangeAttack2,
-		ARRAYSIZE ( tlRangeAttack2 ), 
+		ARRAYSIZE ( tlRangeAttack2 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
 		bits_COND_HEAVY_DAMAGE		|
 		bits_COND_ENEMY_OCCLUDED	|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"Range Attack2"
 	},
@@ -518,9 +524,9 @@ Task_t	tlPrimaryMeleeAttack1[] =
 
 Schedule_t	slPrimaryMeleeAttack[] =
 {
-	{ 
+	{
 		tlPrimaryMeleeAttack1,
-		ARRAYSIZE ( tlPrimaryMeleeAttack1 ), 
+		ARRAYSIZE ( tlPrimaryMeleeAttack1 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
@@ -541,9 +547,9 @@ Task_t	tlSecondaryMeleeAttack1[] =
 
 Schedule_t	slSecondaryMeleeAttack[] =
 {
-	{ 
+	{
 		tlSecondaryMeleeAttack1,
-		ARRAYSIZE ( tlSecondaryMeleeAttack1 ), 
+		ARRAYSIZE ( tlSecondaryMeleeAttack1 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
@@ -564,9 +570,9 @@ Task_t	tlSpecialAttack1[] =
 
 Schedule_t	slSpecialAttack1[] =
 {
-	{ 
+	{
 		tlSpecialAttack1,
-		ARRAYSIZE ( tlSpecialAttack1 ), 
+		ARRAYSIZE ( tlSpecialAttack1 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
@@ -574,7 +580,7 @@ Schedule_t	slSpecialAttack1[] =
 		bits_COND_ENEMY_OCCLUDED	|
 		bits_COND_NO_AMMO_LOADED	|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"Special Attack1"
 	},
@@ -590,9 +596,9 @@ Task_t	tlSpecialAttack2[] =
 
 Schedule_t	slSpecialAttack2[] =
 {
-	{ 
+	{
 		tlSpecialAttack2,
-		ARRAYSIZE ( tlSpecialAttack2 ), 
+		ARRAYSIZE ( tlSpecialAttack2 ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_ENEMY_DEAD		|
 		bits_COND_LIGHT_DAMAGE		|
@@ -600,14 +606,14 @@ Schedule_t	slSpecialAttack2[] =
 		bits_COND_ENEMY_OCCLUDED	|
 		bits_COND_NO_AMMO_LOADED	|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"Special Attack2"
 	},
 };
 
 // Chase enemy schedule
-Task_t tlChaseEnemy1[] = 
+Task_t tlChaseEnemy1[] =
 {
 	{ TASK_SET_FAIL_SCHEDULE,	(float)SCHED_CHASE_ENEMY_FAILED	},
 	{ TASK_GET_PATH_TO_ENEMY,	(float)0		},
@@ -617,7 +623,7 @@ Task_t tlChaseEnemy1[] =
 
 Schedule_t slChaseEnemy[] =
 {
-	{ 
+	{
 		tlChaseEnemy1,
 		ARRAYSIZE ( tlChaseEnemy1 ),
 		bits_COND_NEW_ENEMY			|
@@ -627,7 +633,7 @@ Schedule_t slChaseEnemy[] =
 		bits_COND_CAN_MELEE_ATTACK2	|
 		bits_COND_TASK_FAILED		|
 		bits_COND_HEAR_SOUND,
-		
+
 		bits_SOUND_DANGER,
 		"Chase Enemy"
 	},
@@ -650,9 +656,9 @@ Task_t	tlChaseEnemyFailed[] =
 
 Schedule_t	slChaseEnemyFailed[] =
 {
-	{ 
+	{
 		tlChaseEnemyFailed,
-		ARRAYSIZE ( tlChaseEnemyFailed ), 
+		ARRAYSIZE ( tlChaseEnemyFailed ),
 		bits_COND_NEW_ENEMY			|
 		bits_COND_CAN_RANGE_ATTACK1	|
 		bits_COND_CAN_MELEE_ATTACK1	|
@@ -739,7 +745,7 @@ Task_t	tlBarnacleVictimGrab[] =
 	{ TASK_STOP_MOVING,			0				},
 	{ TASK_PLAY_SEQUENCE,	(float)ACT_BARNACLE_HIT	 },
 	{ TASK_SET_ACTIVITY,	(float)ACT_BARNACLE_PULL },
-	{ TASK_WAIT_INDEFINITE,	(float)0				 },// just cycle barnacle pull anim while barnacle hoists. 
+	{ TASK_WAIT_INDEFINITE,	(float)0				 },// just cycle barnacle pull anim while barnacle hoists.
 };
 
 Schedule_t slBarnacleVictimGrab[] =
@@ -755,7 +761,7 @@ Schedule_t slBarnacleVictimGrab[] =
 
 //=========================================================
 // BarnacleVictimChomp - barnacle has pulled the prey to its
-// mouth. Victim should play the BARNCLE_CHOMP animation 
+// mouth. Victim should play the BARNCLE_CHOMP animation
 // once, then loop the BARNACLE_CHEW animation indefinitely
 //=========================================================
 Task_t	tlBarnacleVictimChomp[] =
@@ -763,7 +769,7 @@ Task_t	tlBarnacleVictimChomp[] =
 	{ TASK_STOP_MOVING,			0				},
 	{ TASK_PLAY_SEQUENCE,	(float)ACT_BARNACLE_CHOMP },
 	{ TASK_SET_ACTIVITY,	(float)ACT_BARNACLE_CHEW  },
-	{ TASK_WAIT_INDEFINITE,	(float)0				  },// just cycle barnacle pull anim while barnacle hoists. 
+	{ TASK_WAIT_INDEFINITE,	(float)0				  },// just cycle barnacle pull anim while barnacle hoists.
 };
 
 Schedule_t slBarnacleVictimChomp[] =
@@ -787,16 +793,16 @@ Task_t	tlError[] =
 
 Schedule_t	slError[] =
 {
-	{ 
+	{
 		tlError,
-		ARRAYSIZE ( tlError ), 
+		ARRAYSIZE ( tlError ),
 		0,
 		0,
 		"Error"
 	},
 };
 
-Task_t tlScriptedWalk[] = 
+Task_t tlScriptedWalk[] =
 {
 	{ TASK_WALK_TO_TARGET,		(float)TARGET_MOVE_SCRIPTED },
 	{ TASK_WAIT_FOR_MOVEMENT,	(float)0		},
@@ -810,7 +816,7 @@ Task_t tlScriptedWalk[] =
 
 Schedule_t slWalkToScript[] =
 {
-	{ 
+	{
 		tlScriptedWalk,
 		ARRAYSIZE ( tlScriptedWalk ),
 		SCRIPT_BREAK_CONDITIONS,
@@ -820,7 +826,7 @@ Schedule_t slWalkToScript[] =
 };
 
 
-Task_t tlScriptedRun[] = 
+Task_t tlScriptedRun[] =
 {
 	{ TASK_RUN_TO_TARGET,		(float)TARGET_MOVE_SCRIPTED },
 	{ TASK_WAIT_FOR_MOVEMENT,	(float)0		},
@@ -834,7 +840,7 @@ Task_t tlScriptedRun[] =
 
 Schedule_t slRunToScript[] =
 {
-	{ 
+	{
 		tlScriptedRun,
 		ARRAYSIZE ( tlScriptedRun ),
 		SCRIPT_BREAK_CONDITIONS,
@@ -843,7 +849,7 @@ Schedule_t slRunToScript[] =
 	},
 };
 
-Task_t tlScriptedWait[] = 
+Task_t tlScriptedWait[] =
 {
 	{ TASK_STOP_MOVING,			0				},
 	{ TASK_WAIT_FOR_SCRIPT,		(float)0		},
@@ -852,7 +858,7 @@ Task_t tlScriptedWait[] =
 
 Schedule_t slWaitScript[] =
 {
-	{ 
+	{
 		tlScriptedWait,
 		ARRAYSIZE ( tlScriptedWait ),
 		SCRIPT_BREAK_CONDITIONS,
@@ -861,7 +867,7 @@ Schedule_t slWaitScript[] =
 	},
 };
 
-Task_t tlScriptedFace[] = 
+Task_t tlScriptedFace[] =
 {
 	{ TASK_STOP_MOVING,			0				},
 	{ TASK_FACE_SCRIPT,			(float)0		},
@@ -872,7 +878,7 @@ Task_t tlScriptedFace[] =
 
 Schedule_t slFaceScript[] =
 {
-	{ 
+	{
 		tlScriptedFace,
 		ARRAYSIZE ( tlScriptedFace ),
 		SCRIPT_BREAK_CONDITIONS,
@@ -903,7 +909,7 @@ Schedule_t	slCower[] =
 };
 
 //=========================================================
-// move away from where you're currently standing. 
+// move away from where you're currently standing.
 //=========================================================
 Task_t	tlTakeCoverFromOrigin[] =
 {
@@ -917,9 +923,9 @@ Task_t	tlTakeCoverFromOrigin[] =
 
 Schedule_t	slTakeCoverFromOrigin[] =
 {
-	{ 
+	{
 		tlTakeCoverFromOrigin,
-		ARRAYSIZE ( tlTakeCoverFromOrigin ), 
+		ARRAYSIZE ( tlTakeCoverFromOrigin ),
 		bits_COND_NEW_ENEMY,
 		0,
 		"TakeCoverFromOrigin"
@@ -941,9 +947,9 @@ Task_t	tlTakeCoverFromBestSound[] =
 
 Schedule_t	slTakeCoverFromBestSound[] =
 {
-	{ 
+	{
 		tlTakeCoverFromBestSound,
-		ARRAYSIZE ( tlTakeCoverFromBestSound ), 
+		ARRAYSIZE ( tlTakeCoverFromBestSound ),
 		bits_COND_NEW_ENEMY,
 		0,
 		"TakeCoverFromBestSound"
@@ -951,8 +957,8 @@ Schedule_t	slTakeCoverFromBestSound[] =
 };
 
 //=========================================================
-// Take cover from enemy! Tries lateral cover before node 
-// cover! 
+// Take cover from enemy! Tries lateral cover before node
+// cover!
 //=========================================================
 Task_t	tlTakeCoverFromEnemy[] =
 {
@@ -969,16 +975,16 @@ Task_t	tlTakeCoverFromEnemy[] =
 
 Schedule_t	slTakeCoverFromEnemy[] =
 {
-	{ 
+	{
 		tlTakeCoverFromEnemy,
-		ARRAYSIZE ( tlTakeCoverFromEnemy ), 
+		ARRAYSIZE ( tlTakeCoverFromEnemy ),
 		bits_COND_NEW_ENEMY,
 		0,
 		"tlTakeCoverFromEnemy"
 	},
 };
 
-Schedule_t *CBaseMonster::m_scheduleList[] = 
+Schedule_t *CBaseMonster::m_scheduleList[] =
 {
 	slIdleStand,
 	slIdleTrigger,
@@ -1029,7 +1035,7 @@ Schedule_t *CBaseMonster::ScheduleFromName( const char *pName )
 Schedule_t *CBaseMonster :: ScheduleInList( const char *pName, Schedule_t **pList, int listCount )
 {
 	int i;
-	
+
 	if ( !pName )
 	{
 		ALERT( at_console, "%s set to unnamed schedule!\n", STRING(pev->classname) );
@@ -1051,10 +1057,10 @@ Schedule_t *CBaseMonster :: ScheduleInList( const char *pName, Schedule_t **pLis
 }
 
 //=========================================================
-// GetScheduleOfType - returns a pointer to one of the 
+// GetScheduleOfType - returns a pointer to one of the
 // monster's available schedules of the indicated type.
 //=========================================================
-Schedule_t* CBaseMonster :: GetScheduleOfType ( int Type ) 
+Schedule_t* CBaseMonster :: GetScheduleOfType ( int Type )
 {
 //	ALERT ( at_console, "Sched Type:%d\n", Type );
 	switch	( Type )
@@ -1074,12 +1080,12 @@ Schedule_t* CBaseMonster :: GetScheduleOfType ( int Type )
 
 			switch ( m_pCine->m_fMoveTo )
 			{
-				case 0: 
-				case 4: 
+				case 0:
+				case 4:
 					return slWaitScript;
-				case 1: 
+				case 1:
 					return slWalkToScript;
-				case 2: 
+				case 2:
 					return slRunToScript;
 				case 5:
 					return slFaceScript;

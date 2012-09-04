@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,6 +12,12 @@
 *   without written permission from Valve LLC.
 *
 ****/
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -29,9 +35,9 @@ class CAirtank : public CGrenade
 	int	 BloodColor( void ) { return DONT_BLEED; };
 	void Killed( entvars_t *pevAttacker, int iGib );
 
-	virtual int		Save( CSave &save ); 
+	virtual int		Save( CSave &save );
 	virtual int		Restore( CRestore &restore );
-	
+
 	static	TYPEDESCRIPTION m_SaveData[];
 
 	int	 m_state;
@@ -39,7 +45,7 @@ class CAirtank : public CGrenade
 
 
 LINK_ENTITY_TO_CLASS( item_airtank, CAirtank );
-TYPEDESCRIPTION	CAirtank::m_SaveData[] = 
+TYPEDESCRIPTION	CAirtank::m_SaveData[] =
 {
 	DEFINE_FIELD( CAirtank, m_state, FIELD_INTEGER ),
 };
@@ -58,8 +64,8 @@ void CAirtank :: Spawn( void )
 	UTIL_SetSize(pev, Vector( -16, -16, 0), Vector(16, 16, 36));
 	UTIL_SetOrigin( pev, pev->origin );
 
-	SetTouch( TankTouch );
-	SetThink( TankThink );
+	SetTouch( &CAirtank::TankTouch );
+	SetThink( &CAirtank::TankThink );
 
 	pev->flags |= FL_MONSTER;
 	pev->takedamage		= DAMAGE_YES;
@@ -104,7 +110,7 @@ void CAirtank::TankTouch( CBaseEntity *pOther )
 		EMIT_SOUND( ENT(pev), CHAN_BODY, "player/pl_swim2.wav", 1.0, ATTN_NORM );
 		return;
 	}
-		
+
 	// give player 12 more seconds of air
 	pOther->pev->air_finished = gpGlobals->time + 12;
 

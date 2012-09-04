@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -21,6 +21,11 @@
 //	rules dynamically within each map (.BSP)
 //
 //	-------------------------------------------
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "eiface.h"
@@ -48,7 +53,7 @@ private:
 	string_t	m_iszMaster;
 };
 
-TYPEDESCRIPTION	CRuleEntity::m_SaveData[] = 
+TYPEDESCRIPTION	CRuleEntity::m_SaveData[] =
 {
 	DEFINE_FIELD( CRuleEntity, m_iszMaster, FIELD_STRING),
 };
@@ -84,11 +89,11 @@ BOOL CRuleEntity::CanFireForActivator( CBaseEntity *pActivator )
 		else
 			return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
-// 
+//
 // CRulePointEntity -- base class for all rule "point" entities (not brushes)
 //
 class CRulePointEntity : public CRuleEntity
@@ -104,7 +109,7 @@ void CRulePointEntity::Spawn( void )
 	pev->model			= 0;
 }
 
-// 
+//
 // CRuleBrushEntity -- base class for all rule "brush" entities (not brushes)
 // Default behavior is to set up like a trigger, invisible, but keep the model for volume testing
 //
@@ -123,7 +128,7 @@ void CRuleBrushEntity::Spawn( void )
 }
 
 
-// CGameScore / game_score	-- award points to player / team 
+// CGameScore / game_score	-- award points to player / team
 //	Points +/- total
 //	Flag: Allow negative scores					SF_SCORE_NEGATIVE
 //	Flag: Award points to team in teamplay		SF_SCORE_TEAM
@@ -242,7 +247,7 @@ LINK_ENTITY_TO_CLASS( game_text, CGameText );
 
 // Save parms as a block.  Will break save/restore if the structure changes, but this entity didn't ship with Half-Life, so
 // it can't impact saved Half-Life games.
-TYPEDESCRIPTION	CGameText::m_SaveData[] = 
+TYPEDESCRIPTION	CGameText::m_SaveData[] =
 {
 	DEFINE_ARRAY( CGameText, m_textParms, FIELD_CHARACTER, sizeof(hudtextparms_t) ),
 };
@@ -516,7 +521,7 @@ private:
 };
 
 LINK_ENTITY_TO_CLASS( game_zone_player, CGamePlayerZone );
-TYPEDESCRIPTION	CGamePlayerZone::m_SaveData[] = 
+TYPEDESCRIPTION	CGamePlayerZone::m_SaveData[] =
 {
 	DEFINE_FIELD( CGamePlayerZone, m_iszInTarget, FIELD_STRING ),
 	DEFINE_FIELD( CGamePlayerZone, m_iszOutTarget, FIELD_STRING ),
@@ -639,7 +644,7 @@ void CGamePlayerHurt::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 		else
 			pActivator->TakeDamage( pev, pev, pev->dmg, DMG_GENERIC );
 	}
-	
+
 	SUB_UseTargets( pActivator, useType, value );
 
 	if ( RemoveOnFire() )
@@ -671,7 +676,7 @@ public:
 	inline void ResetCount( void ) { pev->frags = pev->dmg; }
 	inline int  CountValue( void ) { return pev->frags; }
 	inline int	LimitValue( void ) { return pev->health; }
-	
+
 	inline BOOL HitLimit( void ) { return CountValue() == LimitValue(); }
 
 private:
@@ -701,7 +706,7 @@ void CGameCounter::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 	case USE_TOGGLE:
 		CountUp();
 		break;
-	
+
 	case USE_OFF:
 		CountDown();
 		break;
@@ -710,7 +715,7 @@ void CGameCounter::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 		SetCountValue( (int)value );
 		break;
 	}
-	
+
 	if ( HitLimit() )
 	{
 		SUB_UseTargets( pActivator, USE_TOGGLE, 0 );
@@ -718,7 +723,7 @@ void CGameCounter::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 		{
 			UTIL_Remove( this );
 		}
-		
+
 		if ( ResetOnFire() )
 		{
 			ResetCount();
@@ -873,7 +878,7 @@ private:
 	inline BOOL RemoveOnFire( void ) { return (pev->spawnflags & SF_PTEAM_FIREONCE) ? TRUE : FALSE; }
 	inline BOOL ShouldKillPlayer( void ) { return (pev->spawnflags & SF_PTEAM_KILL) ? TRUE : FALSE; }
 	inline BOOL ShouldGibPlayer( void ) { return (pev->spawnflags & SF_PTEAM_GIB) ? TRUE : FALSE; }
-	
+
 	const char *TargetTeamName( const char *pszTargetName );
 };
 
@@ -908,7 +913,7 @@ void CGamePlayerTeam::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TY
 			g_pGameRules->ChangePlayerTeam( pPlayer, pszTargetTeam, ShouldKillPlayer(), ShouldGibPlayer() );
 		}
 	}
-	
+
 	if ( RemoveOnFire() )
 	{
 		UTIL_Remove( this );

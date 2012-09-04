@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,12 +12,18 @@
 *   without written permission from Valve LLC.
 *
 ****/
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 typedef int BOOL;
-#define TRUE	 1	
+#define TRUE	 1
 #define FALSE	0
 
 // hack into header files that we can ship
@@ -51,14 +57,16 @@ typedef unsigned char byte;
 
 extern globalvars_t				*gpGlobals;
 
+#ifdef _WIN32
 #pragma warning( disable : 4244 )
+#endif
 
 
 
 int ExtractBbox( void *pmodel, int sequence, float *mins, float *maxs )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return 0;
@@ -66,7 +74,7 @@ int ExtractBbox( void *pmodel, int sequence, float *mins, float *maxs )
 	mstudioseqdesc_t	*pseqdesc;
 
 	pseqdesc = (mstudioseqdesc_t *)((byte *)pstudiohdr + pstudiohdr->seqindex);
-	
+
 	mins[0] = pseqdesc[ sequence ].bbmin[0];
 	mins[1] = pseqdesc[ sequence ].bbmin[1];
 	mins[2] = pseqdesc[ sequence ].bbmin[2];
@@ -82,7 +90,7 @@ int ExtractBbox( void *pmodel, int sequence, float *mins, float *maxs )
 int LookupActivity( void *pmodel, entvars_t *pev, int activity )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return 0;
@@ -110,7 +118,7 @@ int LookupActivity( void *pmodel, entvars_t *pev, int activity )
 int LookupActivityHeaviest( void *pmodel, entvars_t *pev, int activity )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if ( !pstudiohdr )
 		return 0;
@@ -139,7 +147,7 @@ int LookupActivityHeaviest( void *pmodel, entvars_t *pev, int activity )
 void GetEyePosition ( void *pmodel, float *vecEyePosition )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 
 	if ( !pstudiohdr )
@@ -154,7 +162,7 @@ void GetEyePosition ( void *pmodel, float *vecEyePosition )
 int LookupSequence( void *pmodel, const char *label )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return 0;
@@ -187,7 +195,7 @@ void SequencePrecache( void *pmodel, const char *pSequenceName )
 	if ( index >= 0 )
 	{
 		studiohdr_t *pstudiohdr;
-	
+
 		pstudiohdr = (studiohdr_t *)pmodel;
 		if ( !pstudiohdr || index >= pstudiohdr->numseq )
 			return;
@@ -224,7 +232,7 @@ void SequencePrecache( void *pmodel, const char *pSequenceName )
 void GetSequenceInfo( void *pmodel, entvars_t *pev, float *pflFrameRate, float *pflGroundSpeed )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return;
@@ -257,7 +265,7 @@ void GetSequenceInfo( void *pmodel, entvars_t *pev, float *pflFrameRate, float *
 int GetSequenceFlags( void *pmodel, entvars_t *pev )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if ( !pstudiohdr || pev->sequence >= pstudiohdr->numseq )
 		return 0;
@@ -272,7 +280,7 @@ int GetSequenceFlags( void *pmodel, entvars_t *pev )
 int GetAnimationEvent( void *pmodel, entvars_t *pev, MonsterEvent_t *pMonsterEvent, float flStart, float flEnd, int index )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if ( !pstudiohdr || pev->sequence >= pstudiohdr->numseq || !pMonsterEvent )
 		return 0;
@@ -305,7 +313,7 @@ int GetAnimationEvent( void *pmodel, entvars_t *pev, MonsterEvent_t *pMonsterEve
 		if ( pevent[index].event >= EVENT_CLIENT )
 			continue;
 
-		if ( (pevent[index].frame >= flStart && pevent[index].frame < flEnd) || 
+		if ( (pevent[index].frame >= flStart && pevent[index].frame < flEnd) ||
 			((pseqdesc->flags & STUDIO_LOOPING) && flEnd >= pseqdesc->numframes - 1 && pevent[index].frame < flEnd - pseqdesc->numframes + 1) )
 		{
 			pMonsterEvent->event = pevent[index].event;
@@ -319,7 +327,8 @@ int GetAnimationEvent( void *pmodel, entvars_t *pev, MonsterEvent_t *pMonsterEve
 float SetController( void *pmodel, entvars_t *pev, int iController, float flValue )
 {
 	studiohdr_t *pstudiohdr;
-	
+	int i = 0;
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return flValue;
@@ -327,7 +336,7 @@ float SetController( void *pmodel, entvars_t *pev, int iController, float flValu
 	mstudiobonecontroller_t	*pbonecontroller = (mstudiobonecontroller_t *)((byte *)pstudiohdr + pstudiohdr->bonecontrollerindex);
 
 	// find first controller that matches the index
-	for (int i = 0; i < pstudiohdr->numbonecontrollers; i++, pbonecontroller++)
+	for ( i = 0; i < pstudiohdr->numbonecontrollers; i++, pbonecontroller++)
 	{
 		if (pbonecontroller->index == iController)
 			break;
@@ -373,7 +382,7 @@ float SetController( void *pmodel, entvars_t *pev, int iController, float flValu
 float SetBlending( void *pmodel, entvars_t *pev, int iBlender, float flValue )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return flValue;
@@ -417,7 +426,7 @@ float SetBlending( void *pmodel, entvars_t *pev, int iBlender, float flValue )
 int FindTransition( void *pmodel, int iEndingAnim, int iGoalAnim, int *piDir )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return iGoalAnim;
@@ -484,7 +493,7 @@ int FindTransition( void *pmodel, int iEndingAnim, int iGoalAnim, int *piDir )
 void SetBodygroup( void *pmodel, entvars_t *pev, int iGroup, int iValue )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return;
@@ -506,7 +515,7 @@ void SetBodygroup( void *pmodel, entvars_t *pev, int iGroup, int iValue )
 int GetBodygroup( void *pmodel, entvars_t *pev, int iGroup )
 {
 	studiohdr_t *pstudiohdr;
-	
+
 	pstudiohdr = (studiohdr_t *)pmodel;
 	if (! pstudiohdr)
 		return 0;

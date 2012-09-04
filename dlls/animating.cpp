@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -19,6 +19,11 @@
   Monster-related utility code
 
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "util.h"
@@ -26,7 +31,7 @@
 #include "animation.h"
 #include "saverestore.h"
 
-TYPEDESCRIPTION	CBaseAnimating::m_SaveData[] = 
+TYPEDESCRIPTION	CBaseAnimating::m_SaveData[] =
 {
 	DEFINE_FIELD( CBaseMonster, m_flFrameRate, FIELD_FLOAT ),
 	DEFINE_FIELD( CBaseMonster, m_flGroundSpeed, FIELD_FLOAT ),
@@ -55,11 +60,11 @@ float CBaseAnimating :: StudioFrameAdvance ( float flInterval )
 	}
 	if (! pev->animtime)
 		flInterval = 0.0;
-	
+
 	pev->frame += flInterval * m_flFrameRate * pev->framerate;
 	pev->animtime = gpGlobals->time;
 
-	if (pev->frame < 0.0 || pev->frame >= 256.0) 
+	if (pev->frame < 0.0 || pev->frame >= 256.0)
 	{
 		if (m_fSequenceLoops)
 			pev->frame -= (int)(pev->frame / 256.0) * 256.0;
@@ -154,7 +159,7 @@ void CBaseAnimating :: DispatchAnimEvents ( float flInterval )
 	m_flLastEventCheck = pev->animtime + flInterval;
 
 	m_fSequenceFinished = FALSE;
-	if (flEnd >= 256 || flEnd <= 0.0) 
+	if (flEnd >= 256 || flEnd <= 0.0)
 		m_fSequenceFinished = TRUE;
 
 	int index = 0;
@@ -215,7 +220,7 @@ void CBaseAnimating :: GetAttachment ( int iAttachment, Vector &origin, Vector &
 int CBaseAnimating :: FindTransition( int iEndingSequence, int iGoalSequence, int *piDir )
 {
 	void *pmodel = GET_MODEL_PTR( ENT(pev) );
-	
+
 	if (piDir == NULL)
 	{
 		int iDir;
@@ -265,7 +270,7 @@ void CBaseAnimating :: SetSequenceBox( void )
 		// expand box for rotation
 		// find min / max for rotations
 		float yaw = pev->angles.y * (M_PI / 180.0);
-		
+
 		Vector xvector, yvector;
 		xvector.x = cos(yaw);
 		xvector.y = sin(yaw);
@@ -275,7 +280,7 @@ void CBaseAnimating :: SetSequenceBox( void )
 
 		bounds[0] = mins;
 		bounds[1] = maxs;
-		
+
 		Vector rmin( 9999, 9999, 9999 );
 		Vector rmax( -9999, -9999, -9999 );
 		Vector base, transformed;
@@ -289,12 +294,12 @@ void CBaseAnimating :: SetSequenceBox( void )
 				for ( int k = 0; k <= 1; k++ )
 				{
 					base.z = bounds[k].z;
-					
+
 				// transform the point
 					transformed.x = xvector.x*base.x + yvector.x*base.y;
 					transformed.y = xvector.y*base.x + yvector.y*base.y;
 					transformed.z = base.z;
-					
+
 					if (transformed.x < rmin.x)
 						rmin.x = transformed.x;
 					if (transformed.x > rmax.x)

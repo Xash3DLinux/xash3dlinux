@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -25,12 +25,15 @@
 #define DEBUG 1
 #endif
 
+#ifdef _WIN32
 // Silence certain warnings
 #pragma warning(disable : 4244)		// int or float down-conversion
 #pragma warning(disable : 4305)		// int or float data truncation
 #pragma warning(disable : 4201)		// nameless struct/union
 #pragma warning(disable : 4514)		// unreferenced inline function removed
 #pragma warning(disable : 4100)		// unreferenced formal parameter
+#endif
+
 
 // Prevent tons of unused windows definitions
 #ifdef _WIN32
@@ -41,8 +44,8 @@
 #define NOIME
 #include "windows.h"
 #else // _WIN32
-#define FALSE 0
-#define TRUE (!FALSE)
+//#define FALSE 0
+//#define TRUE (!FALSE)
 typedef unsigned long ULONG;
 typedef unsigned char BYTE;
 typedef int BOOL;

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="hl" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="bin/Release/hl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-fvisibility=hidden" />
+					<Add option="-DQUIVER" />
+					<Add option="-DVOXEL" />
+					<Add option="-DQUAKE2" />
+					<Add option="-DVALVE_DLL" />
+					<Add option="-DCLIENT_WEAPONS" />
+					<Add directory="./" />
+					<Add directory="../dlls" />
+					<Add directory="../engine" />
+					<Add directory="../common" />
+					<Add directory="../pm_shared" />
+					<Add directory="../game_shared" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-fvisibility=hidden" />
+					<Add option="-w" />
+				</Linker>
+			</Target>
+			<Target title="Debug">
+				<Option output="bin/Debug/hl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-fvisibility=hidden" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DQUIVER" />
+					<Add option="-DVOXEL" />
+					<Add option="-DQUAKE2" />
+					<Add option="-DVALVE_DLL" />
+					<Add option="-DCLIENT_WEAPONS" />
+					<Add directory="./" />
+					<Add directory="../dlls" />
+					<Add directory="../engine" />
+					<Add directory="../common" />
+					<Add directory="../game_shared" />
+					<Add directory="../pm_shared" />
+					<Add directory="../" />
+				</Compiler>
+				<Linker>
+					<Add option="-fPIC" />
+					<Add option="-m32" />
+					<Add option="-fvisibility=hidden" />
+					<Add option="-w" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="activity.h" />
+		<Unit filename="activitymap.h" />
+		<Unit filename="aflock.cpp" />
+		<Unit filename="agrunt.cpp" />
+		<Unit filename="airtank.cpp" />
+		<Unit filename="animating.cpp" />
+		<Unit filename="animation.cpp" />
+		<Unit filename="animation.h" />
+		<Unit filename="apache.cpp" />
+		<Unit filename="barnacle.cpp" />
+		<Unit filename="barney.cpp" />
+		<Unit filename="basemonster.h" />
+		<Unit filename="bigmomma.cpp" />
+		<Unit filename="bloater.cpp" />
+		<Unit filename="bmodels.cpp" />
+		<Unit filename="bullsquid.cpp" />
+		<Unit filename="buttons.cpp" />
+		<Unit filename="cbase.cpp" />
+		<Unit filename="cbase.h" />
+		<Unit filename="cdll_dll.h" />
+		<Unit filename="client.cpp" />
+		<Unit filename="client.h" />
+		<Unit filename="combat.cpp" />
+		<Unit filename="controller.cpp" />
+		<Unit filename="crossbow.cpp" />
+		<Unit filename="crowbar.cpp" />
+		<Unit filename="decals.h" />
+		<Unit filename="defaultai.cpp" />
+		<Unit filename="defaultai.h" />
+		<Unit filename="doors.cpp" />
+		<Unit filename="doors.h" />
+		<Unit filename="effects.cpp" />
+		<Unit filename="effects.h" />
+		<Unit filename="egon.cpp" />
+		<Unit filename="enginecallback.h" />
+		<Unit filename="explode.cpp" />
+		<Unit filename="explode.h" />
+		<Unit filename="extdll.h" />
+		<Unit filename="flyingmonster.cpp" />
+		<Unit filename="flyingmonster.h" />
+		<Unit filename="func_break.cpp" />
+		<Unit filename="func_break.h" />
+		<Unit filename="func_tank.cpp" />
+		<Unit filename="game.cpp" />
+		<Unit filename="gamerules.cpp" />
+		<Unit filename="gamerules.h" />
+		<Unit filename="gargantua.cpp" />
+		<Unit filename="gauss.cpp" />
+		<Unit filename="genericmonster.cpp" />
+		<Unit filename="ggrenade.cpp" />
+		<Unit filename="globals.cpp" />
+		<Unit filename="gman.cpp" />
+		<Unit filename="h_ai.cpp" />
+		<Unit filename="h_battery.cpp" />
+		<Unit filename="h_cine.cpp" />
+		<Unit filename="h_cycler.cpp" />
+		<Unit filename="h_export.cpp" />
+		<Unit filename="handgrenade.cpp" />
+		<Unit filename="hassassin.cpp" />
+		<Unit filename="headcrab.cpp" />
+		<Unit filename="healthkit.cpp" />
+		<Unit filename="hgrunt.cpp" />
+		<Unit filename="hornet.cpp" />
+		<Unit filename="hornet.h" />
+		<Unit filename="hornetgun.cpp" />
+		<Unit filename="houndeye.cpp" />
+		<Unit filename="ichthyosaur.cpp" />
+		<Unit filename="islave.cpp" />
+		<Unit filename="items.cpp" />
+		<Unit filename="items.h" />
+		<Unit filename="leech.cpp" />
+		<Unit filename="lights.cpp" />
+		<Unit filename="maprules.cpp" />
+		<Unit filename="monsterevent.h" />
+		<Unit filename="monstermaker.cpp" />
+		<Unit filename="monsters.cpp" />
+		<Unit filename="monsters.h" />
+		<Unit filename="monsterstate.cpp" />
+		<Unit filename="mortar.cpp" />
+		<Unit filename="mp5.cpp" />
+		<Unit filename="multiplay_gamerules.cpp" />
+		<Unit filename="nihilanth.cpp" />
+		<Unit filename="nodes.cpp" />
+		<Unit filename="nodes.h" />
+		<Unit filename="osprey.cpp" />
+		<Unit filename="pathcorner.cpp" />
+		<Unit filename="plane.cpp" />
+		<Unit filename="plane.h" />
+		<Unit filename="plats.cpp" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.h" />
+		<Unit filename="python.cpp" />
+		<Unit filename="rat.cpp" />
+		<Unit filename="roach.cpp" />
+		<Unit filename="rpg.cpp" />
+		<Unit filename="satchel.cpp" />
+		<Unit filename="saverestore.h" />
+		<Unit filename="schedule.cpp" />
+		<Unit filename="schedule.h" />
+		<Unit filename="scientist.cpp" />
+		<Unit filename="scripted.cpp" />
+		<Unit filename="scripted.h" />
+		<Unit filename="scriptevent.h" />
+		<Unit filename="shotgun.cpp" />
+		<Unit filename="singleplay_gamerules.cpp" />
+		<Unit filename="skill.cpp" />
+		<Unit filename="skill.h" />
+		<Unit filename="sound.cpp" />
+		<Unit filename="soundent.cpp" />
+		<Unit filename="soundent.h" />
+		<Unit filename="spectator.cpp" />
+		<Unit filename="spectator.h" />
+		<Unit filename="squadmonster.cpp" />
+		<Unit filename="squadmonster.h" />
+		<Unit filename="squeakgrenade.cpp" />
+		<Unit filename="subs.cpp" />
+		<Unit filename="talkmonster.cpp" />
+		<Unit filename="talkmonster.h" />
+		<Unit filename="teamplay_gamerules.cpp" />
+		<Unit filename="teamplay_gamerules.h" />
+		<Unit filename="tempmonster.cpp" />
+		<Unit filename="tentacle.cpp" />
+		<Unit filename="trains.h" />
+		<Unit filename="triggers.cpp" />
+		<Unit filename="tripmine.cpp" />
+		<Unit filename="turret.cpp" />
+		<Unit filename="util.cpp" />
+		<Unit filename="util.h" />
+		<Unit filename="vector.h" />
+		<Unit filename="weapons.cpp" />
+		<Unit filename="weapons.h" />
+		<Unit filename="world.cpp" />
+		<Unit filename="wpn_shared/hl_wpn_glock.cpp" />
+		<Unit filename="xen.cpp" />
+		<Unit filename="zombie.cpp" />
+		<Unit filename="../engine/eiface.h" />
+		<Unit filename="../game_shared/voice_gamemgr.cpp" />
+		<Unit filename="../pm_shared/pm_debug.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../pm_shared/pm_debug.h" />
+		<Unit filename="../pm_shared/pm_defs.h" />
+		<Unit filename="../pm_shared/pm_info.h" />
+		<Unit filename="../pm_shared/pm_materials.h" />
+		<Unit filename="../pm_shared/pm_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../pm_shared/pm_movevars.h" />
+		<Unit filename="../pm_shared/pm_shared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../pm_shared/pm_shared.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

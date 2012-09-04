@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,6 +12,12 @@
 *   without written permission from Valve LLC.
 *
 ****/
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -39,20 +45,20 @@ private:
 	Activity	m_Activity;
 };
 
-TYPEDESCRIPTION	CActAnimating::m_SaveData[] = 
+TYPEDESCRIPTION	CActAnimating::m_SaveData[] =
 {
 	DEFINE_FIELD( CActAnimating, m_Activity, FIELD_INTEGER ),
 };
 
 IMPLEMENT_SAVERESTORE( CActAnimating, CBaseAnimating );
 
-void CActAnimating :: SetActivity( Activity act ) 
-{ 
-	int sequence = LookupActivity( act ); 
+void CActAnimating :: SetActivity( Activity act )
+{
+	int sequence = LookupActivity( act );
 	if ( sequence != ACTIVITY_NOT_AVAILABLE )
 	{
 		pev->sequence = sequence;
-		m_Activity = act; 
+		m_Activity = act;
 		pev->frame = 0;
 		ResetSequenceInfo( );
 	}
@@ -82,7 +88,7 @@ private:
 
 LINK_ENTITY_TO_CLASS( xen_plantlight, CXenPLight );
 
-TYPEDESCRIPTION	CXenPLight::m_SaveData[] = 
+TYPEDESCRIPTION	CXenPLight::m_SaveData[] =
 {
 	DEFINE_FIELD( CXenPLight, m_pGlow, FIELD_CLASSPTR ),
 };
@@ -198,7 +204,7 @@ void CXenHair::Spawn( void )
 	SET_MODEL( edict(), "models/hair.mdl" );
 	UTIL_SetSize( pev, Vector(-4,-4,0), Vector(4,4,32));
 	pev->sequence = 0;
-	
+
 	if ( !(pev->spawnflags & SF_HAIR_SYNC) )
 	{
 		pev->frame = RANDOM_FLOAT(0,255);
@@ -267,7 +273,7 @@ public:
 	void		Think( void );
 	int			TakeDamage( entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType ) { Attack(); return 0; }
 	void		HandleAnimEvent( MonsterEvent_t *pEvent );
-	void		Attack( void );	
+	void		Attack( void );
 	int			Classify( void ) { return CLASS_BARNACLE; }
 
 	virtual int	Save( CSave &save );
@@ -283,7 +289,7 @@ private:
 
 LINK_ENTITY_TO_CLASS( xen_tree, CXenTree );
 
-TYPEDESCRIPTION	CXenTree::m_SaveData[] = 
+TYPEDESCRIPTION	CXenTree::m_SaveData[] =
 {
 	DEFINE_FIELD( CXenTree, m_pTrigger, FIELD_CLASSPTR ),
 };
@@ -314,14 +320,14 @@ void CXenTree :: Spawn( void )
 	UTIL_SetSize( m_pTrigger->pev, Vector( -24, -24, 0 ), Vector( 24, 24, 128 ) );
 }
 
-const char *CXenTree::pAttackHitSounds[] = 
+const char *CXenTree::pAttackHitSounds[] =
 {
 	"zombie/claw_strike1.wav",
 	"zombie/claw_strike2.wav",
 	"zombie/claw_strike3.wav",
 };
 
-const char *CXenTree::pAttackMissSounds[] = 
+const char *CXenTree::pAttackMissSounds[] =
 {
 	"zombie/claw_miss1.wav",
 	"zombie/claw_miss2.wav",
@@ -382,7 +388,7 @@ void CXenTree :: HandleAnimEvent( MonsterEvent_t *pEvent )
 					}
 				}
 			}
-					
+
 			if ( sound )
 			{
 				EMIT_SOUND_ARRAY_DYN( CHAN_WEAPON, pAttackHitSounds );
@@ -503,7 +509,7 @@ void CXenSporeMed::Spawn( void )
 
 
 // I just eyeballed these -- fill in hulls for the legs
-const Vector CXenSporeLarge::m_hullSizes[] = 
+const Vector CXenSporeLarge::m_hullSizes[] =
 {
 	Vector( 90, -25, 0 ),
 	Vector( 25, 75, 0 ),
@@ -517,7 +523,7 @@ void CXenSporeLarge::Spawn( void )
 	pev->skin = 2;
 	CXenSpore::Spawn();
 	UTIL_SetSize( pev, Vector(-48,-48,110), Vector(48,48,240));
-	
+
 	Vector forward, right;
 
 	UTIL_MakeVectorsPrivate( pev->angles, forward, right, NULL );
@@ -544,7 +550,7 @@ void CXenSpore :: Spawn( void )
 	pev->nextthink = gpGlobals->time + RANDOM_FLOAT( 0.1, 0.4 );	// Load balance these a bit
 }
 
-const char *CXenSpore::pModelNames[] = 
+const char *CXenSpore::pModelNames[] =
 {
 	"models/fungus(small).mdl",
 	"models/fungus.mdl",

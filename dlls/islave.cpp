@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   This source code contains proprietary and confidential information of
@@ -15,6 +15,11 @@
 //=========================================================
 // Alien slave monster
 //=========================================================
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include	"extdll.h"
 #include	"util.h"
@@ -67,7 +72,7 @@ public:
 	Schedule_t *GetScheduleOfType ( int Type );
 	CUSTOM_SCHEDULES;
 
-	int	Save( CSave &save ); 
+	int	Save( CSave &save );
 	int Restore( CRestore &restore );
 	static TYPEDESCRIPTION m_SaveData[];
 
@@ -97,7 +102,7 @@ LINK_ENTITY_TO_CLASS( monster_alien_slave, CISlave );
 LINK_ENTITY_TO_CLASS( monster_vortigaunt, CISlave );
 
 
-TYPEDESCRIPTION	CISlave::m_SaveData[] = 
+TYPEDESCRIPTION	CISlave::m_SaveData[] =
 {
 	DEFINE_FIELD( CISlave, m_iBravery, FIELD_INTEGER ),
 
@@ -116,33 +121,33 @@ IMPLEMENT_SAVERESTORE( CISlave, CSquadMonster );
 
 
 
-const char *CISlave::pAttackHitSounds[] = 
+const char *CISlave::pAttackHitSounds[] =
 {
 	"zombie/claw_strike1.wav",
 	"zombie/claw_strike2.wav",
 	"zombie/claw_strike3.wav",
 };
 
-const char *CISlave::pAttackMissSounds[] = 
+const char *CISlave::pAttackMissSounds[] =
 {
 	"zombie/claw_miss1.wav",
 	"zombie/claw_miss2.wav",
 };
 
-const char *CISlave::pPainSounds[] = 
+const char *CISlave::pPainSounds[] =
 {
 	"aslave/slv_pain1.wav",
 	"aslave/slv_pain2.wav",
 };
 
-const char *CISlave::pDeathSounds[] = 
+const char *CISlave::pDeathSounds[] =
 {
 	"aslave/slv_die1.wav",
 	"aslave/slv_die2.wav",
 };
 
 //=========================================================
-// Classify - indicates this monster's place in the 
+// Classify - indicates this monster's place in the
 // relationship table.
 //=========================================================
 int	CISlave :: Classify ( void )
@@ -257,9 +262,9 @@ void CISlave :: DeathSound( void )
 
 //=========================================================
 // ISoundMask - returns a bit mask indicating which types
-// of sounds this monster regards. 
+// of sounds this monster regards.
 //=========================================================
-int CISlave :: ISoundMask ( void) 
+int CISlave :: ISoundMask ( void)
 {
 	return	bits_SOUND_WORLD	|
 			bits_SOUND_COMBAT	|
@@ -284,13 +289,13 @@ void CISlave :: SetYawSpeed ( void )
 
 	switch ( m_Activity )
 	{
-	case ACT_WALK:		
-		ys = 50;	
+	case ACT_WALK:
+		ys = 50;
 		break;
-	case ACT_RUN:		
+	case ACT_RUN:
 		ys = 70;
 		break;
-	case ACT_IDLE:		
+	case ACT_IDLE:
 		ys = 50;
 		break;
 	default:
@@ -450,7 +455,7 @@ void CISlave :: HandleAnimEvent( MonsterEvent_t *pEvent )
 }
 
 //=========================================================
-// CheckRangeAttack1 - normal beam attack 
+// CheckRangeAttack1 - normal beam attack
 //=========================================================
 BOOL CISlave :: CheckRangeAttack1 ( float flDot, float flDist )
 {
@@ -574,7 +579,7 @@ void CISlave :: Precache()
 		PRECACHE_SOUND((char *)pDeathSounds[i]);
 
 	UTIL_PrecacheOther( "test_effect" );
-}	
+}
 
 
 //=========================================================
@@ -617,12 +622,12 @@ Task_t	tlSlaveAttack1[] =
 
 Schedule_t	slSlaveAttack1[] =
 {
-	{ 
+	{
 		tlSlaveAttack1,
-		ARRAYSIZE ( tlSlaveAttack1 ), 
+		ARRAYSIZE ( tlSlaveAttack1 ),
 		bits_COND_CAN_MELEE_ATTACK1 |
 		bits_COND_HEAR_SOUND |
-		bits_COND_HEAVY_DAMAGE, 
+		bits_COND_HEAVY_DAMAGE,
 
 		bits_SOUND_DANGER,
 		"Slave Range Attack1"
@@ -697,7 +702,7 @@ Schedule_t *CISlave :: GetSchedule( void )
 }
 
 
-Schedule_t *CISlave :: GetScheduleOfType ( int Type ) 
+Schedule_t *CISlave :: GetScheduleOfType ( int Type )
 {
 	switch	( Type )
 	{
@@ -724,7 +729,7 @@ void CISlave :: ArmBeam( int side )
 {
 	TraceResult tr;
 	float flDist = 1.0;
-	
+
 	if (m_iBeams >= ISLAVE_MAX_BEAMS)
 		return;
 
@@ -774,7 +779,7 @@ void CISlave :: BeamGlow( )
 
 	for (int i = 0; i < m_iBeams; i++)
 	{
-		if (m_pBeam[i]->GetBrightness() != 255) 
+		if (m_pBeam[i]->GetBrightness() != 255)
 		{
 			m_pBeam[i]->SetBrightness( b );
 		}
@@ -789,7 +794,7 @@ void CISlave :: WackBeam( int side, CBaseEntity *pEntity )
 {
 	Vector vecDest;
 	float flDist = 1.0;
-	
+
 	if (m_iBeams >= ISLAVE_MAX_BEAMS)
 		return;
 

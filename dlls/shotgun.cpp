@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,6 +12,11 @@
 *   without written permission from Valve LLC.
 *
 ****/
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "extdll.h"
 #include "util.h"
@@ -61,7 +66,7 @@ void CShotgun::Precache( void )
 
 	m_iShell = PRECACHE_MODEL ("models/shotgunshell.mdl");// shotgun shell
 
-	PRECACHE_SOUND("items/9mmclip1.wav");              
+	PRECACHE_SOUND("items/9mmclip1.wav");
 
 	PRECACHE_SOUND ("weapons/dbarrel1.wav");//shotgun
 	PRECACHE_SOUND ("weapons/sbarrel1.wav");//shotgun
@@ -71,7 +76,7 @@ void CShotgun::Precache( void )
 
 //	PRECACHE_SOUND ("weapons/sshell1.wav");	// shotgun reload - played on client
 //	PRECACHE_SOUND ("weapons/sshell3.wav");	// shotgun reload - played on client
-	
+
 	PRECACHE_SOUND ("weapons/357_cock1.wav"); // gun empty sound
 	PRECACHE_SOUND ("weapons/scock1.wav");	// cock gun
 
@@ -164,7 +169,7 @@ void CShotgun::PrimaryAttack()
 	}
 	else
 	{
-		// regular old, untouched spread. 
+		// regular old, untouched spread.
 		vecDir = m_pPlayer->FireBulletsPlayer( 6, vecSrc, vecAiming, VECTOR_CONE_10DEGREES, 2048, BULLET_PLAYER_BUCKSHOT, 0, 0, m_pPlayer->pev, m_pPlayer->random_seed );
 	}
 
@@ -227,7 +232,7 @@ void CShotgun::SecondaryAttack( void )
 	Vector vecAiming = m_pPlayer->GetAutoaimVector( AUTOAIM_5DEGREES );
 
 	Vector vecDir;
-	
+
 #ifdef CLIENT_DLL
 	if ( bIsMultiplayer() )
 #else
@@ -242,7 +247,7 @@ void CShotgun::SecondaryAttack( void )
 		// untouched default single player
 		vecDir = m_pPlayer->FireBulletsPlayer( 12, vecSrc, vecAiming, VECTOR_CONE_10DEGREES, 2048, BULLET_PLAYER_BUCKSHOT, 0, 0, m_pPlayer->pev, m_pPlayer->random_seed );
 	}
-		
+
 	PLAYBACK_EVENT_FULL( flags, m_pPlayer->edict(), m_usDoubleFire, 0.0, (float *)&g_vecZero, (float *)&g_vecZero, vecDir.x, vecDir.y, 0, 0, 0, 0 );
 
 	if (!m_iClip && m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType] <= 0)
@@ -340,7 +345,7 @@ void CShotgun::WeaponIdle( void )
 			{
 				// reload debounce has timed out
 				SendWeaponAnim( SHOTGUN_PUMP );
-				
+
 				// play cocking sound
 				EMIT_SOUND_DYN(ENT(m_pPlayer->pev), CHAN_ITEM, "weapons/scock1.wav", 1, ATTN_NORM, 0, 95 + RANDOM_LONG(0,0x1f));
 				m_fInSpecialReload = 0;
@@ -376,7 +381,7 @@ void CShotgun::WeaponIdle( void )
 class CShotgunAmmo : public CBasePlayerAmmo
 {
 	void Spawn( void )
-	{ 
+	{
 		Precache( );
 		SET_MODEL(ENT(pev), "models/w_shotbox.mdl");
 		CBasePlayerAmmo::Spawn( );
@@ -386,8 +391,8 @@ class CShotgunAmmo : public CBasePlayerAmmo
 		PRECACHE_MODEL ("models/w_shotbox.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
-	BOOL AddAmmo( CBaseEntity *pOther ) 
-	{ 
+	BOOL AddAmmo( CBaseEntity *pOther )
+	{
 		if (pOther->GiveAmmo( AMMO_BUCKSHOTBOX_GIVE, "buckshot", BUCKSHOT_MAX_CARRY ) != -1)
 		{
 			EMIT_SOUND(ENT(pev), CHAN_ITEM, "items/9mmclip1.wav", 1, ATTN_NORM);

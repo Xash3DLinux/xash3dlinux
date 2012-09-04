@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -13,6 +13,11 @@
 *
 ****/
 // pm_math.c -- math primitives
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
 
 #include "mathlib.h"
 #include "const.h"
@@ -23,7 +28,7 @@
 // left / right
 #define	YAW		1
 // fall over
-#define	ROLL	2 
+#define	ROLL	2
 
 #pragma warning(disable : 4244)
 
@@ -40,7 +45,7 @@ void AngleVectors (const vec3_t angles, vec3_t forward, vec3_t right, vec3_t up)
 {
 	float		angle;
 	float		sr, sp, sy, cr, cp, cy;
-	
+
 	angle = angles[YAW] * (M_PI*2 / 360);
 	sy = sin(angle);
 	cy = cos(angle);
@@ -75,7 +80,7 @@ void AngleVectorsTranspose (const vec3_t angles, vec3_t forward, vec3_t right, v
 {
 	float		angle;
 	float		sr, sp, sy, cr, cp, cy;
-	
+
 	angle = angles[YAW] * (M_PI*2 / 360);
 	sy = sin(angle);
 	cy = cos(angle);
@@ -111,7 +116,7 @@ void AngleMatrix (const vec3_t angles, float (*matrix)[4] )
 {
 	float		angle;
 	float		sr, sp, sy, cr, cp, cy;
-	
+
 	angle = angles[YAW] * (M_PI*2 / 360);
 	sy = sin(angle);
 	cy = cos(angle);
@@ -141,7 +146,7 @@ void AngleIMatrix (const vec3_t angles, float matrix[3][4] )
 {
 	float		angle;
 	float		sr, sp, sy, cr, cp, cy;
-	
+
 	angle = angles[YAW] * (M_PI*2 / 360);
 	sy = sin(angle);
 	cy = cos(angle);
@@ -198,7 +203,7 @@ void InterpolateAngles( float *start, float *end, float *output, float frac )
 	int i;
 	float ang1, ang2;
 	float d;
-	
+
 	NormalizeAngles( start );
 	NormalizeAngles( end );
 
@@ -213,7 +218,7 @@ void InterpolateAngles( float *start, float *end, float *output, float frac )
 			d -= 360;
 		}
 		else if ( d < -180 )
-		{	
+		{
 			d += 360;
 		}
 
@@ -222,7 +227,7 @@ void InterpolateAngles( float *start, float *end, float *output, float frac )
 
 	NormalizeAngles( output );
 }
- 
+
 
 /*
 ===================
@@ -257,11 +262,11 @@ void VectorTransform (const vec3_t in1, float in2[3][4], vec3_t out)
 int VectorCompare (const vec3_t v1, const vec3_t v2)
 {
 	int		i;
-	
+
 	for (i=0 ; i<3 ; i++)
 		if (v1[i] != v2[i])
 			return 0;
-			
+
 	return 1;
 }
 
@@ -312,7 +317,7 @@ float Length(const vec3_t v)
 {
 	int		i;
 	float	length = 0.0f;
-		
+
 	for (i=0 ; i< 3 ; i++)
 		length += v[i]*v[i];
 	length = sqrt (length);		// FIXME
@@ -341,7 +346,7 @@ float VectorNormalize (vec3_t v)
 		v[1] *= ilength;
 		v[2] *= ilength;
 	}
-		
+
 	return length;
 
 }
@@ -375,11 +380,11 @@ void VectorMatrix( vec3_t forward, vec3_t right, vec3_t up)
 
 	if (forward[0] == 0 && forward[1] == 0)
 	{
-		right[0] = 1;	
-		right[1] = 0; 
+		right[0] = 1;
+		right[1] = 0;
 		right[2] = 0;
-		up[0] = -forward[2]; 
-		up[1] = 0; 
+		up[0] = -forward[2];
+		up[1] = 0;
 		up[2] = 0;
 		return;
 	}
@@ -395,7 +400,7 @@ void VectorMatrix( vec3_t forward, vec3_t right, vec3_t up)
 void VectorAngles( const vec3_t forward, vec3_t angles )
 {
 	float	tmp, yaw, pitch;
-	
+
 	if (forward[1] == 0 && forward[0] == 0)
 	{
 		yaw = 0;
@@ -415,7 +420,7 @@ void VectorAngles( const vec3_t forward, vec3_t angles )
 		if (pitch < 0)
 			pitch += 360;
 	}
-	
+
 	angles[0] = pitch;
 	angles[1] = yaw;
 	angles[2] = 0;

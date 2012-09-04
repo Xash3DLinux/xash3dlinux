@@ -1,0 +1,1428 @@
+# depslib dependency file v1.0
+1346691756 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/aflock.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"squadmonster.h"
+
+1346670704 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/recdefs.h
+	"wintypes.h"
+	<features.h>
+	<bits/wordsize.h>
+
+1346753682 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wintypes.h
+
+1340892706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/features.h
+
+1346756262 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/extdll.h
+	"windows.h"
+	<limits.h>
+	<stdarg.h>
+	"stdio.h"
+	"stdlib.h"
+	"math.h"
+	"vector.h"
+	"const.h"
+	"progdefs.h"
+	"edict.h"
+	"eiface.h"
+	"cdll_dll.h"
+
+1033631984 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/vector.h
+
+1339612666 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/const.h
+
+1290199192 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/progdefs.h
+
+1287946226 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/edict.h
+	"progdefs.h"
+
+1346767203 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/eiface.h
+	<stdio.h>
+	"custom.h"
+	"cvardef.h"
+
+1288288626 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/custom.h
+	"const.h"
+
+1287950366 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/cvardef.h
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/cdll_dll.h
+
+1346767656 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/util.h
+	"activity.h"
+	"enginecallback.h"
+	"physcallback.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/activity.h
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/enginecallback.h
+	"event_flags.h"
+
+1287957718 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/event_flags.h
+
+1320348376 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/physcallback.h
+	"physint.h"
+
+1344354204 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/physint.h
+
+1346767340 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/cbase.h
+	"saverestore.h"
+	"schedule.h"
+	"monsterevent.h"
+	"basemonster.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/saverestore.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/schedule.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/monsterevent.h
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/basemonster.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/monsters.h
+	"skill.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/skill.h
+
+1033631984 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/squadmonster.h
+
+1346692183 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/animating.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"animation.h"
+	"saverestore.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/animation.h
+	"monsterevent.h"
+
+1346692167 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/airtank.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+
+1346691970 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/weapons.h
+	"effects.h"
+
+1346691888 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/effects.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/nodes.h
+
+1346692129 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/player.h
+	"pm_materials.h"
+
+1289680974 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_materials.h
+
+1346691786 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/agrunt.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"squadmonster.h"
+	"weapons.h"
+	"soundent.h"
+	"hornet.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/soundent.h
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/hornet.h
+
+1346692820 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/animation.cpp
+	"recdefs.h"
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"mathlib.h"
+	"const.h"
+	"progdefs.h"
+	"edict.h"
+	"eiface.h"
+	"studio.h"
+	"activity.h"
+	"activitymap.h"
+	"animation.h"
+	"scriptevent.h"
+	"enginecallback.h"
+
+1340640872 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/mathlib.h
+	<math.h>
+
+1314976366 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/studio.h
+	"studio_event.h"
+
+1288023482 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/studio_event.h
+
+1346692772 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/activitymap.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/scriptevent.h
+
+1346695060 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/combat.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"soundent.h"
+	"decals.h"
+	"animation.h"
+	"weapons.h"
+	"func_break.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/decals.h
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/func_break.h
+
+1346695740 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/doors.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"doors.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/doors.h
+
+1346696255 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/util.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	<time.h>
+	"shake.h"
+	"decals.h"
+	"player.h"
+	"weapons.h"
+	"gamerules.h"
+
+1287947650 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/shake.h
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/gamerules.h
+
+1346697408 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/wpn_shared/hl_wpn_glock.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+
+1346756262 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//extdll.h
+	"windows.h"
+	<limits.h>
+	<stdarg.h>
+	"stdio.h"
+	"stdlib.h"
+	"math.h"
+	"vector.h"
+	"const.h"
+	"progdefs.h"
+	"edict.h"
+	"eiface.h"
+	"cdll_dll.h"
+
+1033631984 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//vector.h
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//cdll_dll.h
+
+1346767656 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//util.h
+	"activity.h"
+	"enginecallback.h"
+	"physcallback.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//activity.h
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//enginecallback.h
+	"event_flags.h"
+
+1320348376 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//physcallback.h
+	"physint.h"
+
+1346767340 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//cbase.h
+	"saverestore.h"
+	"schedule.h"
+	"monsterevent.h"
+	"basemonster.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//saverestore.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//schedule.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//monsterevent.h
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//basemonster.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//monsters.h
+	"skill.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//skill.h
+
+1346691970 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//weapons.h
+	"effects.h"
+
+1346691888 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//effects.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//nodes.h
+
+1346692129 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls//player.h
+	"pm_materials.h"
+
+1346693637 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/apache.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"effects.h"
+
+1346694000 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/bigmomma.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"decals.h"
+	"weapons.h"
+	"game.h"
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/game.h
+
+1346694058 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/bloater.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+
+1346694303 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/bmodels.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"doors.h"
+
+1346694363 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/bullsquid.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"nodes.h"
+	"effects.h"
+	"decals.h"
+	"soundent.h"
+	"game.h"
+
+1346694678 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/buttons.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"doors.h"
+
+1346694704 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/cbase.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"client.h"
+	"decals.h"
+	"gamerules.h"
+	"game.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/client.h
+
+1346694896 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/client.cpp
+	"recdefs.h"
+	<ctype.h>
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"player.h"
+	"spectator.h"
+	"client.h"
+	"soundent.h"
+	"gamerules.h"
+	"game.h"
+	"customentity.h"
+	"weapons.h"
+	"weaponinfo.h"
+	"usercmd.h"
+	"netadr.h"
+	"voice_gamemgr.h"
+	"entity_state.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/spectator.h
+
+1287946242 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/customentity.h
+
+1288023688 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/weaponinfo.h
+
+1288023578 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/usercmd.h
+
+1289749106 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/netadr.h
+
+1033631990 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/game_shared/voice_gamemgr.h
+	"voice_common.h"
+
+1033631990 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/game_shared/voice_common.h
+	"bitvec.h"
+
+1033631988 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/game_shared/bitvec.h
+	<assert.h>
+
+1287955530 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/entity_state.h
+	"pm_info.h"
+	"weaponinfo.h"
+
+1289681222 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_info.h
+
+1346695278 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/controller.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"effects.h"
+	"schedule.h"
+	"weapons.h"
+	"squadmonster.h"
+
+1346695333 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/crossbow.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"gamerules.h"
+
+1346695400 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/crowbar.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"gamerules.h"
+
+1346695412 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/defaultai.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"defaultai.h"
+	"soundent.h"
+	"nodes.h"
+	"scripted.h"
+
+1033631978 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/defaultai.h
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/scripted.h
+	"scriptevent.h"
+
+1346695877 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/egon.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"effects.h"
+	"customentity.h"
+	"gamerules.h"
+
+1346695938 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/explode.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"decals.h"
+	"explode.h"
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/explode.h
+
+1346695948 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/flyingmonster.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"flyingmonster.h"
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/flyingmonster.h
+
+1346695960 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/gamerules.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"weapons.h"
+	"gamerules.h"
+	"teamplay_gamerules.h"
+	"skill.h"
+	"game.h"
+
+1033631984 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/teamplay_gamerules.h
+
+1346747698 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/h_ai.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"game.h"
+
+1346747868 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/h_battery.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"skill.h"
+	"gamerules.h"
+
+1346748129 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/h_export.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+
+1346748193 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/handgrenade.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+
+1346748208 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/hassassin.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"squadmonster.h"
+	"weapons.h"
+	"soundent.h"
+	"game.h"
+
+1346748416 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/headcrab.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"game.h"
+
+1346696351 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/singleplay_gamerules.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"weapons.h"
+	"gamerules.h"
+	"skill.h"
+	"items.h"
+
+1033631980 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/items.h
+
+1346696335 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/skill.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"skill.h"
+
+1346753644 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/soundent.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"soundent.h"
+
+1346696323 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/teamplay_gamerules.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"weapons.h"
+	"gamerules.h"
+	"teamplay_gamerules.h"
+	"game.h"
+	"voice_gamemgr.h"
+
+1346754325 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/weapons.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"soundent.h"
+	"decals.h"
+	"gamerules.h"
+
+1346696203 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/world.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"nodes.h"
+	"soundent.h"
+	"client.h"
+	"decals.h"
+	"skill.h"
+	"effects.h"
+	"player.h"
+	"weapons.h"
+	"gamerules.h"
+	"teamplay_gamerules.h"
+	"physcallback.h"
+
+1346748826 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/hgrunt.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"plane.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"animation.h"
+	"squadmonster.h"
+	"weapons.h"
+	"talkmonster.h"
+	"soundent.h"
+	"effects.h"
+	"customentity.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/plane.h
+
+1033631984 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/talkmonster.h
+	"monsters.h"
+
+1346693732 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/barnacle.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+
+1346693815 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/barney.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"talkmonster.h"
+	"schedule.h"
+	"defaultai.h"
+	"scripted.h"
+	"weapons.h"
+	"soundent.h"
+
+1346747027 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/effects.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"customentity.h"
+	"effects.h"
+	"weapons.h"
+	"decals.h"
+	"func_break.h"
+	"shake.h"
+
+1346747202 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/func_break.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"func_break.h"
+	"decals.h"
+	"explode.h"
+
+1346747212 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/func_tank.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"effects.h"
+	"weapons.h"
+	"explode.h"
+	"player.h"
+
+1346747224 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/game.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"eiface.h"
+	"util.h"
+	"game.h"
+
+1346747393 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/gargantua.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"nodes.h"
+	"monsters.h"
+	"schedule.h"
+	"customentity.h"
+	"weapons.h"
+	"effects.h"
+	"soundent.h"
+	"decals.h"
+	"explode.h"
+	"func_break.h"
+
+1346747407 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/gauss.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"soundent.h"
+	"shake.h"
+	"gamerules.h"
+
+1346747422 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/genericmonster.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+
+1346747668 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/ggrenade.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"soundent.h"
+	"decals.h"
+
+1346747678 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/globals.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"soundent.h"
+
+1346747688 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/gman.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"weapons.h"
+
+1346748069 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/h_cine.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"decals.h"
+
+1346748118 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/h_cycler.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"animation.h"
+	"weapons.h"
+	"player.h"
+
+1346748645 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/healthkit.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"items.h"
+	"gamerules.h"
+
+1346748974 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/hornet.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"soundent.h"
+	"hornet.h"
+	"gamerules.h"
+
+1346756812 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/hornetgun.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"hornet.h"
+	"gamerules.h"
+
+1346756858 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/houndeye.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"animation.h"
+	"nodes.h"
+	"squadmonster.h"
+	"soundent.h"
+	"game.h"
+
+1346756907 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/ichthyosaur.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"flyingmonster.h"
+	"nodes.h"
+	"soundent.h"
+	"animation.h"
+	"effects.h"
+	"weapons.h"
+
+1346756918 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/islave.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"squadmonster.h"
+	"schedule.h"
+	"effects.h"
+	"weapons.h"
+	"soundent.h"
+
+1346756987 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/items.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"weapons.h"
+	"player.h"
+	"skill.h"
+	"items.h"
+	"gamerules.h"
+
+1346757040 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/leech.cpp
+	"recdefs.h"
+	<string.h>
+	"float.h"
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"effects.h"
+
+1346757054 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/lights.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+
+1346748993 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/maprules.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"eiface.h"
+	"util.h"
+	"gamerules.h"
+	"maprules.h"
+	"cbase.h"
+	"player.h"
+
+1033631982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/maprules.h
+
+1346749117 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/monstermaker.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"saverestore.h"
+
+1346749238 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/monsters.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"nodes.h"
+	"monsters.h"
+	"animation.h"
+	"saverestore.h"
+	"weapons.h"
+	"scripted.h"
+	"squadmonster.h"
+	"decals.h"
+	"soundent.h"
+	"gamerules.h"
+
+1346749249 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/monsterstate.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"nodes.h"
+	"monsters.h"
+	"animation.h"
+	"saverestore.h"
+	"soundent.h"
+
+1346749306 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/mortar.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"weapons.h"
+	"decals.h"
+	"soundent.h"
+
+1346749316 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/mp5.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"soundent.h"
+	"gamerules.h"
+
+1346749342 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/multiplay_gamerules.cpp
+	"recdefs.h"
+	<string.h>
+	<ctype.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"weapons.h"
+	"gamerules.h"
+	"skill.h"
+	"game.h"
+	"items.h"
+	"voice_gamemgr.h"
+	"hltv.h"
+
+1287957840 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/hltv.h
+
+1346749653 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/nihilanth.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"effects.h"
+
+1346751303 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/nodes.cpp
+	"recdefs.h"
+	<string.h>
+	<sys/stat.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"nodes.h"
+	"animation.h"
+	"doors.h"
+	<unistd.h>
+
+1346751555 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/osprey.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"soundent.h"
+	"effects.h"
+	"customentity.h"
+
+1346751563 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/pathcorner.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"trains.h"
+	"saverestore.h"
+
+1297894324 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/trains.h
+
+1346751576 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/plane.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"plane.h"
+
+1346752229 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/plats.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"trains.h"
+	"saverestore.h"
+
+1346752482 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/player.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"trains.h"
+	"nodes.h"
+	"weapons.h"
+	"soundent.h"
+	"monsters.h"
+	"shake.h"
+	"decals.h"
+	"gamerules.h"
+	"game.h"
+	"hltv.h"
+
+1346752497 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/python.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"weapons.h"
+	"monsters.h"
+	"player.h"
+	"gamerules.h"
+
+1346752505 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/rat.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+
+1346752513 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/roach.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"soundent.h"
+	"decals.h"
+
+1346752638 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/rpg.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"gamerules.h"
+
+1346752741 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/satchel.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"gamerules.h"
+
+1346752778 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/schedule.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"animation.h"
+	"scripted.h"
+	"nodes.h"
+	"defaultai.h"
+	"soundent.h"
+
+1346752880 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/scientist.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"talkmonster.h"
+	"schedule.h"
+	"defaultai.h"
+	"scripted.h"
+	"animation.h"
+	"soundent.h"
+
+1346753111 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/scripted.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"animation.h"
+	"saverestore.h"
+	"schedule.h"
+	"scripted.h"
+	"defaultai.h"
+
+1346753119 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/shotgun.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"gamerules.h"
+
+1346753626 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/sound.cpp
+	"recdefs.h"
+	<string.h>
+	<ctype.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"weapons.h"
+	"player.h"
+	"talkmonster.h"
+	"gamerules.h"
+
+1346753707 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/spectator.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"spectator.h"
+
+1346753717 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/squadmonster.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"nodes.h"
+	"monsters.h"
+	"animation.h"
+	"saverestore.h"
+	"squadmonster.h"
+	"plane.h"
+
+1346753809 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/squeakgrenade.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"soundent.h"
+	"gamerules.h"
+
+1346753896 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/subs.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"saverestore.h"
+	"nodes.h"
+	"doors.h"
+
+1346754355 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/talkmonster.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+	"talkmonster.h"
+	"defaultai.h"
+	"scripted.h"
+	"soundent.h"
+	"animation.h"
+
+1033631984 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/tempmonster.cpp
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+
+1346754499 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/tentacle.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"soundent.h"
+
+1346754917 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/triggers.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+	"saverestore.h"
+	"trains.h"
+	"gamerules.h"
+
+1346755113 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/tripmine.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"nodes.h"
+	"player.h"
+	"effects.h"
+	"gamerules.h"
+
+1346755469 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/turret.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"weapons.h"
+	"effects.h"
+
+1346755502 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/xen.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"animation.h"
+	"effects.h"
+
+1346755511 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/dlls/zombie.cpp
+	"recdefs.h"
+	<string.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"monsters.h"
+	"schedule.h"
+
+1346756401 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/game_shared/voice_gamemgr.cpp
+	"recdefs.h"
+	<string.h>
+	<stdarg.h>
+	<stdio.h>
+	"voice_gamemgr.h"
+	<string.h>
+	<assert.h>
+	"extdll.h"
+	"util.h"
+	"cbase.h"
+	"player.h"
+
+1346756451 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_debug.c
+	"recdefs.h"
+	<string.h>
+	"mathlib.h"
+	"const.h"
+	"usercmd.h"
+	"pm_defs.h"
+	"pm_shared.h"
+	"pm_movevars.h"
+	"pm_debug.h"
+	<string.h>
+
+1339604312 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_defs.h
+	"pm_info.h"
+	"pmtrace.h"
+	"usercmd.h"
+
+1289511058 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/pmtrace.h
+
+1289681260 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_shared.h
+
+1344353464 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_movevars.h
+
+1289681022 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_debug.h
+
+1346756481 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_math.c
+	"recdefs.h"
+	<string.h>
+	"mathlib.h"
+	"const.h"
+	<math.h>
+
+1346756495 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_shared.c
+	"recdefs.h"
+	<string.h>
+	<assert.h>
+	"mathlib.h"
+	"const.h"
+	"usercmd.h"
+	"pm_defs.h"
+	"pm_shared.h"
+	"pm_movevars.h"
+	"pm_debug.h"
+	<stdio.h>
+	<math.h>
+	<string.h>
+	<stdlib.h>
+	<ctype.h>
+

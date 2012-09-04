@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -12,6 +12,12 @@
 *   without written permission from Valve LLC.
 *
 ****/
+#ifndef _WIN32
+#include "recdefs.h"
+#include <string.h>
+#define stricmp strcmp
+#endif
+
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -99,7 +105,7 @@ protected:
 	CBasePlayer* m_pController;
 	float		m_flNextAttack;
 	Vector		m_vecControllerUsePos;
-	
+
 	float		m_yawCenter;	// "Center" yaw
 	float		m_yawRate;		// Max turn rate to track targets
 	float		m_yawRange;		// Range of turning motion (one-sided: 30 is +/- 30 degress from center)
@@ -124,14 +130,14 @@ protected:
 	int			m_iszSpriteFlash;
 	TANKBULLET	m_bulletType;	// Bullet type
 	int			m_iBulletDamage; // 0 means use Bullet type's default damage
-	
+
 	Vector		m_sightOrigin;	// Last sight of target
 	int			m_spread;		// firing spread
 	int			m_iszMaster;	// Master entity (game_team_master or multisource)
 };
 
 
-TYPEDESCRIPTION	CFuncTank::m_SaveData[] = 
+TYPEDESCRIPTION	CFuncTank::m_SaveData[] =
 {
 	DEFINE_FIELD( CFuncTank, m_yawCenter, FIELD_FLOAT ),
 	DEFINE_FIELD( CFuncTank, m_yawRate, FIELD_FLOAT ),
@@ -293,7 +299,7 @@ void CFuncTank :: KeyValue( KeyValueData *pkvd )
 		m_bulletType = (TANKBULLET)atoi(pkvd->szValue);
 		pkvd->fHandled = TRUE;
 	}
-	else if ( FStrEq(pkvd->szKeyName, "bullet_damage" )) 
+	else if ( FStrEq(pkvd->szKeyName, "bullet_damage" ))
 	{
 		m_iBulletDamage = atoi(pkvd->szValue);
 		pkvd->fHandled = TRUE;
@@ -358,15 +364,15 @@ BOOL CFuncTank :: StartControl( CBasePlayer *pController )
 	{
 		m_pController->m_pActiveItem->Holster();
 		m_pController->pev->weaponmodel = 0;
-		m_pController->pev->viewmodel = 0; 
+		m_pController->pev->viewmodel = 0;
 
 	}
 
 	m_pController->m_iHideHUD |= HIDEHUD_WEAPONS;
 	m_vecControllerUsePos = m_pController->pev->origin;
-	
+
 	pev->nextthink = pev->ltime + 0.1;
-	
+
 	return TRUE;
 }
 
@@ -406,7 +412,7 @@ void CFuncTank :: ControllerPostFrame( void )
 		m_fireLast = gpGlobals->time - (1/m_fireRate) - 0.01;  // to make sure the gun doesn't fire too many bullets
 
 		Fire( BarrelPosition(), vecForward, m_pController->pev );
-		
+
 		// HACKHACK -- make some noise (that the AI can hear)
 		if ( m_pController && m_pController->IsPlayer() )
 			((CBasePlayer *)m_pController)->m_iWeaponVolume = LOUD_GUN_VOLUME;
@@ -518,12 +524,12 @@ void CFuncTank::TrackTarget( void )
 		barrelEnd = BarrelPosition();
 		targetPosition = pTarget->v.origin + pTarget->v.view_ofs;
 		float range = (targetPosition - barrelEnd).Length();
-		
+
 		if ( !InRange( range ) )
 			return;
 
 		UTIL_TraceLine( barrelEnd, targetPosition, dont_ignore_monsters, edict(), &tr );
-		
+
 		lineOfSight = FALSE;
 		// No line of sight, don't track
 		if ( tr.flFraction == 1.0 || tr.pHit == pTarget )
@@ -545,7 +551,7 @@ void CFuncTank::TrackTarget( void )
 //		direction = m_sightOrigin - barrelEnd;
 		angles = UTIL_VecToAngles( direction );
 
-		// Calculate the additional rotation to point the end of the barrel at the target (not the gun's center) 
+		// Calculate the additional rotation to point the end of the barrel at the target (not the gun's center)
 		AdjustAnglesForBarrel( angles, direction.Length() );
 	}
 
@@ -690,12 +696,12 @@ void CFuncTank::TankTrace( const Vector &vecStart, const Vector &vecForward, con
 		x * vecSpread.x * gpGlobals->v_right +
 		y * vecSpread.y * gpGlobals->v_up;
 	Vector vecEnd;
-	
+
 	vecEnd = vecStart + vecDir * 4096;
 	UTIL_TraceLine( vecStart, vecEnd, dont_ignore_monsters, edict(), &tr );
 }
 
-	
+
 void CFuncTank::StartRotSound( void )
 {
 	if ( !pev->noise || (pev->spawnflags & SF_TANK_SOUNDON) )
@@ -780,7 +786,7 @@ private:
 };
 LINK_ENTITY_TO_CLASS( func_tanklaser, CFuncTankLaser );
 
-TYPEDESCRIPTION	CFuncTankLaser::m_SaveData[] = 
+TYPEDESCRIPTION	CFuncTankLaser::m_SaveData[] =
 {
 	DEFINE_FIELD( CFuncTankLaser, m_pLaser, FIELD_CLASSPTR ),
 	DEFINE_FIELD( CFuncTankLaser, m_laserTime, FIELD_TIME ),
@@ -864,7 +870,7 @@ void CFuncTankLaser::Fire( const Vector &barrelEnd, const Vector &forward, entva
 			{
 				m_pLaser->pev->origin = barrelEnd;
 				TankTrace( barrelEnd, forward, gTankSpread[m_spread], tr );
-				
+
 				m_laserTime = gpGlobals->time;
 				m_pLaser->TurnOn();
 				m_pLaser->pev->dmgtime = gpGlobals->time - 1.0;
@@ -983,16 +989,16 @@ public:
 };
 LINK_ENTITY_TO_CLASS( func_tankcontrols, CFuncTankControls );
 
-TYPEDESCRIPTION	CFuncTankControls::m_SaveData[] = 
+TYPEDESCRIPTION	CFuncTankControls::m_SaveData[] =
 {
 	DEFINE_FIELD( CFuncTankControls, m_pTank, FIELD_CLASSPTR ),
 };
 
 IMPLEMENT_SAVERESTORE( CFuncTankControls, CBaseEntity );
 
-int	CFuncTankControls :: ObjectCaps( void ) 
-{ 
-	return (CBaseEntity::ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_IMPULSE_USE; 
+int	CFuncTankControls :: ObjectCaps( void )
+{
+	return (CBaseEntity::ObjectCaps() & ~FCAP_ACROSS_TRANSITION) | FCAP_IMPULSE_USE;
 }
 
 
@@ -1009,7 +1015,7 @@ void CFuncTankControls :: Think( void )
 {
 	edict_t *pTarget = NULL;
 
-	do 
+	do
 	{
 		pTarget = FIND_ENTITY_BY_TARGETNAME( pTarget, STRING(pev->target) );
 	} while ( !FNullEnt(pTarget) && strncmp( STRING(pTarget->v.classname), "func_tank", 9 ) );
@@ -1032,7 +1038,7 @@ void CFuncTankControls::Spawn( void )
 
 	UTIL_SetSize( pev, pev->mins, pev->maxs );
 	UTIL_SetOrigin( pev, pev->origin );
-	
+
 	pev->nextthink = gpGlobals->time + 0.3;	// After all the func_tank's have spawned
 
 	CBaseEntity::Spawn();
