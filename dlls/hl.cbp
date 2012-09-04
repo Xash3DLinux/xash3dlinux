@@ -17,7 +17,6 @@
 					<Add option="-O2" />
 					<Add option="-fPIC" />
 					<Add option="-m32" />
-					<Add option="-fvisibility=hidden" />
 					<Add option="-DQUIVER" />
 					<Add option="-DVOXEL" />
 					<Add option="-DQUAKE2" />
@@ -34,7 +33,6 @@
 					<Add option="-s" />
 					<Add option="-fPIC" />
 					<Add option="-m32" />
-					<Add option="-fvisibility=hidden" />
 					<Add option="-w" />
 				</Linker>
 			</Target>
@@ -49,7 +47,6 @@
 					<Add option="-g" />
 					<Add option="-fPIC" />
 					<Add option="-m32" />
-					<Add option="-fvisibility=hidden" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DQUIVER" />
 					<Add option="-DVOXEL" />
@@ -67,7 +64,6 @@
 				<Linker>
 					<Add option="-fPIC" />
 					<Add option="-m32" />
-					<Add option="-fvisibility=hidden" />
 					<Add option="-w" />
 				</Linker>
 			</Target>

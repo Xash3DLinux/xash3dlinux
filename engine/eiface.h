@@ -37,7 +37,7 @@
 #ifdef _WIN32
 #define DLLEXPORT __stdcall
 #else
-#define DLLEXPORT __attribute__((stdcall))
+#define DLLEXPORT
 #endif
 
 typedef enum

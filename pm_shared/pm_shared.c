@@ -16,6 +16,7 @@
 #include "recdefs.h"
 #include <string.h>
 #define stricmp strcmp
+#define strnicmp strncmp
 #endif
 
 #include <assert.h>
@@ -41,7 +42,9 @@
 
 static int pm_shared_initialized = 0;
 
+#ifdef _WIN32
 #pragma warning( disable : 4305 )
+#endif
 
 typedef enum {mod_brush, mod_sprite, mod_alias, mod_studio} modtype_t;
 
@@ -119,8 +122,11 @@ typedef struct hull_s
 
 #define PLAYER_LONGJUMP_SPEED 350 // how fast we longjump
 
+#ifdef _WIN32
 // double to float warning
 #pragma warning(disable : 4244)
+#endif
+
 #define max(a, b)  (((a) > (b)) ? (a) : (b))
 #define min(a, b)  (((a) < (b)) ? (a) : (b))
 // up / down

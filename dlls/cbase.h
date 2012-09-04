@@ -54,7 +54,7 @@ CBaseEntity
 #ifdef _WIN32
 #define EXPORT	_declspec( dllexport )
 #else
-#define EXPORT __attribute__ ((__visibility__("default")))
+#define EXPORT
 #endif
 
 extern "C" EXPORT int GetEntityAPI( DLL_FUNCTIONS *pFunctionTable, int interfaceVersion );
