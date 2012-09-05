@@ -17,7 +17,11 @@ GNU General Public License for more details.
 #include "studio.h"
 #include "mathlib.h"
 #include "const.h"
+
+#ifndef _DEDICATED
 #include "client.h"
+#endif
+
 #include "library.h"
 
 /*

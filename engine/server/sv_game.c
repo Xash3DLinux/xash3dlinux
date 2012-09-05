@@ -3295,7 +3295,11 @@ pfnIsDedicatedServer
 */
 int pfnIsDedicatedServer( void )
 {
+#ifdef _DEDICATED
+	return true;
+#else
 	return (host.type == HOST_DEDICATED);
+#endif
 }
 
 /*
@@ -3964,9 +3968,13 @@ pfnEndSection
 */
 void pfnEndSection( const char *pszSection )
 {
+#ifdef _DEDICATED
+	Host_EndGame( pszSection );
+#else
 	if( !Q_stricmp( "oem_end_credits", pszSection ))
 		Host_Credits ();
 	else Host_EndGame( pszSection );
+#endif
 }
 
 /*

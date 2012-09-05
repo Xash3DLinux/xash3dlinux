@@ -15,7 +15,10 @@ GNU General Public License for more details.
 
 #include "common.h"
 #include "bspfile.h"
+
+#ifndef _DEDICATED
 #include "client.h"
+#endif
 
 #define NUM_BYTES		256
 #define CRC32_INIT_VALUE	0xFFFFFFFFUL
@@ -241,11 +244,13 @@ qboolean CRC32_MapFile( dword *crcvalue, const char *filename )
 	if( !crcvalue ) return false;
 
 	// always calc same checksum for singleplayer
+#ifndef _DEDICATED
 	if( cls.state >= ca_connected && SV_Active() && CL_GetMaxClients() == 1 )
 	{
 		*crcvalue = (('H'<<24)+('S'<<16)+('A'<<8)+'X');
 		return true;
 	}
+#endif
 
 	f = FS_Open( filename, "rb", false );
 	if( !f ) return false;

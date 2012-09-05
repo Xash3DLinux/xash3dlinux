@@ -603,10 +603,13 @@ CLIENT / SERVER SYSTEMS
 
 ==============================================================
 */
+
+#ifndef _DEDICATED
 void CL_Init( void );
 void CL_Shutdown( void );
 void Host_ClientFrame( void );
 qboolean CL_Active( void );
+#endif
 
 void SV_Init( void );
 void SV_Shutdown( qboolean reconnect );
@@ -695,7 +698,11 @@ qboolean Key_IsDown( int keynum );
 const char *Key_IsBind( int keynum );
 void Key_Event( int key, qboolean down );
 void Key_Init( void );
+
+#ifndef _DEDICATED
 void Key_WriteBindings( file_t *f );
+#endif
+
 const char *Key_GetBinding( int keynum );
 void Key_SetBinding( int keynum, const char *binding );
 void Key_ClearStates( void );
@@ -703,11 +710,16 @@ const char *Key_KeynumToString( int keynum );
 int Key_StringToKeynum( const char *str );
 int Key_GetKey( const char *binding );
 void Key_EnumCmds_f( void );
+
+#ifndef _DEDICATED
 void Key_SetKeyDest( int key_dest );
+#endif
 
 //
 // avikit.c
 //
+#ifndef _DEDICATED
+
 typedef struct movie_state_s	movie_state_t;
 long AVI_GetVideoFrameNumber( movie_state_t *Avi, float time );
 byte *AVI_GetVideoFrame( movie_state_t *Avi, long frame );
@@ -733,33 +745,53 @@ float CL_GetServerTime( void );
 float CL_GetLerpFrac( void );
 void CL_CharEvent( int key );
 int CL_PointContents( const vec3_t point );
+#endif
+
 char *COM_ParseFile( char *data, char *token );
 byte *COM_LoadFile( const char *filename, int usehunk, int *pLength );
 void CL_StudioEvent( struct mstudioevent_s *event, struct cl_entity_s *ent );
+
+#ifndef _DEDICATED
 qboolean CL_GetComment( const char *demoname, char *comment );
+#endif
+
 void COM_AddAppDirectoryToSearchPath( const char *pszBaseDir, const char *appName );
 int COM_ExpandFilename( const char *fileName, char *nameOutBuffer, int nameOutBufferSize );
 struct pmtrace_s *PM_TraceLine( float *start, float *end, int flags, int usehull, int ignore_pe );
 void SV_StartSound( edict_t *ent, int chan, const char *sample, float vol, float attn, int flags, int pitch );
 int R_CreateDecalList( struct decallist_s *pList, qboolean changelevel );
+
+#ifndef _DEDICATED
 struct cl_entity_s *CL_GetEntityByIndex( int index );
 struct cl_entity_s *CL_GetLocalPlayer( void );
 struct player_info_s *CL_GetPlayerInfo( int playerIndex );
+#endif
+
 void SV_DrawDebugTriangles( void );
 void SV_DrawOrthoTriangles( void );
 qboolean UI_CreditsActive( void );
+
+#ifndef _DEDICATED
 void CL_ExtraUpdate( void );
 int CL_GetMaxClients( void );
 qboolean CL_IsPlaybackDemo( void );
 qboolean CL_LoadProgs( const char *name );
+#endif
+
 qboolean SV_GetComment( const char *savename, char *comment );
 qboolean SV_NewGame( const char *mapName, qboolean loadGame );
 void SV_ClipPMoveToEntity( struct physent_s *pe, const vec3_t start, vec3_t mins, vec3_t maxs, const vec3_t end, struct pmtrace_s *tr );
+
+#ifndef _DEDICATED
 void CL_ClipPMoveToEntity( struct physent_s *pe, const vec3_t start, vec3_t mins, vec3_t maxs, const vec3_t end, struct pmtrace_s *tr );
+#endif
+
 void SV_SysError( const char *error_string );
 void SV_InitGameProgs( void );
 void SV_FreeGameProgs( void );
 void SV_ForceError( void );
+
+#ifndef _DEDICATED
 void CL_WriteMessageHistory( void );
 void CL_SendCmd( void );
 void CL_Disconnect( void );
@@ -767,6 +799,8 @@ void CL_ClearEdicts( void );
 void CL_Crashed( void );
 qboolean CL_NextDemo( void );
 void CL_Drop( void );
+#endif
+
 void SCR_Init( void );
 void SCR_UpdateScreen( void );
 void SCR_BeginLoadingPlaque( qboolean is_background );
@@ -811,12 +845,14 @@ typedef struct autocomplete_list_s
 extern autocomplete_list_t cmd_list[];
 
 // soundlib shared exports
+#ifndef _DEDICATED
 qboolean S_Init( void );
 void S_Shutdown( void );
 void S_Activate( qboolean active, void *hInst );
 void S_StopSound( int entnum, int channel, const char *soundname );
 int S_GetCurrentStaticSounds( soundlist_t *pout, int size );
 void S_StopAllSounds( void );
+#endif
 
 // gamma routines
 void BuildGammaTable( float gamma, float texGamma );

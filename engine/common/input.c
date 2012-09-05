@@ -117,12 +117,14 @@ IN_StartupMouse
 */
 void IN_StartupMouse( void )
 {
+#ifndef _DEDICATED
 	if( host.type == HOST_DEDICATED ) return;
 	if( Sys_CheckParm( "-nomouse" )) return; 
 
 	in_mouse_buttons = 8;
 	in_mouseinitialized = true;
 	in_mouse_wheel = RegisterWindowMessage( "MSWHEEL_ROLLMSG" );
+#endif
 }
 
 static qboolean IN_CursorInRect( void )
@@ -148,17 +150,21 @@ static qboolean IN_CursorInRect( void )
 
 static void IN_ActivateCursor( void )
 {
+#ifndef _DEDICATED
 	if( cls.key_dest == key_menu )
 	{
 		SetCursor( in_mousecursor );
 	}
+#endif
 }
 
 void IN_SetCursor( HICON hCursor )
 {
+#ifndef _DEDICATED
 	in_mousecursor = hCursor;
 
 	IN_ActivateCursor();
+#endif
 }
 
 /*
@@ -174,15 +180,20 @@ void IN_ToggleClientMouse( int newstate, int oldstate )
 
 	if( oldstate == key_game )
 	{
+#ifndef _DEDICATED
 		clgame.dllFuncs.IN_DeactivateMouse();
+#endif
 	}
 	else if( newstate == key_game )
 	{
 		// reset mouse pos, so cancel effect in game
 		SetCursorPos( host.window_center_x, host.window_center_y );	
+#ifndef _DEDICATED
 		clgame.dllFuncs.IN_ActivateMouse();
+#endif
 	}
 
+#ifndef _DEDICATED
 	if( newstate == key_menu && !cl.background )
 	{
 		in_mouseactive = false;
@@ -190,6 +201,7 @@ void IN_ToggleClientMouse( int newstate, int oldstate )
 		ReleaseCapture();
 		while( ShowCursor( true ) < 0 );
 	}
+#endif
 }
 
 /*
@@ -201,6 +213,7 @@ Called when the window gains focus or changes in some way
 */
 void IN_ActivateMouse( qboolean force )
 {
+#ifndef _DEDICATED
 	int		width, height;
 	static int	oldstate;
 			
@@ -263,6 +276,7 @@ void IN_ActivateMouse( qboolean force )
 	SetCapture( host.hWnd );
 	ClipCursor( &window_rect );
 	while( ShowCursor( false ) >= 0 );
+#endif
 }
 
 /*
@@ -274,6 +288,7 @@ Called when the window loses focus
 */
 void IN_DeactivateMouse( void )
 {
+#ifndef _DEDICATED
 	if( !in_mouseinitialized || !in_mouseactive )
 		return;
 
@@ -286,6 +301,7 @@ void IN_DeactivateMouse( void )
 	ClipCursor( NULL );
 	ReleaseCapture();
 	while( ShowCursor( true ) < 0 );
+#endif
 }
 
 /*
@@ -295,6 +311,7 @@ IN_Mouse
 */
 void IN_MouseMove( void )
 {
+#ifndef _DEDICATED
 	POINT	current_pos;
 	
 	if( !in_mouseinitialized || !in_mouseactive || !UI_IsVisible( ))
@@ -308,6 +325,7 @@ void IN_MouseMove( void )
 	UI_MouseMove( current_pos.x, current_pos.y );
 
 	IN_ActivateCursor();
+#endif
 }
 
 /*
@@ -317,6 +335,7 @@ IN_MouseEvent
 */
 void IN_MouseEvent( int mstate )
 {
+#ifndef _DEDICATED
 	int	i;
 
 	if( !in_mouseinitialized || !in_mouseactive )
@@ -342,6 +361,7 @@ void IN_MouseEvent( int mstate )
 	}	
 
 	in_mouse_oldbuttonstate = mstate;
+#endif
 }
 
 /*
@@ -351,7 +371,9 @@ IN_Shutdown
 */
 void IN_Shutdown( void )
 {
+#ifndef _DEDICATED
 	IN_DeactivateMouse( );
+#endif
 }
 
 
@@ -362,7 +384,9 @@ IN_Init
 */
 void IN_Init( void )
 {
+#ifndef _DEDICATED
 	IN_StartupMouse( );
+#endif
 }
 
 /*
@@ -392,6 +416,9 @@ void Host_InputFrame( void )
 	}
 	else
 	{
+#ifdef _DEDICATED
+		Sys_Sleep( 20 );
+#else
 		if( host.state == HOST_NOFOCUS )
 		{
 			if( Host_ServerState() && CL_IsInGame( ))
@@ -403,6 +430,7 @@ void Host_InputFrame( void )
 			// completely sleep in minimized state
 			Sys_Sleep( 20 );
 		}
+#endif
 	}
 
 	if( !in_mouseinitialized )
@@ -414,6 +442,7 @@ void Host_InputFrame( void )
 		return;
 	}
 
+#ifndef _DEDICATED
 	if( cl.refdef.paused && cls.key_dest == key_game )
 		shutdownMouse = true; // release mouse during pause or console typeing
 	
@@ -425,6 +454,7 @@ void Host_InputFrame( void )
 
 	IN_ActivateMouse( false );
 	IN_MouseMove();
+#endif
 }
 
 /*
@@ -442,7 +472,9 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 	if( uMsg == in_mouse_wheel )
 		uMsg = WM_MOUSEWHEEL;
 
+#ifndef _DEDICATED
 	VGUI_SurfaceWndProc( hWnd, uMsg, wParam, lParam );
+#endif
 
 	switch( uMsg )
 	{
@@ -457,13 +489,17 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 		if( !in_mouseactive ) break;
 		if(( short )HIWORD( wParam ) > 0 )
 		{
+#ifndef _DEDICATED
 			Key_Event( K_MWHEELUP, true );
 			Key_Event( K_MWHEELUP, false );
+#endif
 		}
 		else
 		{
+#ifndef _DEDICATED
 			Key_Event( K_MWHEELDOWN, true );
 			Key_Event( K_MWHEELDOWN, false );
+#endif
 		}
 		break;
 	case WM_CREATE:
@@ -490,9 +526,11 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 
 		wnd_caption = GetSystemMetrics( SM_CYCAPTION ) + WND_BORDER;
 
+#ifndef _DEDICATED
 		S_Activate( fActivate, host.hWnd );
 		IN_ActivateMouse( fActivate );
 		Key_ClearStates();
+#endif
 
 		if( host.state == HOST_FRAME )
 		{
@@ -537,7 +575,9 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 			if( wParam & mouse_buttons[i] )
 				temp |= (1<<i);
 		}
+#ifndef _DEDICATED
 		IN_MouseEvent( temp );
+#endif
 		break;
 	case WM_SYSCOMMAND:
 		// never turn screensaver while Xash is active
@@ -553,26 +593,34 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 		}
 		// intentional fallthrough
 	case WM_KEYDOWN:
+#ifndef _DEDICATED
 		Key_Event( Host_MapKey( lParam ), true );
+#endif
 		if( Host_MapKey( lParam ) == K_ALT )
 			return 0;	// prevent WC_SYSMENU call
 		break;
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
+#ifndef _DEDICATED
 		Key_Event( Host_MapKey( lParam ), false );
+#endif
 		break;
 	case WM_CHAR:
+#ifndef _DEDICATED
 		CL_CharEvent( wParam );
+#endif
 		break;
 	case WM_HOTKEY:
 		switch( LOWORD( wParam ))
 		{
 		case PRINTSCREEN_ID:
+#ifndef _DEDICATED
 			// anti FiEctro system: prevent to write snapshot without Xash version
 			Q_strncpy( cls.shotname, "clipboard.bmp", sizeof( cls.shotname ));
 			cls.scrshot_action = scrshot_snapshot; // build new frame for screenshot
 			host.write_to_clipboard = true;
 			cls.envshot_vieworg = NULL;
+#endif
 			break;
 		}
 		break;

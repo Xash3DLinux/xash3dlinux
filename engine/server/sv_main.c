@@ -488,6 +488,20 @@ SV_IsSimulating
 */
 qboolean SV_IsSimulating( void )
 {
+#ifdef _DEDICATED
+	if( sv.background && SV_Active() )
+	{
+		return false;
+	}
+
+	if( sv.hostflags & SVF_PLAYERSONLY )
+		return false;
+	if( !SV_HasActivePlayers())
+		return false;
+	if( !sv.paused)
+		return true;
+	return false;
+#else
 	if( sv.background && SV_Active() && CL_Active( ))
 	{
 		if( CL_IsInConsole( ))
@@ -502,6 +516,7 @@ qboolean SV_IsSimulating( void )
 	if( !sv.paused && CL_IsInGame( ))
 		return true;
 	return false;
+#endif
 }
 
 /*

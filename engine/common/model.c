@@ -442,6 +442,47 @@ void Mod_AmbientLevels( const vec3_t p, byte *pvolumes )
 	*(int *)pvolumes = *(int *)leaf->ambient_sound_level;
 }
 
+
+void ReMod_UnloadStudioModel( model_t *mod )
+{
+	studiohdr_t	*pstudio;
+
+	ASSERT( mod != NULL );
+
+	if( mod->type != mod_studio )
+		return; // not a studio
+
+	pstudio = mod->cache.data;
+	if( !pstudio ) return; // already freed
+
+	Mem_FreePool( &mod->mempool );
+	Q_memset( mod, 0, sizeof( *mod ));
+}
+
+/*
+====================
+Mod_UnloadSpriteModel
+
+release sprite model and frames
+====================
+*/
+void ReMod_UnloadSpriteModel( model_t *mod )
+{
+	msprite_t		*psprite;
+
+	ASSERT( mod != NULL );
+
+	if( mod->type != mod_sprite )
+		return; // not a sprite
+
+	psprite = mod->cache.data;
+	if( !psprite ) return; // already freed
+
+	Mem_FreePool( &mod->mempool );
+	Q_memset( mod, 0, sizeof( *mod ));
+}
+
+
 /*
 ================
 Mod_FreeModel
@@ -455,12 +496,21 @@ static void Mod_FreeModel( model_t *mod )
 	// select the properly unloader
 	switch( mod->type )
 	{
+#ifdef _DEDICATED
+	case mod_sprite:
+		ReMod_UnloadSpriteModel( mod );
+		break;
+	case mod_studio:
+		ReMod_UnloadStudioModel( mod );
+		break;
+#else
 	case mod_sprite:
 		Mod_UnloadSpriteModel( mod );
 		break;
 	case mod_studio:
 		Mod_UnloadStudioModel( mod );
 		break;
+#endif
 	case mod_brush:
 		Mod_UnloadBrushModel( mod );
 		break;
@@ -588,10 +638,12 @@ static void Mod_LoadTextures( const dlump_t *l )
 
 	if( world.loading )
 	{
+#ifndef _DEDICATED
 		// release old sky layers first
 		GL_FreeTexture( tr.solidskyTexture );
 		GL_FreeTexture( tr.alphaskyTexture );
 		tr.solidskyTexture = tr.alphaskyTexture = 0;
+#endif
 		world.texdatasize = l->filelen;
 		world.has_mirrors = false;
 		world.sky_sphere = false;
@@ -621,8 +673,10 @@ static void Mod_LoadTextures( const dlump_t *l )
 			loadmodel->textures[i] = tx;
 		
 			Q_strncpy( tx->name, "*default", sizeof( tx->name ));
+#ifndef _DEDICATED
 			tx->gl_texturenum = tr.defaultTexture;
 			tx->width = tx->height = 16;
+#endif
 			continue; // missed
 		}
 
@@ -664,11 +718,14 @@ static void Mod_LoadTextures( const dlump_t *l )
 
 				if( load_external )
 				{
+#ifndef _DEDICATED
 					tr.solidskyTexture = GL_LoadTexture( texname, NULL, 0, TF_UNCOMPRESSED|TF_NOMIPMAP );
 					GL_SetTextureType( tr.solidskyTexture, TEX_BRUSH );
+#endif
 					load_external = false;
 				}
 
+#ifndef _DEDICATED
 				if( tr.solidskyTexture )
 				{
 					// build standard path: "materials/mapname/texname_alpha.tga"
@@ -699,13 +756,16 @@ static void Mod_LoadTextures( const dlump_t *l )
 					GL_FreeTexture( tr.alphaskyTexture );
 					tr.solidskyTexture = tr.alphaskyTexture = 0;
 				}
+#endif
 			}
 
+#ifndef _DEDICATED
 			if( !tr.solidskyTexture && !tr.alphaskyTexture )
 				R_InitSky( mt, tx ); // fallback to standard sky
 
 			if( tr.solidskyTexture && tr.alphaskyTexture )
 				world.sky_sphere = true;
+#endif
 		}
 		else 
 		{
@@ -737,11 +797,13 @@ load_wad_textures:
 				// 770 additional bytes is indicated custom palette
 				int size = (int)sizeof( mip_t ) + ((mt->width * mt->height * 85)>>6);
 				if( bmodel_version == HLBSP_VERSION ) size += sizeof( short ) + 768;
-
+#ifndef _DEDICATED
 				tx->gl_texturenum = GL_LoadTexture( texname, (byte *)mt, size, 0 );
+#endif
 			}
 			else
 			{
+#ifndef _DEDICATED
 				// okay, loading it from wad
 				tx->gl_texturenum = GL_LoadTexture( texname, NULL, 0, 0 );
 
@@ -752,11 +814,14 @@ load_wad_textures:
 					load_external = false;
 					goto load_wad_textures;
 				}
+#endif
 			}
 		}
 
+#ifndef _DEDICATED
 		// set the emo-texture for missed
 		if( !tx->gl_texturenum ) tx->gl_texturenum = tr.defaultTexture;
+#endif
 
 		if( load_external )
 		{
@@ -775,6 +840,7 @@ load_wad_textures:
 		}
 
 		// check for luma texture
+#ifndef _DEDICATED
 		if( R_GetTexture( tx->gl_texturenum )->flags & TF_HAS_LUMA || load_external_luma )
 		{
 			if( !load_external_luma )
@@ -818,6 +884,7 @@ load_wad_textures:
 			GL_SetTextureType( tx->gl_texturenum, TEX_BRUSH );
 			GL_SetTextureType( tx->fb_texturenum, TEX_BRUSH );
 		}
+#endif
 	}
 
 	// sequence the animations
@@ -1784,11 +1851,13 @@ static void Mod_LoadSurfaces( const dlump_t *l )
 		if( host.features & ENGINE_BUILD_SURFMESHES )
 			Mod_BuildSurfacePolygons( out, info );
 
+#ifndef _DEDICATED
 		if( out->flags & SURF_DRAWSKY && world.loading && world.sky_sphere )
 			GL_SubdivideSurface( out ); // cut up polygon for warps
 
 		if( out->flags & SURF_DRAWTURB )
 			GL_SubdivideSurface( out ); // cut up polygon for warps
+#endif
 	}
 }
 
@@ -2386,8 +2455,10 @@ Release all uploaded textures
 */
 void Mod_UnloadBrushModel( model_t *mod )
 {
+#ifndef _DEDICATED
 	texture_t	*tx;
 	int	i;
+#endif
 
 	ASSERT( mod != NULL );
 
@@ -2396,6 +2467,7 @@ void Mod_UnloadBrushModel( model_t *mod )
 
 	if( mod->name[0] != '*' )
 	{
+#ifndef _DEDICATED
 		for( i = 0; i < mod->numtextures; i++ )
 		{
 			tx = mod->textures[i];
@@ -2405,6 +2477,7 @@ void Mod_UnloadBrushModel( model_t *mod )
 			GL_FreeTexture( tx->gl_texturenum );	// main texture
 			GL_FreeTexture( tx->fb_texturenum );	// luma texture
 		}
+#endif
 
 		Mem_FreePool( &mod->mempool );
 	}
@@ -2610,6 +2683,195 @@ model_t *Mod_FindName( const char *filename, qboolean create )
 	return mod;
 }
 
+
+
+/*
+====================
+Mod_LoadSpriteModel
+
+load sprite model
+====================
+*/
+void ReMod_LoadSpriteModel( model_t *mod, const void *buffer, qboolean *loaded, uint texFlags )
+{
+	dsprite_t		*pin;
+	short		*numi;
+	msprite_t		*psprite;
+	int		i, size;
+
+	if( loaded ) *loaded = false;
+	pin = (dsprite_t *)buffer;
+	mod->type = mod_sprite;
+	i = pin->version;
+
+	if( pin->ident != IDSPRITEHEADER )
+	{
+		MsgDev( D_ERROR, "%s has wrong id (%x should be %x)\n", mod->name, pin->ident, IDSPRITEHEADER );
+		return;
+	}
+		
+	if( i != SPRITE_VERSION )
+	{
+		MsgDev( D_ERROR, "%s has wrong version number (%i should be %i)\n", mod->name, i, SPRITE_VERSION );
+		return;
+	}
+
+	mod->mempool = Mem_AllocPool( va( "^2%s^7", mod->name ));
+	size = sizeof( msprite_t ) + ( pin->numframes - 1 ) * sizeof( psprite->frames );
+	psprite = Mem_Alloc( mod->mempool, size );
+	mod->cache.data = psprite;	// make link to extradata
+	
+	psprite->type = pin->type;
+	psprite->texFormat = pin->texFormat;
+	psprite->numframes = mod->numframes = pin->numframes;
+	psprite->facecull = pin->facetype;
+	psprite->radius = pin->boundingradius;
+	psprite->synctype = pin->synctype;
+
+	mod->mins[0] = mod->mins[1] = -pin->bounds[0] / 2;
+	mod->maxs[0] = mod->maxs[1] = pin->bounds[0] / 2;
+	mod->mins[2] = -pin->bounds[1] / 2;
+	mod->maxs[2] = pin->bounds[1] / 2;
+	numi = (short *)(pin + 1);
+
+	// skip frames loading
+		if( loaded ) *loaded = true;	// done
+		psprite->numframes = 0;
+		return;
+}
+
+
+/*
+=================
+R_StudioLoadHeader
+=================
+*/
+studiohdr_t *ReR_StudioLoadHeader( model_t *mod, const void *buffer )
+{
+	byte		*pin;
+	studiohdr_t	*phdr;
+	int		i;
+
+	if( !buffer ) return NULL;
+
+	pin = (byte *)buffer;
+	phdr = (studiohdr_t *)pin;
+	i = phdr->version;
+
+	if( i != STUDIO_VERSION )
+	{
+		MsgDev( D_ERROR, "%s has wrong version number (%i should be %i)\n", mod->name, i, STUDIO_VERSION );
+		return NULL;
+	}	
+
+	return (studiohdr_t *)buffer;
+}
+
+
+/*
+================
+R_StudioBodyVariations
+
+calc studio body variations
+================
+*/
+static int ReR_StudioBodyVariations( model_t *mod )
+{
+	studiohdr_t	*pstudiohdr;
+	mstudiobodyparts_t	*pbodypart;
+	int		i, count;
+
+	pstudiohdr = (studiohdr_t *)Mod_Extradata( mod );
+	if( !pstudiohdr ) return 0;
+
+	count = 1;
+	pbodypart = (mstudiobodyparts_t *)((byte *)pstudiohdr + pstudiohdr->bodypartindex);
+
+	// each body part has nummodels variations so there are as many total variations as there
+	// are in a matrix of each part by each other part
+	for( i = 0; i < pstudiohdr->numbodyparts; i++ )
+		count = count * pbodypart[i].nummodels;
+
+	return count;
+}
+
+/*
+=================
+Mod_LoadStudioModel
+=================
+*/
+void ReMod_LoadStudioModel( model_t *mod, const void *buffer, qboolean *loaded )
+{
+	studiohdr_t	*phdr;
+
+	if( loaded ) *loaded = false;
+	loadmodel->mempool = Mem_AllocPool( va( "^2%s^7", loadmodel->name ));
+	loadmodel->type = mod_studio;
+
+	phdr = ReR_StudioLoadHeader( mod, buffer );
+	if( !phdr ) return;	// bad model
+
+#ifdef STUDIO_MERGE_TEXTURES
+	if( phdr->numtextures == 0 )
+	{
+		studiohdr_t	*thdr;
+		byte		*in, *out;
+		void		*buffer2 = NULL;
+		size_t		size1, size2;
+
+		buffer2 = FS_LoadFile( R_StudioTexName( mod ), NULL, false );
+		thdr = R_StudioLoadHeader( mod, buffer2 );
+
+		if( !thdr )
+		{
+			MsgDev( D_WARN, "Mod_LoadStudioModel: %s missing textures file\n", mod->name ); 
+			if( buffer2 ) Mem_Free( buffer2 );
+		}
+                    else
+                    {
+			// give space for textures and skinrefs
+			size1 = thdr->numtextures * sizeof( mstudiotexture_t );
+			size2 = thdr->numskinfamilies * thdr->numskinref * sizeof( short );
+			mod->cache.data = Mem_Alloc( loadmodel->mempool, phdr->length + size1 + size2 );
+			Q_memcpy( loadmodel->cache.data, buffer, phdr->length ); // copy main mdl buffer
+			phdr = (studiohdr_t *)loadmodel->cache.data; // get the new pointer on studiohdr
+			phdr->numskinfamilies = thdr->numskinfamilies;
+			phdr->numtextures = thdr->numtextures;
+			phdr->numskinref = thdr->numskinref;
+			phdr->textureindex = phdr->length;
+			phdr->skinindex = phdr->textureindex + size1;
+
+			in = (byte *)thdr + thdr->textureindex;
+			out = (byte *)phdr + phdr->textureindex;
+			Q_memcpy( out, in, size1 + size2 );	// copy textures + skinrefs
+			phdr->length += size1 + size2;
+			Mem_Free( buffer2 ); // release T.mdl
+		}
+	}
+	else
+	{
+		// NOTE: we wan't keep raw textures in memory. just cutoff model pointer above texture base
+		loadmodel->cache.data = Mem_Alloc( loadmodel->mempool, phdr->texturedataindex );
+		Q_memcpy( loadmodel->cache.data, buffer, phdr->texturedataindex );
+		phdr->length = phdr->texturedataindex;	// update model size
+	}
+#else
+	// just copy model into memory
+	loadmodel->cache.data = Mem_Alloc( loadmodel->mempool, phdr->length );
+	Q_memcpy( loadmodel->cache.data, buffer, phdr->length );
+#endif
+	// setup bounding box
+	VectorCopy( phdr->bbmin, loadmodel->mins );
+	VectorCopy( phdr->bbmax, loadmodel->maxs );
+
+	loadmodel->numframes = ReR_StudioBodyVariations( loadmodel );
+	loadmodel->radius = RadiusFromBounds( loadmodel->mins, loadmodel->maxs );
+	loadmodel->flags = phdr->flags; // copy header flags
+
+	if( loaded ) *loaded = true;
+}
+
+
 /*
 ==================
 Mod_LoadModel
@@ -2660,12 +2922,21 @@ model_t *Mod_LoadModel( model_t *mod, qboolean crash )
 	// call the apropriate loader
 	switch( *(uint *)buf )
 	{
+#ifdef _DEDICATED
+	case IDSTUDIOHEADER:
+		ReMod_LoadStudioModel( mod, buf, &loaded );
+		break;
+	case IDSPRITEHEADER:
+		ReMod_LoadSpriteModel( mod, buf, &loaded, 0 );
+		break;
+#else
 	case IDSTUDIOHEADER:
 		Mod_LoadStudioModel( mod, buf, &loaded );
 		break;
 	case IDSPRITEHEADER:
 		Mod_LoadSpriteModel( mod, buf, &loaded, 0 );
 		break;
+#endif
 	case Q1BSP_VERSION:
 	case HLBSP_VERSION:
 		Mod_LoadBrushModel( mod, buf, &loaded );

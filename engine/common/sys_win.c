@@ -398,9 +398,13 @@ long _stdcall Sys_Crash( PEXCEPTION_POINTERS pInfo )
 		error_on_exit = true;
 		host.crashed = true;
 
+#ifdef _DEDICATED
+		host.state = HOST_CRASHED;
+#else
 		if( host.type == HOST_NORMAL )
 			CL_Crashed(); // tell client about crash
 		else host.state = HOST_CRASHED;
+#endif
 
 		Msg( "Sys_Crash: call %p at address %p\n", pInfo->ExceptionRecord->ExceptionAddress, pInfo->ExceptionRecord->ExceptionCode );
 
@@ -450,7 +454,9 @@ void Sys_Error( const char *error, ... )
 	if( host.type == HOST_NORMAL )
 	{
 		if( host.hWnd ) ShowWindow( host.hWnd, SW_HIDE );
+#ifndef _DEDICATED
 		VID_RestoreGamma();
+#endif
 	}
 
 	if( host.developer > 0 )
@@ -492,7 +498,10 @@ void Sys_Break( const char *error, ... )
 	if( host.type == HOST_NORMAL )
 	{
 		if( host.hWnd ) ShowWindow( host.hWnd, SW_HIDE );
+
+#ifndef _DEDICATED
 		VID_RestoreGamma();
+#endif
 	}
 
 	if( host.type != HOST_NORMAL || host.developer > 0 )

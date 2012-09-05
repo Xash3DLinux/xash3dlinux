@@ -583,6 +583,9 @@ void SV_ClearSaveDir( void )
 
 int SV_IsValidSave( void )
 {
+#ifdef _DEDICATED
+	return 0;
+#else
 	if( sv.background )
 		return 0;
 
@@ -645,6 +648,7 @@ int SV_IsValidSave( void )
 
 	Msg( "Can't savegame without a client!\n" );
 	return 0;
+#endif
 }
 
 void SV_AgeSaveList( const char *pName, int count )
@@ -659,7 +663,9 @@ void SV_AgeSaveList( const char *pName, int count )
 	FS_Delete( newName );
 	FS_Delete( newImage );
 
+#ifndef _DEDICATED
 	GL_FreeImage( newImage );
+#endif
 
 	while( count > 0 )
 	{
@@ -679,7 +685,9 @@ void SV_AgeSaveList( const char *pName, int count )
 		Q_snprintf( newName, sizeof( newName ), "save/%s%02d.sav", pName, count );
 		Q_snprintf( newImage, sizeof( newImage ), "save/%s%02d.bmp", pName, count );
 
+#ifndef _DEDICATED
 		GL_FreeImage( oldImage );
+#endif
 
 		// scroll the name list down (rename quick04.sav to quick05.sav)
 		FS_Rename( oldName, newName );
@@ -1054,6 +1062,7 @@ write out the list of premanent decals for this level
 */
 void SV_SaveClientState( SAVERESTOREDATA *pSaveData, const char *level )
 {
+#ifndef _DEDICATED
 	string		name;
 	file_t		*pFile;
 	decallist_t	*decalList;
@@ -1213,6 +1222,7 @@ void SV_SaveClientState( SAVERESTOREDATA *pSaveData, const char *level )
 	FS_Write( pFile, &sections, sizeof( sections ));	// write real sections info	
 
 	FS_Close( pFile );
+#endif
 }
 
 /*
@@ -2091,7 +2101,9 @@ qboolean SV_LoadGame( const char *pName )
 	if( !FS_FileExists( name, true ))
 		return false;
 
+#ifndef _DEDICATED
 	SCR_BeginLoadingPlaque ( false );
+#endif
 
 	MsgDev( D_INFO, "Loading game from %s...\n", name );
 	SV_ClearSaveDir();
@@ -2182,7 +2194,9 @@ void SV_SaveGame( const char *pName )
 	else Q_strncpy( savename, pName, sizeof( savename ));
 
 	// HACKHACK: unload previous image from memory
+#ifndef _DEDICATED
 	GL_FreeImage( va( "save/%s.bmp", savename ));
+#endif
 
 	comment[0] = '\0';
 

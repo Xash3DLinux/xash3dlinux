@@ -1840,6 +1840,7 @@ void SV_UpdateFogSettings( unsigned int packed_fog )
 	physinfo->modified = true; // force to transmit
 }
 
+#ifndef _DEDICATED
 static server_physics_api_t gPhysicsAPI =
 {
 	SV_LinkEdict,
@@ -1858,6 +1859,7 @@ static server_physics_api_t gPhysicsAPI =
 	SV_GetLightStyle,
 	SV_UpdateFogSettings,
 };
+#endif
 
 /*
 ===============
@@ -1868,6 +1870,9 @@ Initialize server external physics
 */
 qboolean SV_InitPhysicsAPI( void )
 {
+#ifdef _DEDICATED
+	return false;
+#else
 	static PHYSICAPI	pPhysIface;
 
 	pPhysIface = (PHYSICAPI)Com_GetProcAddress( svgame.hInstance, "Server_GetPhysicsInterface" );
@@ -1894,4 +1899,5 @@ qboolean SV_InitPhysicsAPI( void )
 
 	// physic interface is missed
 	return true;
+#endif
 }

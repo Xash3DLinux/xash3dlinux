@@ -73,6 +73,35 @@ void Sys_Error( const char *errorstring )
 
 void Sys_LoadEngine( void )
 {
+#ifdef _DEDICATED
+#ifdef _WIN32
+	if(( hEngine = LoadLibrary( "dedicated.dll" )) == NULL )
+	{
+		Sys_Error( "Unable to load the dedicated.dll" );
+	}
+
+	if(( Host_Main = (pfnInit)GetProcAddress( hEngine, "Host_Main" )) == NULL )
+	{
+		Sys_Error( "xash.dll missed 'Host_Main' export" );
+	}
+
+	// this is non-fatal for us but change game will not working
+	Host_Shutdown = (pfnShutdown)GetProcAddress( hEngine, "Host_Shutdown" );
+#else
+	if(( hEngine = dlopen( "dedicated.so", RTLD_NOW )) == NULL )
+	{
+		Sys_Error( "Unable to load the dedicated.so" );
+	}
+
+	if(( Host_Main = (pfnInit)dlsym( hEngine, "Host_Main" )) == NULL )
+	{
+		Sys_Error( "xash.dll missed 'Host_Main' export" );
+	}
+
+	// this is non-fatal for us but change game will not working
+	Host_Shutdown = (pfnShutdown)dlsym( hEngine, "Host_Shutdown" );
+#endif
+#else
 #ifdef _WIN32
 	if(( hEngine = LoadLibrary( "xash.dll" )) == NULL )
 	{
@@ -99,6 +128,7 @@ void Sys_LoadEngine( void )
 
 	// this is non-fatal for us but change game will not working
 	Host_Shutdown = (pfnShutdown)dlsym( hEngine, "Host_Shutdown" );
+#endif
 #endif
 }
 

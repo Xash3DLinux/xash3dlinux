@@ -590,7 +590,9 @@ void SV_InitGame( void )
 		}
 
 		// make sure the client is down
+#ifndef _DEDICATED
 		CL_Drop();
+#endif
 	}
 
 	if( Cvar_VariableValue( "coop" ) && Cvar_VariableValue ( "deathmatch" ) && Cvar_VariableValue( "teamplay" ))
@@ -704,7 +706,9 @@ qboolean SV_NewGame( const char *mapName, qboolean loadGame )
 	}
 	else
 	{
+#ifndef _DEDICATED
 		S_StopAllSounds ();
+#endif
 		SV_DeactivateServer ();
 	}
 

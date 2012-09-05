@@ -51,18 +51,26 @@ void BuildGammaTable( float gamma, float texGamma )
 
 byte TextureToTexGamma( byte b )
 {
+#ifdef _DEDICATED
+	return b;
+#else
 	if( glConfig.deviceSupportsGamma )
 		return b;	// passthrough
 
 	b = bound( 0, b, 255 );
 	return texgammatable[b];
+#endif
 }
 
 byte TextureToGamma( byte b )
 {
+#ifdef _DEDICATED
+	return b;
+#else
 	if( glConfig.deviceSupportsGamma )
 		return b; // passthrough
 
 	b = bound( 0, b, 255 );
 	return gammatable[b];
+#endif
 }

@@ -129,8 +129,10 @@ void Host_EndGame( const char *message, ... )
 	if( host.type == HOST_DEDICATED )
 		Sys_Break( "Host_EndGame: %s\n", string ); // dedicated servers exit
 	
+#ifndef _DEDICATED
 	if( CL_NextDemo( ));
 	else CL_Disconnect();
+#endif
 
 	// release all models
 	Mod_ClearAll();
@@ -276,9 +278,13 @@ void Host_Minimize_f( void )
 
 qboolean Host_IsLocalGame( void )
 {
+#ifdef _DEDICATED
+	return false;
+#else
 	if( CL_Active() && SV_Active() && CL_GetMaxClients() == 1 )
 		return true;
 	return false;
+#endif
 }
 
 /*
@@ -350,6 +356,7 @@ Write ambient sounds into demo
 */
 void Host_RestartAmbientSounds( void )
 {
+#ifndef _DEDICATED
 	soundlist_t	soundInfo[64];
 	int		i, nSounds;
 
@@ -370,6 +377,7 @@ void Host_RestartAmbientSounds( void )
 		SV_StartSound( pfnPEntityOfEntIndex( soundInfo[i].entnum ), CHAN_STATIC, soundInfo[i].name,
 		soundInfo[i].volume, soundInfo[i].attenuation, 0, soundInfo[i].pitch );
 	}
+#endif
 }
 
 /*
@@ -460,7 +468,10 @@ void Host_Frame( float time )
 	Host_GetConsoleCommands ();
 
 	Host_ServerFrame (); // server frame
+
+#ifndef _DEDICATED
 	Host_ClientFrame (); // client frame
+#endif
 
 	host.framecount++;
 }
@@ -504,18 +515,22 @@ void Host_Error( const char *error, ... )
 	static qboolean	recursive = false;
 	va_list		argptr;
 
+#ifndef _DEDICATED
 	if( host.mouse_visible && !CL_IsInMenu( ))
 	{
 		// hide VGUI mouse
 		while( ShowCursor( false ) >= 0 );
 		host.mouse_visible = false;
 	}
+#endif
 
 	va_start( argptr, error );
 	Q_vsprintf( hosterror1, error, argptr );
 	va_end( argptr );
 
+#ifndef _DEDICATED
 	CL_WriteMessageHistory (); // before Q_error call
+#endif
 
 	if( host.framecount < 3 )
 	{
@@ -530,8 +545,10 @@ void Host_Error( const char *error, ... )
 	{
 		if( host.developer > 0 )
 		{
+#ifndef _DEDICATED
 			UI_SetActiveMenu( false );
 			Key_SetKeyDest( key_console );
+#endif
 			Msg( "Host_Error: %s", hosterror1 );
 		}
 		else MSGBOX2( hosterror1 );
@@ -556,10 +573,12 @@ void Host_Error( const char *error, ... )
 	Cbuf_Clear();
 
 	SV_Shutdown( false );
+#ifndef _DEDICATED
 	CL_Drop(); // drop clients
 
 	// recreate world if needs
 	CL_ClearEdicts ();
+#endif
 
 	// release all models
 	Mod_ClearAll();
@@ -658,6 +677,9 @@ void Host_InitCommon( const char *progname, qboolean bChangeGame )
 		SetCurrentDirectory( host.rootdir );
 	}
 
+#ifdef _DEDICATED
+	host.type = HOST_DEDICATED;
+#else
 	if( SI.ModuleName[0] == '#' ) host.type = HOST_DEDICATED; 
 
 	// determine host type
@@ -667,6 +689,8 @@ void Host_InitCommon( const char *progname, qboolean bChangeGame )
 		host.type = HOST_DEDICATED;
 	}
 	else Q_strncpy( SI.ModuleName, progname, sizeof( SI.ModuleName )); 
+
+#endif
 
 	if( host.type == HOST_DEDICATED )
 	{
@@ -726,8 +750,10 @@ void Host_InitCommon( const char *progname, qboolean bChangeGame )
 
 	HPAK_Init();
 
+#ifndef _DEDICATED
 	IN_Init();
 	Key_Init();
+#endif
 }
 
 void Host_FreeCommon( void )
@@ -802,7 +828,10 @@ int EXPORT Host_Main( const char *progname, int bChangeGame, pfnChangeGame func 
 	}
 
 	SV_Init();
+
+#ifndef _DEDICATED
 	CL_Init();
+#endif
 
 	if( host.type == HOST_DEDICATED )
 	{
@@ -849,7 +878,10 @@ int EXPORT Host_Main( const char *progname, int bChangeGame, pfnChangeGame func 
 	// we need to execute it again here
 	Cmd_ExecuteString( "exec config.cfg\n", src_command );
 	oldtime = Sys_DoubleTime();
+
+#ifndef _DEDICATED
 	SCR_CheckStartupVids();	// must be last
+#endif
 
 	// main window message loop
 	while( !host.crashed )
@@ -880,7 +912,10 @@ void EXPORT Host_Shutdown( void )
 		Host_WriteConfig();
 
 	SV_Shutdown( false );
+
+#ifndef _DEDICATED
 	CL_Shutdown();
+#endif
 
 	Mod_Shutdown();
 	NET_Shutdown();

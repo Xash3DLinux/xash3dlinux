@@ -14,12 +14,23 @@ GNU General Public License for more details.
 */
 
 #include "common.h"
+
+#ifndef _DEDICATED
 #include "client.h"
+#endif
+
 #include "keydefs.h"
 #include "protocol.h"		// get the protocol version
 #include "con_nprint.h"
 #include "gl_local.h"
 #include "qfont.h"
+
+#ifdef _DEDICATED
+#include "wrect.h"
+#include "mathlib.h"
+
+void Con_DefaultColor( int r, int g, int b );
+#endif
 
 convar_t	*con_notifytime;
 convar_t	*scr_conspeed;
@@ -63,6 +74,17 @@ typedef struct
 	int		key_dest;
 } notify_t;
 
+#ifdef _DEDICATED
+typedef struct
+{
+	int		hFontTexture;		// handle to texture
+	wrect_t		fontRc[256];		// rectangles
+	byte		charWidths[256];
+	int		charHeight;
+	qboolean		valid;			// all rectangles are valid
+} sv_font_t;
+#endif
+
 typedef struct
 {
 	qboolean		initialized;
@@ -85,9 +107,14 @@ typedef struct
 	// console images
 	int		background;	// console background
 
+#ifdef _DEDICATED
+	sv_font_t		chars[CON_NUMFONTS];// fonts.wad/font1.fnt
+	sv_font_t		*curFont, *lastUsedFont;
+#else
 	// conchars
 	cl_font_t		chars[CON_NUMFONTS];// fonts.wad/font1.fnt
 	cl_font_t		*curFont, *lastUsedFont;
+#endif
 	
 	// console input
 	field_t		input;
@@ -245,7 +272,9 @@ void Con_MessageMode_f( void )
 		Q_strncpy( con.chat_cmd, Cmd_Argv( 1 ), sizeof( con.chat_cmd ));
 	else  Q_strncpy( con.chat_cmd, "say", sizeof( con.chat_cmd ));
 
+#ifndef _DEDICATED
 	Key_SetKeyDest( key_message );
+#endif
 }
 
 /*
@@ -256,7 +285,10 @@ Con_MessageMode2_f
 void Con_MessageMode2_f( void )
 {
 	Q_strncpy( con.chat_cmd, "say_team", sizeof( con.chat_cmd ));
+
+#ifndef _DEDICATED
 	Key_SetKeyDest( key_message );
+#endif
 }
 
 /*
@@ -266,6 +298,7 @@ Con_ToggleConsole_f
 */
 void Con_ToggleConsole_f( void )
 {
+#ifndef _DEDICATED
 	if( !host.developer ) return;	// disabled
 
 	if( UI_CreditsActive( )) return; // disabled by final credits
@@ -288,6 +321,7 @@ void Con_ToggleConsole_f( void )
 		UI_SetActiveMenu( false );
 		Key_SetKeyDest( key_console );
 	}
+#endif
 }
 
 /*
@@ -299,6 +333,7 @@ If the line width has changed, reformat the buffer.
 */
 void Con_CheckResize( void )
 {
+#ifndef _DEDICATED
 	int	i, j, width, numlines, numchars;
 	int	oldwidth, oldtotallines;
 	short	tbuf[CON_TEXTSIZE];
@@ -364,6 +399,19 @@ void Con_CheckResize( void )
 
 	for( i = 0; i < CON_HISTORY; i++ )
 		con.historyLines[i].widthInChars = con.linewidth;
+#else
+
+	int	width = 90;
+	int i = 0;
+
+	// video hasn't been initialized yet
+	con.linewidth = width;
+	con.totallines = CON_TEXTSIZE / con.linewidth;
+
+	for( i = 0; i < CON_TEXTSIZE; i++ )
+		con.text[i] = ( ColorIndex( COLOR_DEFAULT ) << 8 ) | ' ';
+
+#endif
 }
 
 /*
@@ -430,7 +478,11 @@ qboolean Con_Visible( void )
 Con_LoadConsoleFont
 ================
 */
+#ifndef _DEDICATED
 static void Con_LoadConsoleFont( int fontNumber, cl_font_t *font )
+#else
+static void Con_LoadConsoleFont( int fontNumber, sv_font_t *font )
+#endif
 {
 	int	fontWidth;
 
@@ -438,10 +490,12 @@ static void Con_LoadConsoleFont( int fontNumber, cl_font_t *font )
 
 	if( font->valid ) return; // already loaded
 
+#ifndef _DEDICATED
 	// loading conchars
 	font->hFontTexture = GL_LoadTexture( va( "fonts/font%i", fontNumber ), NULL, 0, TF_FONT|TF_NEAREST );
 	R_GetTextureParms( &fontWidth, NULL, font->hFontTexture );
-		
+#endif
+
 	// setup creditsfont
 	if( FS_FileExists( va( "fonts/font%i.fnt", fontNumber ), false ) && fontWidth != 0 )
 	{
@@ -487,12 +541,16 @@ static void Con_LoadConchars( void )
 	for( i = 0; i < 3; i++ )
 		Con_LoadConsoleFont( i, con.chars + i );
 
+#ifndef _DEDICATED
 	// select properly fontsize
 	if( scr_width->integer <= 640 )
 		fontSize = 0;
 	else if( scr_width->integer >= 1280 )
 		fontSize = 2;
 	else fontSize = 1;
+#else
+	fontSize = 1;
+#endif
 
 	// sets the current font
 	con.lastUsedFont = con.curFont = &con.chars[fontSize];
@@ -501,8 +559,11 @@ static void Con_LoadConchars( void )
 
 static int Con_DrawGenericChar( int x, int y, int number, rgba_t color )
 {
+#ifndef _DEDICATED
 	int	width, height;
 	float	s1, t1, s2, t2;
+#endif
+
 	wrect_t	*rc;
 
 	number &= 255;
@@ -516,6 +577,7 @@ static int Con_DrawGenericChar( int x, int y, int number, rgba_t color )
 
 	rc = &con.curFont->fontRc[number];
 
+#ifndef _DEDICATED
 	pglColor4ubv( color );
 	R_GetTextureParms( &width, &height, con.curFont->hFontTexture );
 
@@ -530,6 +592,7 @@ static int Con_DrawGenericChar( int x, int y, int number, rgba_t color )
 	TextAdjustSize( &x, &y, &width, &height );
 	R_DrawStretchPic( x, y, width, height, s1, t1, s2, t2, con.curFont->hFontTexture );		
 	pglColor4ub( 255, 255, 255, 255 ); // don't forget reset color
+#endif
 
 	return con.curFont->charWidths[number];
 }
@@ -547,7 +610,10 @@ void Con_RestoreFont( void )
 
 int Con_DrawCharacter( int x, int y, int number, rgba_t color )
 {
+#ifndef _DEDICATED
 	GL_SetRenderMode( kRenderTransTexture );
+#endif
+
 	return Con_DrawGenericChar( x, y, number, color );
 }
 
@@ -663,9 +729,12 @@ void Con_Init( void )
 {
 	int	i;
 
+#ifndef _DEDICATED
 	// must be init before startup video subsystem
 	scr_width = Cvar_Get( "width", "640", 0, "screen width" );
 	scr_height = Cvar_Get( "height", "480", 0, "screen height" );
+#endif
+
 	scr_conspeed = Cvar_Get( "scr_conspeed", "600", 0, "console moving speed" );
 	con_notifytime = Cvar_Get( "con_notifytime", "3", 0, "notify time to live" );
 	con_fontsize = Cvar_Get( "con_fontsize", "1", CVAR_ARCHIVE, "console font number (0, 1 or 2)" );
@@ -729,6 +798,7 @@ If no console is visible, the text will appear at the top of the game window
 */
 void Con_Print( const char *txt )
 {
+#ifndef _DEDICATED
 	int	y, c, l, color;
 
 	// client not running
@@ -778,6 +848,7 @@ void Con_Print( const char *txt )
 			break;
 		}
 	}
+#endif
 }
 
 /*
@@ -1138,7 +1209,11 @@ void Field_KeyDownEvent( field_t *edit, int key )
 	int	len;
 
 	// shift-insert is paste
+#ifdef _DEDICATED
+	if((( key == K_INS ) || ( key == K_KP_INS )) )
+#else
 	if((( key == K_INS ) || ( key == K_KP_INS )) && Key_IsDown( K_SHIFT ))
+#endif
 	{
 		Field_Paste( edit );
 		return;
@@ -1179,13 +1254,21 @@ void Field_KeyDownEvent( field_t *edit, int key )
 		return;
 	}
 
+#ifdef _DEDICATED
+	if( key == K_HOME || ( Q_tolower(key) == 'a' ))
+#else
 	if( key == K_HOME || ( Q_tolower(key) == 'a' && Key_IsDown( K_CTRL )))
+#endif
 	{
 		edit->cursor = 0;
 		return;
 	}
 
+#ifdef _DEDICATED
+	if( key == K_END || ( Q_tolower(key) == 'e' ))
+#else
 	if( key == K_END || ( Q_tolower(key) == 'e' && Key_IsDown( K_CTRL )))
+#endif
 	{
 		edit->cursor = len;
 		return;
@@ -1349,7 +1432,11 @@ Handles history and console scrollback
 void Key_Console( int key )
 {
 	// ctrl-L clears screen
+#ifdef _DEDICATED
+	if( key == 'l' )
+#else
 	if( key == 'l' && Key_IsDown( K_CTRL ))
+#endif
 	{
 		Cbuf_AddText( "clear\n" );
 		return;
@@ -1358,6 +1445,7 @@ void Key_Console( int key )
 	// enter finishes the line
 	if ( key == K_ENTER || key == K_KP_ENTER )
 	{
+#ifndef _DEDICATED
 		// if not in the game explicitly prepent a slash if needed
 		if( cls.state != ca_active && con.input.buffer[0] != '\\' && con.input.buffer[0] != '/' )
 		{
@@ -1367,6 +1455,7 @@ void Key_Console( int key )
 			Q_sprintf( con.input.buffer, "\\%s", temp );
 			con.input.cursor++;
 		}
+#endif
 
 		// backslash text are commands, else chat
 		if( con.input.buffer[0] == '\\' || con.input.buffer[0] == '/' )
@@ -1385,11 +1474,13 @@ void Key_Console( int key )
 		Con_ClearField( &con.input );
 		con.input.widthInChars = con.linewidth;
 
+#ifndef _DEDICATED
 		if( cls.state == ca_disconnected )
 		{
 			// force an update, because the command may take some time
 			SCR_UpdateScreen ();
 		}
+#endif
 		return;
 	}
 
@@ -1400,8 +1491,12 @@ void Key_Console( int key )
 		return;
 	}
 
+#ifdef _DEDICATED
+	if(( key == K_MWHEELUP ) || ( key == K_UPARROW ) || (( Q_tolower(key) == 'p' ) ))
+#else
 	// command history (ctrl-p ctrl-n for unix style)
 	if(( key == K_MWHEELUP && Key_IsDown( K_SHIFT )) || ( key == K_UPARROW ) || (( Q_tolower(key) == 'p' ) && Key_IsDown( K_CTRL )))
+#endif
 	{
 		if( con.nextHistoryLine - con.historyLine < CON_HISTORY && con.historyLine > 0 )
 		{
@@ -1411,7 +1506,11 @@ void Key_Console( int key )
 		return;
 	}
 
+#ifdef _DEDICATED
+	if(( key == K_MWHEELDOWN) || ( key == K_DOWNARROW ) || (( Q_tolower(key) == 'n' ) ))
+#else
 	if(( key == K_MWHEELDOWN && Key_IsDown( K_SHIFT )) || ( key == K_DOWNARROW ) || (( Q_tolower(key) == 'n' ) && Key_IsDown( K_CTRL )))
+#endif
 	{
 		if( con.historyLine == con.nextHistoryLine ) return;
 		con.historyLine++;
@@ -1446,23 +1545,34 @@ void Key_Console( int key )
 	if( key == K_MWHEELDOWN )
 	{	
 		Con_PageDown();
+
+#ifndef _DEDICATED
 		if( Key_IsDown( K_CTRL ))
 		{	
 			Con_PageDown();
 			Con_PageDown();
 		}
+#endif
 		return;
 	}
 
+#ifdef _DEDICATED
 	// ctrl-home = top of console
+	if( key == K_HOME)
+#else
 	if( key == K_HOME && Key_IsDown( K_CTRL ))
+#endif
 	{
 		Con_Top();
 		return;
 	}
 
+#ifdef _DEDICATED
+	if( key == K_END)
+#else
 	// ctrl-end = bottom of console
 	if( key == K_END && Key_IsDown( K_CTRL ))
+#endif
 	{
 		Con_Bottom();
 		return;
@@ -1481,17 +1591,22 @@ In game talk message
 */
 void Key_Message( int key )
 {
+#ifndef _DEDICATED
 	char	buffer[MAX_SYSPATH];
+#endif
 
 	if( key == K_ESCAPE )
 	{
+#ifndef _DEDICATED
 		Key_SetKeyDest( key_game );
+#endif
 		Con_ClearField( &con.chat );
 		return;
 	}
 
 	if( key == K_ENTER || key == K_KP_ENTER )
 	{
+#ifndef _DEDICATED
 		if( con.chat.buffer[0] && cls.state == ca_active )
 		{
 			Q_snprintf( buffer, sizeof( buffer ), "%s \"%s\"\n", con.chat_cmd, con.chat.buffer );
@@ -1499,6 +1614,7 @@ void Key_Message( int key )
 		}
 
 		Key_SetKeyDest( key_game );
+#endif
 		Con_ClearField( &con.chat );
 		return;
 	}
@@ -1522,6 +1638,7 @@ The input line scrolls horizontally if typing goes beyond the right edge
 */
 void Con_DrawInput( void )
 {
+#ifndef _DEDICATED
 	byte	*colorDefault;
 	int	x, y;
 
@@ -1535,6 +1652,7 @@ void Con_DrawInput( void )
 
 	Con_DrawCharacter( QCHAR_WIDTH >> 1, y, ']', colorDefault );
 	Field_DrawInputLine( x, y, &con.input );
+#endif
 }
 
 /*
@@ -1546,6 +1664,7 @@ Custom debug messages
 */
 int Con_DrawDebugLines( void )
 {
+#ifndef _DEDICATED
 	int	i, count = 0;
 	int	y = 20;
 	int	defaultX;
@@ -1572,6 +1691,9 @@ int Con_DrawDebugLines( void )
 		}
 	}
 	return count;
+#else
+	return 0;
+#endif
 }
 
 /*
@@ -1637,6 +1759,7 @@ void Con_DrawNotify( void )
 		}
 	}
 	
+#ifndef _DEDICATED
 	if( cls.key_dest == key_message )
 	{
 		string	buf;
@@ -1660,6 +1783,7 @@ void Con_DrawNotify( void )
 	}
 
 	pglColor4ub( 255, 255, 255, 255 );
+#endif
 }
 
 /*
@@ -1671,6 +1795,7 @@ Draws the console with the solid background
 */
 void Con_DrawSolidConsole( float frac )
 {
+#ifndef _DEDICATED
 	int	i, x, y;
 	int	rows;
 	short	*text;
@@ -1757,6 +1882,7 @@ void Con_DrawSolidConsole( float frac )
 	// draw the input prompt, user text, and cursor if desired
 	Con_DrawInput();
 	pglColor4ub( 255, 255, 255, 255 );
+#endif
 }
 
 /*
@@ -1766,6 +1892,7 @@ Con_DrawConsole
 */
 void Con_DrawConsole( void )
 {
+#ifndef _DEDICATED
 	// never draw console whel changelevel in-progress
 	if( cls.changelevel ) return;
 
@@ -1830,6 +1957,7 @@ void Con_DrawConsole( void )
 		}
 		break;
 	}
+#endif
 }
 
 /*
@@ -1841,6 +1969,7 @@ Used by menu
 */
 void Con_DrawVersion( void )
 {
+#ifndef _DEDICATED
 	// draws the current build
 	byte	*color = g_color_table[7];
 	int	i, stringLen, width = 0, charH;
@@ -1872,6 +2001,7 @@ void Con_DrawVersion( void )
 
 	for( i = 0; i < stringLen; i++ )
 		width += Con_DrawCharacter( start + width, height, curbuild[i], color );
+#endif
 }
 
 /*
@@ -1883,6 +2013,7 @@ Scroll it up or down
 */
 void Con_RunConsole( void )
 {
+#ifndef _DEDICATED
 	// decide on the destination height of the console
 	if( host.developer && cls.key_dest == key_console )
 	{
@@ -1908,6 +2039,7 @@ void Con_RunConsole( void )
 		if( con.finalFrac < con.displayFrac )
 			con.displayFrac = con.finalFrac;
 	}
+#endif
 }
 
 /*
@@ -1926,6 +2058,7 @@ Console input
 */
 void Con_CharEvent( int key )
 {
+#ifndef _DEDICATED
 	// distribute the key down event to the apropriate handler
 	if( cls.key_dest == key_console )
 	{
@@ -1935,10 +2068,12 @@ void Con_CharEvent( int key )
 	{
 		Field_CharEvent( &con.chat, key );
 	}
+#endif
 }
 
 void Con_VidInit( void )
 {
+#ifndef _DEDICATED
 	Con_CheckResize();
 
 	// loading console image
@@ -1978,6 +2113,7 @@ void Con_VidInit( void )
 		con.background = tr.whiteTexture;
 
 	Con_LoadConchars();
+#endif
 }
 
 /*

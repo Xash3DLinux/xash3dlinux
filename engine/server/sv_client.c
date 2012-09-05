@@ -1633,6 +1633,7 @@ SV_Pause_f
 */
 void SV_Pause_f( sv_client_t *cl )
 {
+#ifndef _DEDICATED
 	string	message;
 
 	if( UI_CreditsActive( )) return;
@@ -1653,6 +1654,7 @@ void SV_Pause_f( sv_client_t *cl )
 	else Q_snprintf( message, MAX_STRING, "^2%s^7 unpaused the game\n", cl->name );
 
 	SV_TogglePause( message );
+#endif
 }
 
 
@@ -1678,7 +1680,9 @@ void SV_UserinfoChanged( sv_client_t *cl, const char *userinfo )
 
 	val = Info_ValueForKey( cl->userinfo, "name" );
 	Q_strncpy( temp2, val, sizeof( temp2 ));
+#ifndef _DEDICATED
 	TrimSpace( temp2, temp1 );
+#endif
 
 	if( !Q_stricmp( temp1, "console" )) // keyword came from OSHLDS
 	{
@@ -2048,7 +2052,11 @@ static void SV_ParseClientMove( sv_client_t *cl, sizebuf_t *msg )
 	}
 
 	// check for pause or frozen
+#ifdef _DEDICATED
+	if( sv.paused || sv.loadgame || sv.background || ( player->v.flags & FL_FROZEN ))
+#else
 	if( sv.paused || sv.loadgame || sv.background || !CL_IsInGame() || ( player->v.flags & FL_FROZEN ))
+#endif
 	{
 		for( i = 0; i < newcmds; i++ )
 		{

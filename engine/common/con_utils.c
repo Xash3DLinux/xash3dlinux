@@ -462,6 +462,7 @@ Prints or complete item classname (weapons only)
 */
 qboolean Cmd_GetItemsList( const char *s, char *completedname, int length )
 {
+#ifndef _DEDICATED
 	search_t		*t;
 	string		matchbuf;
 	int		i, numitems;
@@ -496,6 +497,8 @@ qboolean Cmd_GetItemsList( const char *s, char *completedname, int length )
 				completedname[i] = 0;
 		}
 	}
+#endif
+
 	return true;
 }
 
@@ -874,6 +877,7 @@ Writes key bindings and archived cvars to config.cfg
 */
 void Host_WriteConfig( void )
 {
+#ifndef _DEDICATED
 	kbutton_t	*mlook, *jlook;
 	file_t	*f;
 
@@ -904,6 +908,7 @@ void Host_WriteConfig( void )
 		FS_Close( f );
 	}
 	else MsgDev( D_ERROR, "Couldn't write config.cfg.\n" );
+#endif
 }
 
 /*

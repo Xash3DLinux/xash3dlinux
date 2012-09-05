@@ -433,7 +433,9 @@ pmtrace_t PM_PlayerTraceExt( playermove_t *pmove, vec3_t start, vec3_t end, int 
 			// run custom sweep callback
 			if( pmove->server )
 				SV_ClipPMoveToEntity( pe, start, mins, maxs, end, &trace_bbox );
+#ifndef _DEDICATED
 			else CL_ClipPMoveToEntity( pe, start, mins, maxs, end, &trace_bbox );
+#endif
 		}
 		else if( hullcount == 1 )
 		{
@@ -600,7 +602,9 @@ int PM_TestPlayerPosition( playermove_t *pmove, vec3_t pos, pmtrace_t *ptrace, p
 			// run custom sweep callback
 			if( pmove->server )
 				SV_ClipPMoveToEntity( pe, pos, mins, maxs, pos, &trace );
+#ifndef _DEDICATED
 			else CL_ClipPMoveToEntity( pe, pos, mins, maxs, pos, &trace );
+#endif
 
 			// if we inside the custom hull
 			if( trace.allsolid )

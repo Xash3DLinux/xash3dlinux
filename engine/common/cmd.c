@@ -723,11 +723,13 @@ void Cmd_ExecuteString( char *text, cmd_source_t src )
 	// forward the command line to the server, so the entity DLL can parse it
 	if( cmd_source == src_command && host.type == HOST_NORMAL )
 	{
+#ifndef _DEDICATED
 		if( cls.state >= ca_connected )
 		{
 			Cmd_ForwardToServer();
 			return;
 		}
+#endif
 	}
 	else if( text[0] != '@' && host.type == HOST_NORMAL )
 	{
@@ -747,6 +749,7 @@ so when they are typed in at the console, they will need to be forwarded.
 */
 void Cmd_ForwardToServer( void )
 {
+#ifndef _DEDICATED
 	char	str[MAX_CMD_BUFFER];
 	
 	if( cls.demoplayback )
@@ -776,6 +779,7 @@ void Cmd_ForwardToServer( void )
 	else Q_strcat( str, "\n" );
 
 	BF_WriteString( &cls.netchan.message, str );
+#endif
 }
 
 /*

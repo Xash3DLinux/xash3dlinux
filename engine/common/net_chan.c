@@ -353,7 +353,9 @@ void Netchan_OutOfBand( int net_socket, netadr_t adr, int length, byte *data )
 	BF_WriteLong( &send, -1 );	// -1 sequence means out of band
 	BF_WriteBytes( &send, data, length );
 
+#ifndef _DEDICATED
 	if( !CL_IsPlaybackDemo( ))
+#endif
 	{
 		// send the datagram
 		NET_SendPacket( net_socket, BF_GetNumBytesWritten( &send ), BF_GetData( &send ), adr );
@@ -1067,10 +1069,12 @@ void Netchan_UpdateProgress( netchan_t *chan )
 	int	total = 0;
 	float	bestpercent = 0.0;
 
+#ifndef _DEDICATED
 	if( scr_download->integer != -1 )
 	{
 		Cvar_SetFloat( "scr_download", -1 );
 	}
+#endif
 
 	if ( net_drawslider->integer != 1 )
 	{
@@ -1146,7 +1150,9 @@ void Netchan_UpdateProgress( netchan_t *chan )
 
 	}
 
+#ifndef _DEDICATED
 	Cvar_SetFloat( "scr_download", bestpercent );
+#endif
 }
 
 /*
@@ -1431,8 +1437,10 @@ void Netchan_TransmitBits( netchan_t *chan, int length, byte *data )
 	chan->total_sended += size2;
 	chan->total_sended_uncompressed += size1;
 
+#ifndef _DEDICATED
 	// send the datagram
 	if( !CL_IsPlaybackDemo( ))
+#endif
 	{
 		NET_SendPacket( chan->sock, BF_GetNumBytesWritten( &send ), BF_GetData( &send ), chan->remote_address );
 	}
@@ -1498,7 +1506,11 @@ qboolean Netchan_Process( netchan_t *chan, sizebuf_t *msg )
 	size_t	size1, size2;
 	int	i, qport;
 
+#ifdef _DEDICATED
+	if( !NET_CompareAdr( net_from, chan->remote_address ))
+#else
 	if( !CL_IsPlaybackDemo() && !NET_CompareAdr( net_from, chan->remote_address ))
+#endif
 	{
 		return false;
 	}

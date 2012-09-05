@@ -207,7 +207,9 @@ void SV_Map_f( void )
 		return;
 	}
 
+#ifndef _DEDICATED
 	SCR_BeginLoadingPlaque( false );
+#endif
 
 	sv.background = false;
 	sv.loadgame = false; // set right state
@@ -270,7 +272,9 @@ void SV_MapBackground_f( void )
 	Cvar_FullSet( "deathmatch", "0",  CVAR_LATCH );
 	Cvar_FullSet( "maxplayers", "1", CVAR_LATCH );
 
+#ifndef _DEDICATED
 	SCR_BeginLoadingPlaque( true );
+#endif
 
 	SV_SpawnServer( mapname, NULL );
 	SV_LevelInit( mapname, NULL, NULL, false );
@@ -471,7 +475,9 @@ void SV_ChangeLevel_f( void )
 		return;
 	}
 
+#ifndef _DEDICATED
 	SCR_BeginLoadingPlaque( false );
+#endif
 
 	if( sv.background )
 	{

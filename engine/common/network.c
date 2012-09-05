@@ -660,6 +660,7 @@ static void NET_OpenIP( void )
 	// dedicated servers don't need client ports
 	if( host.type == HOST_DEDICATED ) return;
 
+#ifndef _DEDICATED
 	if( !ip_sockets[NS_CLIENT] )
 	{
 		port = Cvar_Get( "ip_clientport", "0", CVAR_INIT, "network client port" )->integer;
@@ -671,6 +672,7 @@ static void NET_OpenIP( void )
 		ip_sockets[NS_CLIENT] = NET_IPSocket( net_ip->string, port );
 		if( !ip_sockets[NS_CLIENT] ) ip_sockets[NS_CLIENT] = NET_IPSocket( net_ip->string, PORT_ANY );
 	}
+#endif
 }
 
 /*
@@ -748,6 +750,7 @@ void NET_OpenIPX( void )
 	// dedicated servers don't need client ports
 	if( host.type == HOST_DEDICATED ) return;
 
+#ifndef _DEDICATED
 	if( !ipx_sockets[NS_CLIENT] )
 	{
 		port = Cvar_Get( "ipx_clientport", "0", CVAR_INIT, "network client port" )->integer;
@@ -760,6 +763,7 @@ void NET_OpenIPX( void )
 		ipx_sockets[NS_CLIENT] = NET_IPXSocket( port );
 		if( !ipx_sockets[NS_CLIENT] ) ipx_sockets[NS_CLIENT] = NET_IPXSocket( PORT_ANY );
 	}
+#endif
 }
 
 /*
