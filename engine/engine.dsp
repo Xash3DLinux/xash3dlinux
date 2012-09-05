@@ -56,15 +56,6 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386 /opt:nowin98
 # ADD LINK32 msvcrt.lib user32.lib gdi32.lib shell32.lib advapi32.lib winmm.lib mpeg.lib ../utils/vgui/lib/win32_vc6/vgui.lib /nologo /subsystem:windows /dll /pdb:none /machine:I386 /nodefaultlib:"libc" /out:"..\temp\engine\!release/xash.dll" /libpath:"./common/soundlib" /opt:nowin98
 # SUBTRACT LINK32 /debug /nodefaultlib
-# Begin Custom Build
-TargetDir=\Xash3D\src_main\temp\engine\!release
-InputPath=\Xash3D\src_main\temp\engine\!release\xash.dll
-SOURCE="$(InputPath)"
-
-"D:\Xash3D\xash.dll" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy $(TargetDir)\xash.dll "D:\Xash3D\xash.dll"
-
-# End Custom Build
 
 !ELSEIF  "$(CFG)" == "engine - Win32 Debug"
 
@@ -93,15 +84,6 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386
 # ADD LINK32 user32.lib gdi32.lib shell32.lib advapi32.lib winmm.lib mpeg.lib ../utils/vgui/lib/win32_vc6/vgui.lib /nologo /subsystem:windows /dll /debug /machine:I386 /nodefaultlib:"libc.lib" /out:"..\temp\engine\!debug/xash.dll" /pdbtype:sept /libpath:"./common/soundlib"
 # SUBTRACT LINK32 /incremental:no /map /nodefaultlib
-# Begin Custom Build
-TargetDir=\Xash3D\src_main\temp\engine\!debug
-InputPath=\Xash3D\src_main\temp\engine\!debug\xash.dll
-SOURCE="$(InputPath)"
-
-"D:\Xash3D\xash.dll" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy $(TargetDir)\xash.dll "D:\Xash3D\xash.dll"
-
-# End Custom Build
 
 !ENDIF 
 
