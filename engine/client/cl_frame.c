@@ -26,6 +26,10 @@ GNU General Public License for more details.
 
 #define MAX_FORWARD		6
 
+#ifndef _WIN32
+extern qboolean MSG_ReadDeltaEntity( sizebuf_t *msg, struct entity_state_s *from, struct entity_state_s *to, int num, qboolean player, float timebase );
+#endif
+
 qboolean CL_IsPlayerIndex( int idx )
 {
 	if( idx > 0 && idx <= cl.maxclients )
@@ -146,7 +150,7 @@ void CL_UpdateEntityFields( cl_entity_t *ent )
 			{
 				CL_SetTraceHull( 0 ); // g-cont. player hull for better detect moving platforms
 				VectorSet( vecSrc, ent->origin[0], ent->origin[1], ent->origin[2] + ent->model->maxs[2] );
-				VectorSet( vecEnd, vecSrc[0], vecSrc[1], vecSrc[2] - ent->model->mins[2] - 8 );		
+				VectorSet( vecEnd, vecSrc[0], vecSrc[1], vecSrc[2] - ent->model->mins[2] - 8 );
 				CL_PlayerTraceExt( vecSrc, vecEnd, PM_STUDIO_IGNORE, CL_PushMoveFilter, &trace );
 				m_pGround = CL_GetEntityByIndex( pfnIndexFromTrace( &trace ));
 			}
@@ -287,10 +291,10 @@ qboolean CL_AddVisibleEntity( cl_entity_t *ent, int entityType )
 			dl->color.b = 255;
 			dl->radius = Com_RandomLong( 200, 230 );
 		}
-	}	
+	}
 
 	if( ent->curstate.effects & EF_BRIGHTLIGHT )
-	{			
+	{
 		dlight_t	*dl = CL_AllocDlight( 0 );
 		VectorSet( dl->origin, ent->origin[0], ent->origin[1], ent->origin[2] + 16 );
 		dl->die = cl.time + 0.001f; // die at next frame
@@ -359,7 +363,7 @@ void CL_WeaponAnim( int iAnim, int body )
 	if( iAnim != view->curstate.sequence )
 	{
 		int	i;
-			
+
 		// save current blends to right lerping from last sequence
 		for( i = 0; i < 2; i++ )
 			view->latched.prevseqblending[i] = view->curstate.blending[i];
@@ -439,11 +443,11 @@ void CL_UpdateStudioVars( cl_entity_t *ent, entity_state_t *newstate, qboolean n
 		if( ent->index > 0 && ent->index <= cl.maxclients )
 			ent->latched.sequencetime = ent->curstate.animtime + 0.01f;
 		else ent->latched.sequencetime = ent->curstate.animtime + 0.1f;
-			
+
 		// save current blends to right lerping from last sequence
 		for( i = 0; i < 2; i++ )
 			ent->latched.prevseqblending[i] = ent->curstate.blending[i];
-		ent->latched.prevsequence = ent->curstate.sequence;	// save old sequence	
+		ent->latched.prevsequence = ent->curstate.sequence;	// save old sequence
 		ent->syncbase = -0.01f; // back up to get 0'th frame animations
 	}
 
@@ -553,7 +557,7 @@ void CL_DeltaEntity( sizebuf_t *msg, frame_t *frame, int newnum, entity_state_t 
 	// entity is present in newframe
 	state->messagenum = cl.parsecount;
 	state->msg_time = cl.mtime[0];
-	
+
 	cls.next_client_entities++;
 	frame->num_entities++;
 
@@ -561,12 +565,12 @@ void CL_DeltaEntity( sizebuf_t *msg, frame_t *frame, int newnum, entity_state_t 
 	ent->player = CL_IsPlayerIndex( ent->index );
 
 	if( state->effects & EF_NOINTERP || newent )
-	{	
+	{
 		// duplicate the current state so lerping doesn't hurt anything
 		ent->prevstate = *state;
 	}
 	else
-	{	
+	{
 		// shuffle the last state to previous
 		ent->prevstate = ent->curstate;
 	}
@@ -660,7 +664,7 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 		}
 
 		if( subtracted >= CL_UPDATE_MASK )
-		{	
+		{
 			// we can't use this, it is too old
 			Con_NPrintf( 2, "^3Warning:^1 delta frame is too old^7\n" );
 			CL_FlushEntityPacket( msg );
@@ -718,10 +722,10 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 			Host_Error( "CL_ParsePacketEntities: read overflow\n" );
 
 		while( oldnum < newnum )
-		{	
+		{
 			// one or more entities from the old packet are unchanged
 			CL_DeltaEntity( msg, newframe, oldnum, oldent, true );
-			
+
 			oldindex++;
 
 			if( oldindex >= oldframe->num_entities )
@@ -736,7 +740,7 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 		}
 
 		if( oldnum == newnum )
-		{	
+		{
 			// delta from previous state
 			CL_DeltaEntity( msg, newframe, newnum, oldent, false );
 			oldindex++;
@@ -754,7 +758,7 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 		}
 
 		if( oldnum > newnum )
-		{	
+		{
 			// delta from baseline ?
 			CL_DeltaEntity( msg, newframe, newnum, NULL, false );
 			continue;
@@ -763,7 +767,7 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 
 	// any remaining entities in the old frame are copied over
 	while( oldnum != MAX_ENTNUMBER )
-	{	
+	{
 		// one or more entities from the old packet are unchanged
 		CL_DeltaEntity( msg, newframe, oldnum, oldent, true );
 		oldindex++;
@@ -784,7 +788,7 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 	if( !cl.frame.valid ) return;
 
 	player = CL_GetLocalPlayer();
-		
+
 	if( cls.state != ca_active )
 	{
 		// client entered the game
@@ -793,7 +797,7 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 		cls.changelevel = false;		// changelevel is done
 
 		SCR_MakeLevelShot();		// make levelshot if needs
-		Cvar_SetFloat( "scr_loading", 0.0f );	// reset progress bar	
+		Cvar_SetFloat( "scr_loading", 0.0f );	// reset progress bar
 
 		if( cls.disable_servercount != cl.servercount && cl.video_prepped )
 			SCR_EndLoadingPlaque(); // get rid of loading plaque
@@ -813,8 +817,8 @@ void CL_ParsePacketEntities( sizebuf_t *msg, qboolean delta )
 		ps = &cl.predict[cl.predictcount & CL_UPDATE_MASK].playerstate;
 		pcd = &cl.predict[cl.predictcount & CL_UPDATE_MASK].client;
 		wd = cl.predict[cl.predictcount & CL_UPDATE_MASK].weapondata;
-		
-		clgame.dllFuncs.pfnTxferPredictionData( ps, pps, pcd, ppcd, wd, pwd ); 
+
+		clgame.dllFuncs.pfnTxferPredictionData( ps, pps, pcd, ppcd, wd, pwd );
 		clgame.dllFuncs.pfnTxferLocalOverrides( &player->curstate, pcd );
 	}
 
@@ -854,7 +858,7 @@ void CL_SetIdealPitch( void )
 
 	if( !( cl.frame.local.client.flags & FL_ONGROUND ))
 		return;
-		
+
 	angleval = cl.frame.local.playerstate.angles[YAW] * M_PI * 2 / 360;
 	SinCos( angleval, &sinval, &cosval );
 
@@ -863,7 +867,7 @@ void CL_SetIdealPitch( void )
 		top[0] = cl.frame.local.client.origin[0] + cosval * (i + 3) * 12;
 		top[1] = cl.frame.local.client.origin[1] + sinval * (i + 3) * 12;
 		top[2] = cl.frame.local.client.origin[2] + cl.frame.local.client.view_ofs[2];
-		
+
 		bottom[0] = top[0];
 		bottom[1] = top[1];
 		bottom[2] = top[2] - 160;
@@ -874,10 +878,10 @@ void CL_SetIdealPitch( void )
 
 		if( tr.fraction == 1.0f )
 			return;	// near a dropoff
-		
+
 		z[i] = top[2] + tr.fraction * (bottom[2] - top[2]);
 	}
-	
+
 	dir = 0;
 	steps = 0;
 	for( j = 1; j < i; j++ )
@@ -889,16 +893,16 @@ void CL_SetIdealPitch( void )
 		if( dir && ( step-dir > ON_EPSILON || step-dir < -ON_EPSILON ))
 			return; // mixed changes
 
-		steps++;	
+		steps++;
 		dir = step;
 	}
-	
+
 	if( !dir )
 	{
 		cl.refdef.idealpitch = 0;
 		return;
 	}
-	
+
 	if( steps < 2 ) return;
 	cl.refdef.idealpitch = -dir * cl_idealpitchscale->value;
 }
@@ -981,7 +985,7 @@ qboolean CL_GetEntitySpatialization( int entnum, vec3_t origin, float *pradius )
 		return true;
 	}
 
-	valid_origin = VectorIsNull( origin ) ? false : true;          
+	valid_origin = VectorIsNull( origin ) ? false : true;
 	ent = CL_GetEntityByIndex( entnum );
 
 	// entity is not present on the client but has valid origin

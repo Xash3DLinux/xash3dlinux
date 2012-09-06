@@ -18,6 +18,10 @@ GNU General Public License for more details.
 #include "event_flags.h"
 #include "net_encode.h"
 
+#ifndef _WIN32
+extern void MSG_ReadDeltaEvent( sizebuf_t *msg, struct event_args_s *from, struct event_args_s *to );
+#endif
+
 /*
 ===============
 CL_ResetEvent
@@ -66,7 +70,7 @@ CL_EventIndex
 word CL_EventIndex( const char *name )
 {
 	int	i;
-	
+
 	if( !name || !name[0] )
 		return 0;
 
@@ -138,7 +142,7 @@ qboolean CL_FireEvent( event_info_t *ei )
 	// get the func pointer
 	for( i = 0; i < MAX_EVENTS; i++ )
 	{
-		ev = clgame.events[i];		
+		ev = clgame.events[i];
 
 		if( !ev )
 		{
@@ -157,7 +161,7 @@ qboolean CL_FireEvent( event_info_t *ei )
 
 			name = cl.event_precache[ei->index];
 			MsgDev( D_ERROR, "CL_FireEvent: %s not hooked\n", name );
-			break;			
+			break;
 		}
 	}
 
@@ -435,7 +439,7 @@ void CL_PlaybackEvent( int flags, const edict_t *pInvoker, word eventindex, floa
 	if( !CL_EventIndex( cl.event_precache[eventindex] ))
 	{
 		MsgDev( D_ERROR, "CL_PlaybackEvent: event %i was not precached\n", eventindex );
-		return;		
+		return;
 	}
 
 	flags |= FEV_CLIENT; // it's a client event

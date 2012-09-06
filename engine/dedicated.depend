@@ -9,7 +9,7 @@
 	<features.h>
 	<bits/wordsize.h>
 
-1346927741 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wintypes.h
+1346934034 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wintypes.h
 
 1340892706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/features.h
 
@@ -274,7 +274,7 @@
 	"server.h"
 	"net_encode.h"
 
-1303769108 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_encode.h
+1346934752 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_encode.h
 
 1346925532 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_init.c
 	"recdefs.h"
@@ -372,4 +372,190 @@
 	"recdefs.h"
 	<stdarg.h>
 	"soundlib.h"
+
+1346927757 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/img_main.c
+	"recdefs.h"
+	<stdarg.h>
+	"imagelib.h"
+
+1337280656 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/imagelib.h
+	"common.h"
+
+1346927787 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/img_utils.c
+	"recdefs.h"
+	<stdarg.h>
+	"imagelib.h"
+	"mathlib.h"
+	"mod_local.h"
+
+1346927694 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/img_bmp.c
+	"recdefs.h"
+	<stdarg.h>
+	"imagelib.h"
+
+1346927769 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/img_quant.c
+	"recdefs.h"
+	<stdarg.h>
+	"imagelib.h"
+
+1346927777 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/img_tga.c
+	"recdefs.h"
+	<stdarg.h>
+	"imagelib.h"
+
+1346927796 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/imagelib/img_wad.c
+	"recdefs.h"
+	<stdarg.h>
+	"imagelib.h"
+	"mathlib.h"
+	"wadfile.h"
+	"studio.h"
+	"sprite.h"
+	"qfont.h"
+
+1288023624 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wadfile.h
+
+1292443062 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//sprite.h
+
+1346926539 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_phys.c
+	"recdefs.h"
+	<stdarg.h>
+	<GL/glx.h>
+	<GL/gl.h>
+	<X11/X.h>
+	<X11/keysym.h>
+	"common.h"
+	"server.h"
+	"const.h"
+	"library.h"
+	"triangleapi.h"
+	"gl_export.h"
+
+1303769022 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/library.h
+
+1338750548 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/triangleapi.h
+
+1346925582 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_save.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"library.h"
+	"const.h"
+	"render_api.h"
+	"sound.h"
+
+1337027266 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/client/sound.h
+	"mathlib.h"
+	"vox.h"
+
+1336996982 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/client/vox.h
+
+1346932923 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_game.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"net_encode.h"
+	"event_flags.h"
+	"library.h"
+	"pm_defs.h"
+	"studio.h"
+	"const.h"
+	"render_api.h"
+
+1346924492 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/common.c
+	"recdefs.h"
+	<stdlib.h>
+	<stdarg.h>
+	"common.h"
+	"studio.h"
+	"mathlib.h"
+	"const.h"
+	"client.h"
+	"library.h"
+
+1346923848 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/con_utils.c
+	"recdefs.h"
+	<stdlib.h>
+	<stdarg.h>
+	"common.h"
+	"client.h"
+	"const.h"
+	"bspfile.h"
+	"../cl_dll/kbutton.h"
+
+1033631976 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/cl_dll/kbutton.h
+
+1346925309 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/infostring.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+
+1346927295 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/mod_studio.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"studio.h"
+	"r_studioint.h"
+	"library.h"
+
+1322689720 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/r_studioint.h
+
+1346925717 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/model.c
+	"recdefs.h"
+	<stdarg.h>
+	"mod_local.h"
+	"sprite.h"
+	"mathlib.h"
+	"studio.h"
+	"wadfile.h"
+	"world.h"
+	"gl_local.h"
+	"features.h"
+
+1346925697 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_chan.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"netchan.h"
+	"mathlib.h"
+	"net_encode.h"
+
+1346933751 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_encode.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"netchan.h"
+	"mathlib.h"
+	"net_encode.h"
+	"event_api.h"
+	"usercmd.h"
+	"pm_movevars.h"
+	"entity_state.h"
+	"weaponinfo.h"
+	"event_args.h"
+	"protocol.h"
+	"client.h"
+
+1346947360 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/mathlib.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"mathlib.h"
+
+1346948010 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_buffer.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"protocol.h"
+	"net_buffer.h"
+	"mathlib.h"
+
+1346948735 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_huff.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"netchan.h"
 

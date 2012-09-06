@@ -22,6 +22,14 @@ GNU General Public License for more details.
 #include "const.h"
 #include "net_encode.h"
 
+#ifndef _WIN32
+extern void MSG_WriteDeltaEvent( sizebuf_t *msg, struct event_args_s *from, struct event_args_s *to );
+extern void MSG_WriteClientData( sizebuf_t *msg, struct clientdata_s *from, struct clientdata_s *to, float timebase );
+extern void MSG_WriteWeaponData( sizebuf_t *msg, struct weapon_data_s *from, struct weapon_data_s *to, float timebase, int index );
+extern void MSG_WriteDeltaEntity( struct entity_state_s *from, struct entity_state_s *to, sizebuf_t *msg, qboolean force, qboolean player, float timebase );
+#endif
+
+
 typedef struct
 {
 	int		num_entities;

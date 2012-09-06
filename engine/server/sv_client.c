@@ -23,6 +23,10 @@ GNU General Public License for more details.
 #include "net_encode.h"
 #include "net_api.h"
 
+#ifndef _WIN32
+extern void MSG_WriteDeltaEntity( struct entity_state_s *from, struct entity_state_s *to, sizebuf_t *msg, qboolean force, qboolean player, float timebase );
+#endif
+
 const char *clc_strings[9] =
 {
 	"clc_bad",

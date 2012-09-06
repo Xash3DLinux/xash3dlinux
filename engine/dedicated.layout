@@ -80,7 +80,7 @@
 		<Cursor position="220" topLine="0" />
 	</File>
 	<File name="common/mathlib.c" open="0" top="0" tabpos="0">
-		<Cursor position="663" topLine="108" />
+		<Cursor position="2616" topLine="114" />
 	</File>
 	<File name="common/matrixlib.c" open="0" top="0" tabpos="0">
 		<Cursor position="621" topLine="0" />
@@ -92,22 +92,25 @@
 		<Cursor position="546" topLine="0" />
 	</File>
 	<File name="common/net_buffer.c" open="0" top="0" tabpos="0">
-		<Cursor position="606" topLine="21" />
+		<Cursor position="7252" topLine="310" />
 	</File>
 	<File name="common/net_buffer.h" open="0" top="0" tabpos="0">
 		<Cursor position="1104" topLine="31" />
 	</File>
 	<File name="common/net_chan.c" open="0" top="0" tabpos="0">
-		<Cursor position="616" topLine="0" />
+		<Cursor position="28930" topLine="1285" />
 	</File>
 	<File name="common/net_encode.c" open="0" top="0" tabpos="0">
-		<Cursor position="626" topLine="0" />
+		<Cursor position="42437" topLine="1616" />
+	</File>
+	<File name="common/net_encode.h" open="0" top="0" tabpos="0">
+		<Cursor position="5071" topLine="116" />
 	</File>
 	<File name="common/net_huff.c" open="0" top="0" tabpos="0">
-		<Cursor position="651" topLine="0" />
+		<Cursor position="800" topLine="9" />
 	</File>
 	<File name="common/network.c" open="0" top="0" tabpos="0">
-		<Cursor position="571" topLine="66" />
+		<Cursor position="4112" topLine="189" />
 	</File>
 	<File name="common/pm_surface.c" open="0" top="0" tabpos="0">
 		<Cursor position="618" topLine="0" />
@@ -140,10 +143,10 @@
 		<Cursor position="635" topLine="0" />
 	</File>
 	<File name="server/server.h" open="0" top="0" tabpos="0">
-		<Cursor position="17884" topLine="538" />
+		<Cursor position="17722" topLine="532" />
 	</File>
 	<File name="server/sv_client.c" open="0" top="0" tabpos="0">
-		<Cursor position="621" topLine="0" />
+		<Cursor position="734" topLine="15" />
 	</File>
 	<File name="server/sv_cmds.c" open="0" top="0" tabpos="0">
 		<Cursor position="623" topLine="0" />
@@ -152,10 +155,10 @@
 		<Cursor position="631" topLine="0" />
 	</File>
 	<File name="server/sv_frame.c" open="0" top="0" tabpos="0">
-		<Cursor position="622" topLine="0" />
+		<Cursor position="1243" topLine="12" />
 	</File>
 	<File name="server/sv_game.c" open="0" top="0" tabpos="0">
-		<Cursor position="10900" topLine="403" />
+		<Cursor position="967" topLine="9" />
 	</File>
 	<File name="server/sv_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="628" topLine="0" />
@@ -173,7 +176,7 @@
 		<Cursor position="626" topLine="0" />
 	</File>
 	<File name="server/sv_save.c" open="0" top="0" tabpos="0">
-		<Cursor position="11779" topLine="444" />
+		<Cursor position="11935" topLine="441" />
 	</File>
 	<File name="server/sv_world.c" open="0" top="0" tabpos="0">
 		<Cursor position="622" topLine="0" />

@@ -20,7 +20,13 @@ GNU General Public License for more details.
 #include "common.h"
 #include "netchan.h"
 
+#ifdef _WIN32
 #define VALUE(a)			((int   )(a))
+#else
+#define VALUE(a)             (int   )(a)
+#endif
+
+
 #define NODE(a)			((void *)(a))
 
 #define NODE_START			NODE(  1)

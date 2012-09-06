@@ -115,6 +115,7 @@ SinCos
 */
 void SinCos( float radians, float *sine, float *cosine )
 {
+#ifdef _WIN32
 	_asm
 	{
 		fld	dword ptr [radians]
@@ -126,6 +127,14 @@ void SinCos( float radians, float *sine, float *cosine )
 		fstp dword ptr [edx]
 		fstp dword ptr [eax]
 	}
+#else
+//    sincosf( radians, sine, cosine );
+
+    register long double sv,cv;\
+    asm("fsincos":"=t"(cv),"=u"(sv):"0"(radians):"st(2)","st(3)");\
+    *cosine = cv;\
+    *sine = sv;\
+#endif
 }
 
 float VectorNormalizeLength2( const vec3_t v, vec3_t out )

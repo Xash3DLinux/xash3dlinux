@@ -451,8 +451,10 @@ void ReapplyDecal( SAVERESTOREDATA *pSaveData, decallist_t *entry, qboolean adja
 
 	if( flags & FDECAL_STUDIO )
 	{
+#ifdef _WIN32
 		// NOTE: studio decal trace start saved into impactPlaneNormal
 		SV_CreateStudioDecal( entry->position, entry->impactPlaneNormal, decalIndex, entityIndex, modelIndex, flags, &entry->studio_state );
+#endif
 		return;
 	}
 	else if( adjacent && entityIndex != 0 && !SV_IsValidEdict( pEdict ))

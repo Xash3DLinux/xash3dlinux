@@ -27,6 +27,10 @@ GNU General Public License for more details.
 #include "const.h"
 #include "render_api.h"	// modelstate_t
 
+#ifndef _WIN32
+extern void MSG_WriteDeltaEvent( sizebuf_t *msg, struct event_args_s *from, struct event_args_s *to );
+#endif
+
 // fatpvs stuff
 static byte fatpvs[MAX_MAP_LEAFS/8];
 static byte fatphs[MAX_MAP_LEAFS/8];
@@ -405,6 +409,7 @@ SV_CreateStudioDecal
 NOTE: static decals only accepted when game is loading
 =======================
 */
+#ifdef _WIN32
 void SV_CreateStudioDecal( const float *origin, const float *start, int decalIndex, int entityIndex, int modelIndex, int flags, modelstate_t *state )
 {
 	if( sv.state != ss_loading ) return;
@@ -445,6 +450,7 @@ void SV_CreateStudioDecal( const float *origin, const float *start, int decalInd
 	// write additional data (excluded from the game message)
 	BF_WriteShort( &sv.signon, modelIndex );
 }
+#endif
 
 /*
 =======================
