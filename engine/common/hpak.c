@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "filesystem.h"
@@ -31,7 +35,7 @@ const char *HPAK_TypeFromIndex( int type )
 	case t_decal: return "decal";
 	case t_generic: return "generic";
 	case t_eventscript: return "event";
-	case t_world: return "map";	
+	case t_world: return "map";
 	}
 	return "generic";
 }
@@ -49,7 +53,7 @@ void HPAK_FileCopy( file_t *pOutput, file_t *pInput, int fileSize )
 
 		FS_Read( pInput, buf, size );
 		FS_Write( pOutput, buf, size );
-		
+
 		fileSize -= size;
 	}
 }
@@ -457,7 +461,7 @@ static qboolean HPAK_Validate( const char *filename, qboolean quiet )
 		pRes = &dataDir[i].DirectoryResource;
 
 		MsgDev( D_INFO, "%i:      %s %s %s:   ", i, HPAK_TypeFromIndex( pRes->type ),
-		Q_pretifymem( pRes->nDownloadSize, 2 ), pRes->szFileName );  
+		Q_pretifymem( pRes->nDownloadSize, 2 ), pRes->szFileName );
 
 		if( memcmp( md5, pRes->rgucMD5_hash, 0x10 ))
 		{
@@ -530,7 +534,7 @@ qboolean HPAK_ResourceForHash( const char *filename, char *inHash, resource_t *p
 
 	if( !filename || !filename[0] )
 		return false;
-	
+
 	for( hpak = hpak_queue; hpak != NULL; hpak = hpak->next )
 	{
 		if( !Q_stricmp( hpak->name, filename ) && !memcmp( hpak->HpakResource.rgucMD5_hash, inHash, 0x10 ))

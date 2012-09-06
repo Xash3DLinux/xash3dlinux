@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Win32 Release" />
+	<File name="client/cl_tent.h" open="0" top="0" tabpos="0">
+		<Cursor position="684" topLine="9" />
+	</File>
+	<File name="client/client.h" open="0" top="0" tabpos="0">
+		<Cursor position="8310" topLine="299" />
+	</File>
+	<File name="client/gl_export.h" open="0" top="0" tabpos="0">
+		<Cursor position="56198" topLine="3" />
+	</File>
+	<File name="client/gl_local.h" open="0" top="0" tabpos="0">
+		<Cursor position="624" topLine="3" />
+	</File>
+	<File name="common/build.c" open="0" top="0" tabpos="0">
+		<Cursor position="603" topLine="0" />
+	</File>
+	<File name="common/cmd.c" open="0" top="0" tabpos="0">
+		<Cursor position="629" topLine="0" />
+	</File>
+	<File name="common/common.c" open="0" top="0" tabpos="0">
+		<Cursor position="641" topLine="9" />
+	</File>
+	<File name="common/common.h" open="0" top="0" tabpos="0">
+		<Cursor position="23963" topLine="681" />
+	</File>
+	<File name="common/con_utils.c" open="0" top="0" tabpos="0">
+		<Cursor position="420" topLine="803" />
+	</File>
+	<File name="common/console.c" open="0" top="0" tabpos="0">
+		<Cursor position="555" topLine="6" />
+	</File>
+	<File name="common/crclib.c" open="0" top="0" tabpos="0">
+		<Cursor position="556" topLine="0" />
+	</File>
+	<File name="common/crtlib.c" open="0" top="0" tabpos="0">
+		<Cursor position="615" topLine="0" />
+	</File>
+	<File name="common/cvar.c" open="0" top="0" tabpos="0">
+		<Cursor position="561" topLine="0" />
+	</File>
+	<File name="common/filesystem.c" open="0" top="0" tabpos="0">
+		<Cursor position="571" topLine="9" />
+	</File>
+	<File name="common/gamma.c" open="0" top="0" tabpos="0">
+		<Cursor position="614" topLine="0" />
+	</File>
+	<File name="common/host.c" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+	<File name="common/hpak.c" open="0" top="0" tabpos="0">
+		<Cursor position="638" topLine="0" />
+	</File>
+	<File name="common/imagelib/img_bmp.c" open="0" top="0" tabpos="0">
+		<Cursor position="560" topLine="0" />
+	</File>
+	<File name="common/imagelib/img_main.c" open="0" top="0" tabpos="0">
+		<Cursor position="635" topLine="0" />
+	</File>
+	<File name="common/imagelib/img_quant.c" open="0" top="0" tabpos="0">
+		<Cursor position="656" topLine="0" />
+	</File>
+	<File name="common/imagelib/img_tga.c" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+	<File name="common/imagelib/img_utils.c" open="0" top="0" tabpos="0">
+		<Cursor position="620" topLine="0" />
+	</File>
+	<File name="common/imagelib/img_wad.c" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+	<File name="common/infostring.c" open="0" top="0" tabpos="0">
+		<Cursor position="623" topLine="0" />
+	</File>
+	<File name="common/input.c" open="0" top="0" tabpos="0">
+		<Cursor position="617" topLine="0" />
+	</File>
+	<File name="common/library.c" open="0" top="0" tabpos="0">
+		<Cursor position="220" topLine="0" />
+	</File>
+	<File name="common/mathlib.c" open="0" top="0" tabpos="0">
+		<Cursor position="663" topLine="108" />
+	</File>
+	<File name="common/matrixlib.c" open="0" top="0" tabpos="0">
+		<Cursor position="621" topLine="0" />
+	</File>
+	<File name="common/mod_studio.c" open="0" top="0" tabpos="0">
+		<Cursor position="629" topLine="0" />
+	</File>
+	<File name="common/model.c" open="0" top="0" tabpos="0">
+		<Cursor position="546" topLine="0" />
+	</File>
+	<File name="common/net_buffer.c" open="0" top="0" tabpos="0">
+		<Cursor position="606" topLine="21" />
+	</File>
+	<File name="common/net_buffer.h" open="0" top="0" tabpos="0">
+		<Cursor position="1104" topLine="31" />
+	</File>
+	<File name="common/net_chan.c" open="0" top="0" tabpos="0">
+		<Cursor position="616" topLine="0" />
+	</File>
+	<File name="common/net_encode.c" open="0" top="0" tabpos="0">
+		<Cursor position="626" topLine="0" />
+	</File>
+	<File name="common/net_huff.c" open="0" top="0" tabpos="0">
+		<Cursor position="651" topLine="0" />
+	</File>
+	<File name="common/network.c" open="0" top="0" tabpos="0">
+		<Cursor position="571" topLine="66" />
+	</File>
+	<File name="common/pm_surface.c" open="0" top="0" tabpos="0">
+		<Cursor position="618" topLine="0" />
+	</File>
+	<File name="common/pm_trace.c" open="0" top="0" tabpos="0">
+		<Cursor position="624" topLine="0" />
+	</File>
+	<File name="common/random.c" open="0" top="0" tabpos="0">
+		<Cursor position="615" topLine="0" />
+	</File>
+	<File name="common/soundlib/snd_main.c" open="0" top="0" tabpos="0">
+		<Cursor position="572" topLine="0" />
+	</File>
+	<File name="common/soundlib/snd_mp3.c" open="0" top="0" tabpos="0">
+		<Cursor position="632" topLine="0" />
+	</File>
+	<File name="common/soundlib/snd_utils.c" open="0" top="0" tabpos="0">
+		<Cursor position="620" topLine="0" />
+	</File>
+	<File name="common/soundlib/snd_wav.c" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+	<File name="common/system.h" open="0" top="0" tabpos="0">
+		<Cursor position="2798" topLine="95" />
+	</File>
+	<File name="common/world.c" open="0" top="0" tabpos="0">
+		<Cursor position="624" topLine="0" />
+	</File>
+	<File name="common/zone.c" open="0" top="0" tabpos="0">
+		<Cursor position="635" topLine="0" />
+	</File>
+	<File name="server/server.h" open="0" top="0" tabpos="0">
+		<Cursor position="17884" topLine="538" />
+	</File>
+	<File name="server/sv_client.c" open="0" top="0" tabpos="0">
+		<Cursor position="621" topLine="0" />
+	</File>
+	<File name="server/sv_cmds.c" open="0" top="0" tabpos="0">
+		<Cursor position="623" topLine="0" />
+	</File>
+	<File name="server/sv_custom.c" open="0" top="0" tabpos="0">
+		<Cursor position="631" topLine="0" />
+	</File>
+	<File name="server/sv_frame.c" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+	<File name="server/sv_game.c" open="0" top="0" tabpos="0">
+		<Cursor position="10900" topLine="403" />
+	</File>
+	<File name="server/sv_init.c" open="0" top="0" tabpos="0">
+		<Cursor position="628" topLine="0" />
+	</File>
+	<File name="server/sv_main.c" open="0" top="0" tabpos="0">
+		<Cursor position="616" topLine="0" />
+	</File>
+	<File name="server/sv_move.c" open="0" top="0" tabpos="0">
+		<Cursor position="617" topLine="0" />
+	</File>
+	<File name="server/sv_phys.c" open="0" top="0" tabpos="0">
+		<Cursor position="788" topLine="3" />
+	</File>
+	<File name="server/sv_pmove.c" open="0" top="0" tabpos="0">
+		<Cursor position="626" topLine="0" />
+	</File>
+	<File name="server/sv_save.c" open="0" top="0" tabpos="0">
+		<Cursor position="11779" topLine="444" />
+	</File>
+	<File name="server/sv_world.c" open="0" top="0" tabpos="0">
+		<Cursor position="622" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

@@ -12,6 +12,11 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdlib.h>
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "client.h"
@@ -57,7 +62,7 @@ qboolean Cmd_GetMapList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "maps/%s*.bsp", s ), true, con_gamemaps->integer );
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
@@ -65,15 +70,15 @@ qboolean Cmd_GetMapList( const char *s, char *completedname, int length )
 	{
 		char		entfilename[CS_SIZE];
 		int		ver = -1, lumpofs = 0, lumplen = 0;
-		const char	*ext = FS_FileExtension( t->filenames[i] ); 
+		const char	*ext = FS_FileExtension( t->filenames[i] );
 		char		*ents = NULL, *pfile;
 		qboolean		gearbox = false;
 		qboolean		xash_ext = false;
-			
+
 		if( Q_stricmp( ext, "bsp" )) continue;
 		Q_strncpy( message, "^1error^7", sizeof( message ));
 		f = FS_Open( t->filenames[i], "rb", con_gamemaps->integer );
-	
+
 		if( f )
 		{
 			dheader_t	*header, tmphdr;
@@ -83,7 +88,7 @@ qboolean Cmd_GetMapList( const char *s, char *completedname, int length )
 			FS_Read( f, &tmphdr, sizeof( tmphdr ));
 			ver = tmphdr.version;
 			header = &tmphdr;
-                              
+
 			switch( ver )
 			{
 			case Q1BSP_VERSION:
@@ -188,13 +193,13 @@ qboolean Cmd_GetDemoList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "demos/%s*.dem", s ), true, true );	// lookup only in gamedir
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for( i = 0, numdems = 0; i < t->numfilenames; i++ )
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( Q_stricmp( ext, "dem" )) continue;
 		FS_FileBase( t->filenames[i], matchbuf );
@@ -233,13 +238,13 @@ qboolean Cmd_GetMovieList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "media/%s*.avi", s ), true, false );
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for(i = 0, nummovies = 0; i < t->numfilenames; i++)
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( Q_stricmp( ext, "avi" )) continue;
 		FS_FileBase( t->filenames[i], matchbuf );
@@ -279,13 +284,13 @@ qboolean Cmd_GetMusicList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "media/%s*.*", s ), true, false );
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for(i = 0, numtracks = 0; i < t->numfilenames; i++)
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( !Q_stricmp( ext, "wav" ) || !Q_stricmp( ext, "mp3" ));
 		else continue;
@@ -326,13 +331,13 @@ qboolean Cmd_GetSavesList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "save/%s*.sav", s ), true, true );	// lookup only in gamedir
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for( i = 0, numsaves = 0; i < t->numfilenames; i++ )
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( Q_stricmp( ext, "sav" )) continue;
 		FS_FileBase( t->filenames[i], matchbuf );
@@ -372,7 +377,7 @@ qboolean Cmd_GetConfigList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "%s*.cfg", s ), true, false );
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
@@ -419,19 +424,19 @@ qboolean Cmd_GetSoundList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "%s%s*.*", snddir, s ), true, false );
 	if( !t ) return false;
 
-	Q_strncpy( matchbuf, t->filenames[0] + Q_strlen( snddir ), MAX_STRING ); 
-	FS_StripExtension( matchbuf ); 
+	Q_strncpy( matchbuf, t->filenames[0] + Q_strlen( snddir ), MAX_STRING );
+	FS_StripExtension( matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for(i = 0, numsounds = 0; i < t->numfilenames; i++)
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( !Q_stricmp( ext, "wav" ) || !Q_stricmp( ext, "mp3" ));
 		else continue;
 
-		Q_strncpy( matchbuf, t->filenames[i] + Q_strlen(snddir), MAX_STRING ); 
+		Q_strncpy( matchbuf, t->filenames[i] + Q_strlen(snddir), MAX_STRING );
 		FS_StripExtension( matchbuf );
 		Msg( "%16s\n", matchbuf );
 		numsounds++;
@@ -471,13 +476,13 @@ qboolean Cmd_GetItemsList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "%s/%s*.txt", clgame.itemspath, s ), true, false );
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for(i = 0, numitems = 0; i < t->numfilenames; i++)
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( Q_stricmp( ext, "txt" )) continue;
 		FS_FileBase( t->filenames[i], matchbuf );
@@ -518,13 +523,13 @@ qboolean Cmd_GetCustomList( const char *s, char *completedname, int length )
 	t = FS_Search( va( "%s*.hpk", s ), true, false );
 	if( !t ) return false;
 
-	FS_FileBase( t->filenames[0], matchbuf ); 
+	FS_FileBase( t->filenames[0], matchbuf );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( t->numfilenames == 1 ) return true;
 
 	for(i = 0, numitems = 0; i < t->numfilenames; i++)
 	{
-		const char *ext = FS_FileExtension( t->filenames[i] ); 
+		const char *ext = FS_FileExtension( t->filenames[i] );
 
 		if( Q_stricmp( ext, "hpk" )) continue;
 		FS_FileBase( t->filenames[i], matchbuf );
@@ -574,17 +579,17 @@ qboolean Cmd_GetTexturemodes( const char *s, char *completedname, int length )
 	for( i = 0, numtexturemodes = 0; i < 6; i++ )
 	{
 		if(( *s == '*' ) || !Q_strnicmp( gl_texturemode[i], s, Q_strlen( s )))
-			Q_strcpy( texturemodes[numtexturemodes++], gl_texturemode[i] ); 
+			Q_strcpy( texturemodes[numtexturemodes++], gl_texturemode[i] );
 	}
 
 	if( !numtexturemodes ) return false;
-	Q_strncpy( matchbuf, gl_texturemode[0], MAX_STRING ); 
+	Q_strncpy( matchbuf, gl_texturemode[0], MAX_STRING );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( numtexturemodes == 1 ) return true;
 
 	for( i = 0; i < numtexturemodes; i++ )
 	{
-		Q_strncpy( matchbuf, texturemodes[i], MAX_STRING ); 
+		Q_strncpy( matchbuf, texturemodes[i], MAX_STRING );
 		Msg( "%16s\n", matchbuf );
 	}
 
@@ -619,17 +624,17 @@ qboolean Cmd_GetGamesList( const char *s, char *completedname, int length )
 	for( i = 0, numgamedirs = 0; i < SI.numgames; i++ )
 	{
 		if(( *s == '*' ) || !Q_strnicmp( SI.games[i]->gamefolder, s, Q_strlen( s )))
-			Q_strcpy( gamedirs[numgamedirs++], SI.games[i]->gamefolder ); 
+			Q_strcpy( gamedirs[numgamedirs++], SI.games[i]->gamefolder );
 	}
 
 	if( !numgamedirs ) return false;
-	Q_strncpy( matchbuf, gamedirs[0], MAX_STRING ); 
+	Q_strncpy( matchbuf, gamedirs[0], MAX_STRING );
 	if( completedname && length ) Q_strncpy( completedname, matchbuf, length );
 	if( numgamedirs == 1 ) return true;
 
 	for( i = 0; i < numgamedirs; i++ )
 	{
-		Q_strncpy( matchbuf, gamedirs[i], MAX_STRING ); 
+		Q_strncpy( matchbuf, gamedirs[i], MAX_STRING );
 		Msg( "%16s\n", matchbuf );
 	}
 
@@ -659,7 +664,7 @@ qboolean Cmd_CheckMapsList_R( qboolean fRefresh, qboolean onlyingamedir )
 	if( FS_FileSize( "maps.lst", onlyingamedir ) > 0 && !fRefresh )
 	{
 		Msg( "maps.lst is exist: %s\n", onlyingamedir ? "basedir" : "gamedir" );
-		return true; // exist 
+		return true; // exist
 	}
 
 	t = FS_Search( "maps/*.bsp", false, onlyingamedir );
@@ -675,7 +680,7 @@ qboolean Cmd_CheckMapsList_R( qboolean fRefresh, qboolean onlyingamedir )
 		char		*ents = NULL, *pfile;
 		int		ver = -1, lumpofs = 0, lumplen = 0;
 		string		mapname, message, entfilename;
-		const char	*ext = FS_FileExtension( t->filenames[i] ); 
+		const char	*ext = FS_FileExtension( t->filenames[i] );
 
 		if( Q_stricmp( ext, "bsp" )) continue;
 		f = FS_Open( t->filenames[i], "rb", onlyingamedir );
@@ -689,7 +694,7 @@ qboolean Cmd_CheckMapsList_R( qboolean fRefresh, qboolean onlyingamedir )
 			Q_memset( buf, 0, MAX_SYSPATH );
 			FS_Read( f, buf, MAX_SYSPATH );
 			ver = *(uint *)buf;
-                              
+
 			switch( ver )
 			{
 			case Q1BSP_VERSION:
@@ -844,28 +849,28 @@ static void Cmd_WriteHelp(const char *name, const char *unused, const char *desc
 {
 	if( !desc ) return;				// ignore fantom cmds
 	if( !Q_strcmp( desc, "" )) return;		// blank description
-	if( name[0] == '+' || name[0] == '-' ) return;	// key bindings	
+	if( name[0] == '+' || name[0] == '-' ) return;	// key bindings
 	FS_Printf( f, "%s\t\t\t\"%s\"\n", name, desc );
 }
 
 void Cmd_WriteVariables( file_t *f )
 {
-	Cvar_LookupVars( CVAR_ARCHIVE, NULL, f, Cmd_WriteCvar ); 
+	Cvar_LookupVars( CVAR_ARCHIVE, NULL, f, Cmd_WriteCvar );
 }
 
 void Cmd_WriteServerVariables( file_t *f )
 {
-	Cvar_LookupVars( CVAR_SERVERNOTIFY, NULL, f, Cmd_WriteServerCvar ); 
+	Cvar_LookupVars( CVAR_SERVERNOTIFY, NULL, f, Cmd_WriteServerCvar );
 }
 
 void Cmd_WriteOpenGLVariables( file_t *f )
 {
-	Cvar_LookupVars( CVAR_GLCONFIG, NULL, f, Cmd_WriteOpenGLCvar ); 
+	Cvar_LookupVars( CVAR_GLCONFIG, NULL, f, Cmd_WriteOpenGLCvar );
 }
 
 void Cmd_WriteRenderVariables( file_t *f )
 {
-	Cvar_LookupVars( CVAR_RENDERINFO, NULL, f, Cmd_WriteRenderCvar ); 
+	Cvar_LookupVars( CVAR_RENDERINFO, NULL, f, Cmd_WriteRenderCvar );
 }
 
 /*
@@ -897,7 +902,7 @@ void Host_WriteConfig( void )
 		mlook = (kbutton_t *)clgame.dllFuncs.KB_Find( "in_mlook" );
 		jlook = (kbutton_t *)clgame.dllFuncs.KB_Find( "in_jlook" );
 
-		if( mlook && ( mlook->state & 1 )) 
+		if( mlook && ( mlook->state & 1 ))
 			FS_Printf( f, "+mlook\n" );
 
 		if( jlook && ( jlook->state & 1 ))
@@ -923,7 +928,7 @@ void Host_WriteServerConfig( const char *name )
 	file_t	*f;
 
 	SV_InitGameProgs();	// collect user variables
-	
+
 	if(( f = FS_Open( name, "w", false )) != NULL )
 	{
 		FS_Printf( f, "//=======================================================================\n" );
@@ -958,8 +963,8 @@ void Host_WriteOpenGLConfig( void )
 		FS_Printf( f, "//\t\t    opengl.cfg - archive of opengl extension cvars\n");
 		FS_Printf( f, "//=======================================================================\n" );
 		Cmd_WriteOpenGLVariables( f );
-		FS_Close( f );	
-	}                                                
+		FS_Close( f );
+	}
 	else MsgDev( D_ERROR, "can't update opengl.cfg.\n" );
 }
 
@@ -983,8 +988,8 @@ void Host_WriteVideoConfig( void )
 		FS_Printf( f, "//\t\tvideo.cfg - archive of renderer variables\n");
 		FS_Printf( f, "//=======================================================================\n" );
 		Cmd_WriteRenderVariables( f );
-		FS_Close( f );	
-	}                                                
+		FS_Close( f );
+	}
 	else MsgDev( D_ERROR, "can't update video.cfg.\n" );
 }
 
@@ -1009,9 +1014,9 @@ void Key_EnumCmds_f( void )
 		FS_Printf( f, "//=======================================================================\n");
 
 		FS_Printf( f, "\n\n\t\t\tconsole variables\n\n");
-		Cvar_LookupVars( 0, NULL, f, Cmd_WriteHelp ); 
+		Cvar_LookupVars( 0, NULL, f, Cmd_WriteHelp );
 		FS_Printf( f, "\n\n\t\t\tconsole commands\n\n");
-		Cmd_LookupCmds( NULL, f, Cmd_WriteHelp ); 
+		Cmd_LookupCmds( NULL, f, Cmd_WriteHelp );
   		FS_Printf( f, "\n\n");
 		FS_Close( f );
 		Msg( "help.txt created\n" );

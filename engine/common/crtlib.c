@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include <math.h>
 #include "common.h"
@@ -178,14 +182,14 @@ int Q_atoi( const char *str )
 		str++;
 
 	if( !str ) return 0;
-	
+
 	if( *str == '-' )
 	{
 		sign = -1;
 		str++;
 	}
 	else sign = 1;
-		
+
 	// check for hex
 	if( str[0] == '0' && ( str[1] == 'x' || str[1] == 'X' ))
 	{
@@ -199,11 +203,11 @@ int Q_atoi( const char *str )
 			else return val * sign;
 		}
 	}
-	
+
 	// check for character
 	if( str[0] == '\'' )
 		return sign * str[1];
-	
+
 	// assume decimal
 	while( 1 )
 	{
@@ -227,14 +231,14 @@ float Q_atof( const char *str )
 		str++;
 
 	if( !str ) return 0.0f;
-	
+
 	if( *str == '-' )
 	{
 		sign = -1;
 		str++;
 	}
 	else sign = 1;
-		
+
 	// check for hex
 	if( str[0] == '0' && ( str[1] == 'x' || str[1] == 'X' ))
 	{
@@ -248,10 +252,10 @@ float Q_atof( const char *str )
 			else return val * sign;
 		}
 	}
-	
+
 	// check for character
 	if( str[0] == '\'' ) return sign * str[1];
-	
+
 	// assume decimal
 	decimal = -1;
 	total = 0;
@@ -278,7 +282,7 @@ float Q_atof( const char *str )
 		val /= 10;
 		total--;
 	}
-	
+
 	return val * sign;
 }
 
@@ -349,7 +353,7 @@ int Q_strnicmp( const char *s1, const char *s2, int n )
 		c2 = *s2++;
 
 		if( !n-- ) return 0; // strings are equal until end point
-		
+
 		if( c1 != c2 )
 		{
 			if( c1 >= 'a' && c1 <= 'z' ) c1 -= ('a' - 'A');
@@ -373,7 +377,7 @@ int Q_strncmp( const char *s1, const char *s2, int n )
 	}
 	else if( s2 == NULL )
 		return 1;
-	
+
 	do {
 		c1 = *s1++;
 		c2 = *s2++;
@@ -383,7 +387,7 @@ int Q_strncmp( const char *s1, const char *s2, int n )
 		if( c1 != c2 ) return c1 < c2 ? -1 : 1;
 
 	} while( c1 );
-	
+
 	// strings are equal
 	return 0;
 }

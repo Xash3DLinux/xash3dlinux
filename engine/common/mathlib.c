@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "mathlib.h"
@@ -225,7 +229,7 @@ void VectorAngles( const float *forward, float *angles )
 		pitch = ( atan2( forward[2], tmp ) * 180 / M_PI );
 		if( pitch < 0 ) pitch += 360;
 	}
-	VectorSet( angles, pitch, yaw, 0 ); 
+	VectorSet( angles, pitch, yaw, 0 );
 }
 
 /*

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "mathlib.h"
@@ -571,7 +575,7 @@ qboolean Matrix4x4_Invert_Full( matrix4x4 out, const matrix4x4 in1 )
 	r[3][4] =	0.0;
 	r[3][5] = 0.0;
 	r[3][6] = 0.0;
-	r[3][7] = 1.0;	
+	r[3][7] = 1.0;
 
 	if( fabs( r[3][0] ) > fabs( r[2][0] ))
 	{

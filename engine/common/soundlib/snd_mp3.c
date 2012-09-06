@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "soundlib.h"
 
@@ -232,7 +236,7 @@ long Stream_ReadMPG( stream_t *stream, long needBytes, void *buffer )
 			{
 				int numReads = 0;
 
-				// HACKHACK: flush all the previous data				
+				// HACKHACK: flush all the previous data
 				while( read_mpeg_stream( mpg, NULL, 0 ) == MP3_OK && numReads++ < 255 );
 				read_len = FS_Read( stream->file, tempbuff, sizeof( tempbuff ));
 				result = read_mpeg_stream( mpg, tempbuff, read_len );
@@ -257,7 +261,7 @@ long Stream_ReadMPG( stream_t *stream, long needBytes, void *buffer )
 
 		// check remaining size
 		if( bytesWritten + mpg->outsize > needBytes )
-			outsize = ( needBytes - bytesWritten ); 
+			outsize = ( needBytes - bytesWritten );
 		else outsize = mpg->outsize;
 
 		// copy raw sample to output buffer

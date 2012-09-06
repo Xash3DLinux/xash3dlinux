@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "mathlib.h"
@@ -51,18 +55,18 @@ void PM_InitBoxHull( void )
 	for( i = 0; i < 6; i++ )
 	{
 		pm_boxclipnodes[i].planenum = i;
-		
+
 		side = i & 1;
-		
+
 		pm_boxclipnodes[i].children[side] = CONTENTS_EMPTY;
 		if( i != 5 ) pm_boxclipnodes[i].children[side^1] = i + 1;
 		else pm_boxclipnodes[i].children[side^1] = CONTENTS_SOLID;
-		
+
 		pm_boxplanes[i].type = i>>1;
 		pm_boxplanes[i].normal[i>>1] = 1.0f;
 		pm_boxplanes[i].signbits = 0;
 	}
-	
+
 }
 
 /*
@@ -203,7 +207,7 @@ qboolean PM_RecursiveHullCheck( hull_t *hull, int num, float p1f, float p2f, vec
 
 	if( num < hull->firstclipnode || num > hull->lastclipnode )
 		Sys_Error( "PM_RecursiveHullCheck: bad node number\n" );
-		
+
 	// find the point distances
 	node = hull->clipnodes + num;
 	plane = hull->planes + node->planenum;
@@ -232,7 +236,7 @@ qboolean PM_RecursiveHullCheck( hull_t *hull, int num, float p1f, float p2f, vec
 
 	if( frac < 0 ) frac = 0;
 	if( frac > 1 ) frac = 1;
-		
+
 	midf = p1f + ( p2f - p1f ) * frac;
 	VectorLerp( p1, frac, p2, mid );
 
@@ -245,12 +249,12 @@ qboolean PM_RecursiveHullCheck( hull_t *hull, int num, float p1f, float p2f, vec
 	{
 		// go past the node
 		return PM_RecursiveHullCheck( hull, node->children[side^1], midf, p2f, mid, p2, trace );
-	}	
+	}
 
 	// never got out of the solid area
 	if( trace->allsolid )
 		return false;
-		
+
 	// the other side of the node is solid, this is the impact point
 	if( !side )
 	{
@@ -395,7 +399,7 @@ pmtrace_t PM_PlayerTraceExt( playermove_t *pmove, vec3_t start, vec3_t end, int 
 
 			Matrix4x4_VectorITransform( matrix, start, start_l );
 			Matrix4x4_VectorITransform( matrix, end, end_l );
-                              
+
 			if( transform_bbox )
 			{
 				World_TransformAABB( matrix, pmove->player_mins[pmove->usehull], pmove->player_maxs[pmove->usehull], mins, maxs );
@@ -570,7 +574,7 @@ int PM_TestPlayerPosition( playermove_t *pmove, vec3_t pos, pmtrace_t *ptrace, p
 			else Matrix4x4_CreateFromEntity( matrix, pe->angles, offset, 1.0f );
 
 			Matrix4x4_VectorITransform( matrix, pos, pos_l );
-                              
+
 			if( transform_bbox )
 			{
 				World_TransformAABB( matrix, pmove->player_mins[pmove->usehull], pmove->player_maxs[pmove->usehull], mins, maxs );

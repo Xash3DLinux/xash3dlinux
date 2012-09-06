@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "imagelib.h"
 
@@ -240,7 +244,7 @@ qboolean Image_SaveTGA( const char *name, rgbdata_t *pix )
 	buffer[15] = (pix->height >> 8) & 0xFF;
 	buffer[16] = ( pix->flags & IMAGE_HAS_ALPHA ) ? 32 : 24;
 	buffer[17] = ( pix->flags & IMAGE_HAS_ALPHA ) ? 8 : 0; // 8 bits of alpha
-	Q_strncpy( buffer + 18, comment, Q_strlen( comment )); 
+	Q_strncpy( buffer + 18, comment, Q_strlen( comment ));
 	out = buffer + 18 + Q_strlen( comment );
 
 	// get image description
@@ -249,7 +253,7 @@ qboolean Image_SaveTGA( const char *name, rgbdata_t *pix )
 	case PF_RGB_24:
 	case PF_BGR_24: pixel_size = 3; break;
 	case PF_RGBA_32:
-	case PF_BGRA_32: pixel_size = 4; break;	
+	case PF_BGRA_32: pixel_size = 4; break;
 	default:
 		MsgDev( D_ERROR, "Image_SaveTGA: unsupported image type %s\n", PFDesc[pix->type].name );
 		Mem_Free( buffer );
@@ -292,7 +296,7 @@ qboolean Image_SaveTGA( const char *name, rgbdata_t *pix )
 			}
 		}
 		break;
-	}	
+	}
 	FS_WriteFile( name, buffer, outsize );
 
 	Mem_Free( buffer );

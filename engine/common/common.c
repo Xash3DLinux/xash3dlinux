@@ -12,6 +12,11 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdlib.h>
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "studio.h"
@@ -37,13 +42,13 @@ char *COM_ParseFile( char *data, char *token )
 
 	if( !token )
 		return NULL;
-	
+
 	len = 0;
 	token[0] = 0;
-	
+
 	if( !data )
 		return NULL;
-		
+
 // skip whitespace
 skipwhite:
 	while(( c = ((byte)*data)) <= ' ' )
@@ -52,7 +57,7 @@ skipwhite:
 			return NULL;	// end of file;
 		data++;
 	}
-	
+
 	// skip // comments
 	if( c=='/' && data[1] == '/' )
 	{
@@ -98,7 +103,7 @@ skipwhite:
 		if( c == '{' || c == '}' || c == ')' || c == '(' || c == '\'' || c == ',' )
 			break;
 	} while( c > 32 );
-	
+
 	token[len] = 0;
 
 	return data;
@@ -156,7 +161,7 @@ int COM_ExpandFilename( const char *fileName, char *nameOutBuffer, int nameOutBu
 	// models\barney.mdl - D:\Xash3D\bshift\models\barney.mdl
 	if(( path = FS_GetDiskPath( fileName, false )) != NULL )
 	{
-		Q_sprintf( result, "%s/%s", host.rootdir, path );		
+		Q_sprintf( result, "%s/%s", host.rootdir, path );
 
 		// check for enough room
 		if( Q_strlen( result ) > nameOutBufferSize )
@@ -227,7 +232,7 @@ char *COM_MemFgets( byte *pMemFile, int fileSize, int *filePos, char *pBuffer, i
 
 		// copy it out
 		Q_memcpy( pBuffer, pMemFile + *filePos, size );
-		
+
 		// If the buffer isn't full, terminate (this is always true)
 		if( size < bufferSize ) pBuffer[size] = 0;
 
@@ -338,7 +343,7 @@ COM_FreeFile
 */
 void COM_FreeFile( void *buffer )
 {
-	free( buffer ); 
+	free( buffer );
 }
 
 /*
@@ -373,7 +378,7 @@ void pfnGetModelBounds( model_t *mod, float *mins, float *maxs )
 		if( maxs ) VectorClear( maxs );
 	}
 }
-	
+
 /*
 =============
 pfnCvar_RegisterVariable

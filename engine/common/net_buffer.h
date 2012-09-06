@@ -132,5 +132,5 @@ char *BF_ReadStringExt( sizebuf_t *bf, qboolean bLine );
 
 // delta-read functions
 void BF_ReadDeltaMovevars( sizebuf_t *sb, struct movevars_s *from, struct movevars_s *to );
-					
+
 #endif//NET_BUFFER_H

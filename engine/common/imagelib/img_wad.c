@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "imagelib.h"
 #include "mathlib.h"
@@ -27,7 +31,7 @@ Image_LoadPAL
 */
 qboolean Image_LoadPAL( const char *name, const byte *buffer, size_t filesize )
 {
-	int	rendermode = LUMP_NORMAL; 
+	int	rendermode = LUMP_NORMAL;
 
 	if( filesize != 768 )
 	{
@@ -58,7 +62,7 @@ qboolean Image_LoadPAL( const char *name, const byte *buffer, size_t filesize )
 	image.rgba = NULL;	// only palette, not real image
 	image.size = 1024;	// expanded palette
 	image.width = image.height = 0;
-	
+
 	return true;
 }
 
@@ -81,7 +85,7 @@ qboolean Image_LoadFNT( const char *name, const byte *buffer, size_t filesize )
 		return false;
 
 	Q_memcpy( &font, buffer, sizeof( font ));
-	
+
 	// last sixty four bytes - what the hell ????
 	size = sizeof( qfont_t ) - 4 + ( font.height * font.width * QCHAR_WIDTH ) + sizeof( short ) + 768 + 64;
 
@@ -111,7 +115,7 @@ qboolean Image_LoadFNT( const char *name, const byte *buffer, size_t filesize )
 		Image_GetPaletteLMP( pal, LUMP_QFONT );
 		image.flags |= IMAGE_HAS_ALPHA; // fonts always have transparency
 	}
-	else 
+	else
 	{
 		if( image.hint == IL_HINT_NO )
 			MsgDev( D_ERROR, "Image_LoadFNT: (%s) have invalid palette size %d\n", name, numcolors );
@@ -185,7 +189,7 @@ qboolean Image_LoadMDL( const char *name, const byte *buffer, size_t filesize )
 		if( image.hint == IL_HINT_NO )
 			MsgDev( D_ERROR, "Image_LoadMDL: lump (%s) is corrupted\n", name );
 		return false; // unknown or unsupported mode rejected
-	} 
+	}
 
 	image.type = PF_INDEXED_32;	// 32-bit palete
 
@@ -206,7 +210,7 @@ qboolean Image_LoadSPR( const char *name, const byte *buffer, size_t filesize )
 		if( !image.d_currentpal )
 		{
 			MsgDev( D_ERROR, "Image_LoadSPR: (%s) palette not installed\n", name );
-			return false;		
+			return false;
 		}
 	}
 	else if( image.hint == IL_HINT_Q1 )
@@ -294,7 +298,7 @@ qboolean Image_LoadLMP( const char *name, const byte *buffer, size_t filesize )
 	}
 
 	if( !Image_ValidSize( name ))
-		return false;         
+		return false;
 
 	if( image.hint != IL_HINT_Q1 && filesize > (int)sizeof(lmp) + pixels )
 	{
@@ -350,7 +354,7 @@ qboolean Image_LoadMIP( const char *name, const byte *buffer, size_t filesize )
 		pal = (byte *)buffer + mip.offsets[0] + (((image.width * image.height) * 85)>>6);
 		numcolors = *(short *)pal;
 		if( numcolors != 256 ) pal = NULL; // corrupted mip ?
-		else pal += sizeof( short ); // skip colorsize 
+		else pal += sizeof( short ); // skip colorsize
 
 		hl_texture = true;
 
@@ -450,7 +454,7 @@ qboolean Image_LoadMIP( const char *name, const byte *buffer, size_t filesize )
 		if( image.hint == IL_HINT_NO )
 			MsgDev( D_ERROR, "Image_LoadMIP: lump (%s) is corrupted\n", name );
 		return false; // unknown or unsupported mode rejected
-	} 
+	}
 
 	// check for quake-sky texture
 	if( !Q_strncmp( mip.name, "sky", 3 ) && image.width == ( image.height * 2 ))
@@ -478,9 +482,9 @@ qboolean Image_LoadMIP( const char *name, const byte *buffer, size_t filesize )
 		image.fogParams[2] = pal[255*3+2];
 
 		// calc the decal reflectivity
-		image.fogParams[3] = VectorAvg( image.fogParams );         
+		image.fogParams[3] = VectorAvg( image.fogParams );
 	}
- 
+
 	image.type = PF_INDEXED_32;	// 32-bit palete
 	return Image_AddIndexedImageToPack( fin, image.width, image.height );
 }

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 
@@ -88,7 +92,7 @@ char *Info_ValueForKey( const char *s, const char *key )
 	static	char value[2][MAX_INFO_STRING]; // use two buffers so compares work without stomping on each other
 	static	int valueindex;
 	char	*o;
-	
+
 	valueindex ^= 1;
 	if( *s == '\\' ) s++;
 	while( 1 )
@@ -302,20 +306,20 @@ static void Cvar_LookupBitInfo( const char *name, const char *string, const char
 char *Cvar_Userinfo( void )
 {
 	infostring[0] = 0; // clear previous calls
-	Cvar_LookupVars( CVAR_USERINFO, infostring, NULL, Cvar_LookupBitInfo ); 
+	Cvar_LookupVars( CVAR_USERINFO, infostring, NULL, Cvar_LookupBitInfo );
 	return infostring;
 }
 
 char *Cvar_Serverinfo( void )
 {
 	infostring[0] = 0; // clear previous calls
-	Cvar_LookupVars( CVAR_SERVERINFO, infostring, NULL, Cvar_LookupBitInfo ); 
+	Cvar_LookupVars( CVAR_SERVERINFO, infostring, NULL, Cvar_LookupBitInfo );
 	return infostring;
 }
 
 char *Cvar_Physicinfo( void )
 {
 	infostring[0] = 0; // clear previous calls
-	Cvar_LookupVars( CVAR_PHYSICINFO, infostring, NULL, Cvar_LookupBitInfo ); 
+	Cvar_LookupVars( CVAR_PHYSICINFO, infostring, NULL, Cvar_LookupBitInfo );
 	return infostring;
 }

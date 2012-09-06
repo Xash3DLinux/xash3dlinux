@@ -1,0 +1,375 @@
+# depslib dependency file v1.0
+1346923218 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/build.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+
+1346670704 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/recdefs.h
+	"wintypes.h"
+	<features.h>
+	<bits/wordsize.h>
+
+1346927741 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wintypes.h
+
+1340892706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/features.h
+
+1346923178 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/common.h
+	"system.h"
+	"ref_params.h"
+	"com_model.h"
+	"crtlib.h"
+	"netadr.h"
+
+1346922706 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/system.h
+	<setjmp.h>
+	<stdio.h>
+	<time.h>
+	<windows.h>
+	"const.h"
+
+1339612666 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/const.h
+
+1289507828 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/ref_params.h
+
+1340641300 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/com_model.h
+	"bspfile.h"
+
+1319135596 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/bspfile.h
+
+1338969452 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/crtlib.h
+	"cvardef.h"
+
+1287950366 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/cvardef.h
+
+1289749106 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/netadr.h
+
+1346923221 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/cmd.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"client.h"
+	"server.h"
+
+1346923720 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/client/client.h
+	"mathlib.h"
+	"cdll_int.h"
+	"menu_int.h"
+	"cl_entity.h"
+	"com_model.h"
+	"mod_local.h"
+	"pm_defs.h"
+	"pm_movevars.h"
+	"render_api.h"
+	"screenfade.h"
+	"protocol.h"
+	"netchan.h"
+	"net_api.h"
+	"world.h"
+
+1332190782 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/mathlib.h
+	<math.h>
+
+1346923409 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//cdll_int.h
+	"const.h"
+	"wrect.h"
+
+1303770642 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/wrect.h
+
+1318679790 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//menu_int.h
+	"cvardef.h"
+	"gameinfo.h"
+	"wrect.h"
+
+1303770598 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/gameinfo.h
+
+1292790634 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/cl_entity.h
+	"entity_state.h"
+	"event_args.h"
+
+1287955530 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/entity_state.h
+	"pm_info.h"
+	"weaponinfo.h"
+
+1289681222 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_info.h
+
+1288023688 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/weaponinfo.h
+
+1287956394 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/event_args.h
+
+1340661850 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/mod_local.h
+	"common.h"
+	"bspfile.h"
+	"edict.h"
+	"eiface.h"
+	"com_model.h"
+
+1287946226 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//edict.h
+	"progdefs.h"
+
+1290199192 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//progdefs.h
+
+1346923547 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//eiface.h
+	<stdio.h>
+	"custom.h"
+	"cvardef.h"
+
+1288288626 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//custom.h
+	"const.h"
+
+1339604312 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_defs.h
+	"pm_info.h"
+	"pmtrace.h"
+	"usercmd.h"
+
+1289511058 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/pmtrace.h
+
+1288023578 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/usercmd.h
+
+1344353464 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_movevars.h
+
+1344029548 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/render_api.h
+	"lightstyle.h"
+	"dlight.h"
+
+1322338192 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/lightstyle.h
+
+1292790652 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/dlight.h
+
+1288551536 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/screenfade.h
+
+1337593318 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/protocol.h
+
+1329995556 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/netchan.h
+	"net_buffer.h"
+
+1346923614 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_buffer.h
+	"features.h"
+
+1346923672 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/net_api.h
+	"netadr.h"
+
+1337604730 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/world.h
+	"lightstyle.h"
+	"bspfile.h"
+	"pm_shared.h"
+	"event_api.h"
+	"event_args.h"
+
+1289681260 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/pm_shared/pm_shared.h
+
+1329047044 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/event_api.h
+
+1346926983 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/server.h
+	"mathlib.h"
+	"edict.h"
+	"eiface.h"
+	"physint.h"
+	"mod_local.h"
+	"pm_defs.h"
+	"pm_movevars.h"
+	"entity_state.h"
+	"protocol.h"
+	"netchan.h"
+	"custom.h"
+	"world.h"
+
+1344354204 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//physint.h
+
+1346925037 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/crclib.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"bspfile.h"
+	"client.h"
+
+1346925061 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/crtlib.c
+	"recdefs.h"
+	<stdarg.h>
+	<math.h>
+	"common.h"
+
+1346925080 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/cvar.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+
+1346925779 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/console.c
+	"recdefs.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	"common.h"
+	"client.h"
+	"keydefs.h"
+	"protocol.h"
+	"con_nprint.h"
+	"gl_local.h"
+	"qfont.h"
+	"wrect.h"
+	"mathlib.h"
+
+1287946514 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//keydefs.h
+
+1287950632 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/con_nprint.h
+
+1346926310 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/client/gl_local.h
+	<GL/glx.h>
+	<GL/gl.h>
+	<X11/X.h>
+	<X11/keysym.h>
+	"gl_export.h"
+	"com_model.h"
+	"cl_entity.h"
+	"ref_params.h"
+	"render_api.h"
+	"protocol.h"
+	"dlight.h"
+
+1346925808 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/client/gl_export.h
+
+1289511248 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/qfont.h
+
+1346925599 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_world.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"const.h"
+	"pm_local.h"
+	"studio.h"
+
+1329064508 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/pm_local.h
+	"pm_defs.h"
+
+1314976366 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine//studio.h
+	"studio_event.h"
+
+1288023482 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/studio_event.h
+
+1346925571 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_pmove.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"const.h"
+	"pm_local.h"
+	"event_flags.h"
+	"studio.h"
+
+1287957718 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/common/event_flags.h
+
+1346925547 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_move.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"mathlib.h"
+	"server.h"
+	"const.h"
+	"pm_defs.h"
+
+1346925540 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_main.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"net_encode.h"
+
+1303769108 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/net_encode.h
+
+1346925532 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_init.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+
+1346925430 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_frame.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+	"const.h"
+	"net_encode.h"
+
+1346925418 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_custom.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+
+1346925409 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_cmds.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"server.h"
+
+1346925394 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/server/sv_client.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"const.h"
+	"server.h"
+	"net_encode.h"
+	"net_api.h"
+
+1346925616 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/zone.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+
+1346925631 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/world.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"world.h"
+	"pm_defs.h"
+	"mod_local.h"
+	"mathlib.h"
+	"studio.h"
+
+1346925642 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/random.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+
+1346925652 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/pm_trace.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"mathlib.h"
+	"mod_local.h"
+	"pm_local.h"
+	"pm_movevars.h"
+	"features.h"
+	"studio.h"
+	"world.h"
+
+1346925661 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/pm_surface.c
+	"recdefs.h"
+	<stdarg.h>
+	"common.h"
+	"mathlib.h"
+	"pm_local.h"
+
+1346927369 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/soundlib/snd_main.c
+	"recdefs.h"
+	<stdarg.h>
+	"soundlib.h"
+
+1337012020 /home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/soundlib/soundlib.h
+	"common.h"
+
+1346927379 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/soundlib/snd_mp3.c
+	"recdefs.h"
+	<stdarg.h>
+	"soundlib.h"
+
+1346927386 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/soundlib/snd_utils.c
+	"recdefs.h"
+	<stdarg.h>
+	"soundlib.h"
+
+1346927393 source:/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/common/soundlib/snd_wav.c
+	"recdefs.h"
+	<stdarg.h>
+	"soundlib.h"
+

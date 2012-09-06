@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include <mathlib.h>
@@ -33,11 +37,11 @@ void BuildGammaTable( float gamma, float texGamma )
 	texGamma = bound( 1.8f, texGamma, 3.0f );
 
 	g = 1.0f / g;
-	g1 = texGamma * g; 
+	g1 = texGamma * g;
 
 	for( i = 0; i < 256; i++ )
 	{
-		inf = 255 * pow( i / 255.f, g1 ); 
+		inf = 255 * pow( i / 255.f, g1 );
 		texgammatable[i] = bound( 0, inf, 255 );
 	}
 

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "server.h"
@@ -261,7 +265,7 @@ void SV_UpdateServerInfo( void )
 {
 	if( !serverinfo->modified ) return;
 
-	Cvar_LookupVars( CVAR_SERVERINFO, NULL, NULL, pfnUpdateServerInfo ); 
+	Cvar_LookupVars( CVAR_SERVERINFO, NULL, NULL, pfnUpdateServerInfo );
 
 	serverinfo->modified = false;
 }
@@ -354,7 +358,7 @@ void SV_ReadPackets( void )
 			}
 
 			if( Netchan_Process( &cl->netchan, &net_message ))
-			{	
+			{
 				cl->send_message = true; // reply at end of frame
 
 				// this is a valid, sequenced packet, so process it
@@ -436,7 +440,7 @@ void SV_CheckTimeouts( void )
 		if(( cl->state == cs_connected || cl->state == cs_spawned ) && cl->lastmessage < droppoint )
 		{
 			SV_BroadcastPrintf( PRINT_HIGH, "%s timed out\n", cl->name );
-			SV_DropClient( cl ); 
+			SV_DropClient( cl );
 			cl->state = cs_free; // don't bother with zombie state
 		}
 	}
@@ -566,7 +570,7 @@ void Host_ServerFrame( void )
 
 	// let everything in the world think and move
 	SV_RunGameFrame ();
-		
+
 	// send messages back to the clients that had packets read this frame
 	SV_SendClientMessages ();
 
@@ -664,7 +668,7 @@ void SV_Init( void )
 	Cvar_Get( "sv_alltalk", "1", 0, "allow to talking for all players (legacy, unused)" );
 	Cvar_Get( "sv_airmove", "1", CVAR_SERVERNOTIFY, "enable airmovement (legacy, unused)" );
 	Cvar_Get( "mp_autocrosshair", "0", 0, "allow auto crosshair in multiplayer (legacy, unused)" );
-		
+
 	// half-life shared variables
 	sv_zmax = Cvar_Get ("sv_zmax", "4096", CVAR_PHYSICINFO, "zfar server value" );
 	sv_wateramp = Cvar_Get ("sv_wateramp", "0", CVAR_PHYSICINFO, "global water wave height" );
@@ -750,7 +754,7 @@ void SV_FinalMessage( char *message, qboolean reconnect )
 	byte		msg_buf[1024];
 	sizebuf_t		msg;
 	int		i;
-	
+
 	BF_Init( &msg, "FinalMessage", msg_buf, sizeof( msg_buf ));
 	BF_WriteByte( &msg, svc_print );
 	BF_WriteByte( &msg, PRINT_HIGH );

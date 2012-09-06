@@ -12,8 +12,44 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "imagelib.h"
+
+#ifndef _WIN32
+typedef struct tagRGBQUAD {
+  BYTE rgbBlue;
+  BYTE rgbGreen;
+  BYTE rgbRed;
+  BYTE rgbReserved;
+} RGBQUAD;
+
+typedef struct tagBITMAPFILEHEADER {
+  WORD  bfType;
+  DWORD bfSize;
+  WORD  bfReserved1;
+  WORD  bfReserved2;
+  DWORD bfOffBits;
+} BITMAPFILEHEADER, *PBITMAPFILEHEADER;
+
+typedef struct tagBITMAPINFOHEADER {
+  DWORD biSize;
+  LONG  biWidth;
+  LONG  biHeight;
+  WORD  biPlanes;
+  WORD  biBitCount;
+  DWORD biCompression;
+  DWORD biSizeImage;
+  LONG  biXPelsPerMeter;
+  LONG  biYPelsPerMeter;
+  DWORD biClrUsed;
+  DWORD biClrImportant;
+} BITMAPINFOHEADER, *PBITMAPINFOHEADER;
+#endif
+
 
 /*
 =============
@@ -29,7 +65,7 @@ qboolean Image_LoadBMP( const char *name, const byte *buffer, size_t filesize )
 	qboolean	load_qfont = false;
 	bmp_t	bhdr;
 
-	if( filesize < sizeof( bhdr )) return false; 
+	if( filesize < sizeof( bhdr )) return false;
 
 	buf_p = (byte *)buffer;
 	bhdr.id[0] = *buf_p++;
@@ -57,7 +93,7 @@ qboolean Image_LoadBMP( const char *name, const byte *buffer, size_t filesize )
 	{
 		MsgDev( D_ERROR, "Image_LoadBMP: only Windows-style BMP files supported (%s)\n", name );
 		return false;
-	} 
+	}
 
 	if( bhdr.bitmapHeaderSize != 0x28 )
 	{
@@ -71,9 +107,9 @@ qboolean Image_LoadBMP( const char *name, const byte *buffer, size_t filesize )
 		// Sweet Half-Life issues. splash.bmp have bogus filesize
 		MsgDev( D_WARN, "Image_LoadBMP: %s have incorrect file size %i should be %i\n", name, filesize, bhdr.fileSize );
           }
-          
+
 	// bogus compression?  Only non-compressed supported.
-	if( bhdr.compression != BI_RGB ) 
+	if( bhdr.compression != BI_RGB )
 	{
 		MsgDev( D_ERROR, "Image_LoadBMP: only uncompressed BMP files supported (%s)\n", name );
 		return false;
@@ -83,7 +119,7 @@ qboolean Image_LoadBMP( const char *name, const byte *buffer, size_t filesize )
 	image.height = rows = abs( bhdr.height );
 
 	if( !Image_ValidSize( name ))
-		return false;          
+		return false;
 
 	// special hack for loading qfont
 	if( !Q_strncmp( "#XASH_SYSTEMFONT_001", name, 20 ))
@@ -128,7 +164,7 @@ qboolean Image_LoadBMP( const char *name, const byte *buffer, size_t filesize )
 	{
 		pixbuf = image.palette = Mem_Alloc( host.imagepool, 1024 );
 		image.flags |= IMAGE_HAS_COLOR;
- 
+
 		// bmp have a reversed palette colors
 		for( i = 0; i < bhdr.colors; i++ )
 		{
@@ -325,7 +361,7 @@ qboolean Image_SaveBMP( const char *name, rgbdata_t *pix )
 		break;
 	case PF_RGBA_32:
 		pixel_size = 4;
-		break;	
+		break;
 	default:
 		MsgDev( D_ERROR, "Image_SaveBMP: unsupported image type %s\n", PFDesc[pix->type].name );
 		return false;
@@ -338,7 +374,7 @@ qboolean Image_SaveBMP( const char *name, rgbdata_t *pix )
 	}
 
 	// NOTE: align transparency column will sucessfully removed
-	// after create sprite or lump image, it's just standard requiriments 
+	// after create sprite or lump image, it's just standard requiriments
 	biTrueWidth = ((pix->width + 3) & ~3);
 	cbBmpBits = biTrueWidth * pix->height * pixel_size;
 	if( pixel_size == 1 ) cbPalBytes = 256 * sizeof( RGBQUAD );

@@ -13,6 +13,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
 
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
+
 #include "common.h"
 #include "client.h"
 #include "server.h"
@@ -78,7 +83,7 @@ Cbuf_GetSpace
 void *Cbuf_GetSpace( cmdbuf_t *buf, int length )
 {
 	void    *data;
-	
+
 	if( buf->cursize + length > buf->maxsize )
 	{
 		buf->cursize = 0;
@@ -87,7 +92,7 @@ void *Cbuf_GetSpace( cmdbuf_t *buf, int length )
 
 	data = buf->data + buf->cursize;
 	buf->cursize += length;
-	
+
 	return data;
 }
 
@@ -110,7 +115,7 @@ void Cbuf_AddText( const char *text )
 		return;
 	}
 
-	Q_memcpy( Cbuf_GetSpace( &cmd_text, l ), text, l ); 
+	Q_memcpy( Cbuf_GetSpace( &cmd_text, l ), text, l );
 }
 
 /*
@@ -139,11 +144,11 @@ void Cbuf_InsertText( const char *text )
 
 	// add the entire text of the file
 	Cbuf_AddText( text );
-	
+
 	// add the copied off data
 	if( templen )
 	{
-		Q_memcpy( Cbuf_GetSpace( &cmd_text, templen ), temp, templen ); 
+		Q_memcpy( Cbuf_GetSpace( &cmd_text, templen ), temp, templen );
 		Z_Free( temp );
 	}
 }
@@ -258,13 +263,13 @@ void Cmd_StuffCmds_f( void )
 				if( l + Q_strlen( host.argv[i] ) + 4 > sizeof( build ) - 1 )
 					break;
 				build[l++] = ' ';
-	
+
 				if( Q_strchr( host.argv[i], ' ' ))
 					build[l++] = '\"';
-	
+
 				for( j = 0; host.argv[i][j]; j++ )
 					build[l++] = host.argv[i][j];
-	
+
 				if( Q_strchr( host.argv[i], ' ' ))
 					build[l++] = '\"';
 			}
@@ -303,7 +308,7 @@ Just prints the rest of the line to the console
 void Cmd_Echo_f( void )
 {
 	int	i;
-	
+
 	for( i = 1; i < Cmd_Argc(); i++ )
 		Sys_Print( Cmd_Argv( i ));
 	Sys_Print( "\n" );
@@ -356,7 +361,7 @@ void Cmd_Alias_f( void )
 		cmd_alias = a;
 	}
 
-	Q_strncpy( a->name, s, sizeof( a->name ));	
+	Q_strncpy( a->name, s, sizeof( a->name ));
 
 	// copy the rest of the command line
 	cmd[0] = 0; // start out with a null string
@@ -415,7 +420,7 @@ char *Cmd_Argv( int arg )
 {
 	if((uint)arg >= cmd_argc )
 		return "";
-	return cmd_argv[arg];	
+	return cmd_argv[arg];
 }
 
 /*
@@ -477,9 +482,9 @@ void Cmd_TokenizeString( char *text )
 		// skip whitespace up to a /n
 		while( *text && ((byte)*text) <= ' ' && *text != '\n' )
 			text++;
-		
+
 		if( *text == '\n' )
-		{	
+		{
 			// a newline seperates commands in the buffer
 			text++;
 			break;
@@ -487,10 +492,10 @@ void Cmd_TokenizeString( char *text )
 
 		if( !*text )
 			return;
-	
+
 		if( cmd_argc == 1 )
 			 cmd_args = text;
-			
+
 		text = COM_ParseFile( text, cmd_token );
 		if( !text ) return;
 
@@ -518,7 +523,7 @@ void Cmd_AddCommand( const char *cmd_name, xcommand_t function, const char *cmd_
 		MsgDev( D_INFO, "Cmd_AddCommand: %s already defined as a var\n", cmd_name );
 		return;
 	}
-	
+
 	// fail if the command already exists
 	if( Cmd_Exists( cmd_name ))
 	{
@@ -550,7 +555,7 @@ void Cmd_AddGameCommand( const char *cmd_name, xcommand_t function )
 		MsgDev( D_INFO, "Cmd_AddCommand: %s already defined as a var\n", cmd_name );
 		return;
 	}
-	
+
 	// fail if the command already exists
 	if( Cmd_Exists( cmd_name ))
 	{
@@ -583,7 +588,7 @@ void Cmd_AddClientCommand( const char *cmd_name, xcommand_t function )
 		MsgDev( D_INFO, "Cmd_AddCommand: %s already defined as a var\n", cmd_name );
 		return;
 	}
-	
+
 	// fail if the command already exists
 	if( Cmd_Exists( cmd_name ))
 	{
@@ -648,7 +653,7 @@ void Cmd_LookupCmds( char *buffer, void *ptr, setpair_t callback )
 
 	// nothing to process ?
 	if( !callback ) return;
-	
+
 	for( cmd = cmd_functions; cmd; cmd = cmd->next )
 	{
 		if( !buffer ) callback( cmd->name, (char *)cmd->function, cmd->desc, ptr );
@@ -685,15 +690,15 @@ A complete command line has been parsed, so try to execute it
 ============
 */
 void Cmd_ExecuteString( char *text, cmd_source_t src )
-{	
+{
 	cmd_t	*cmd;
 	cmdalias_t	*a;
 
 	// set cmd source
 	cmd_source = src;
-	
+
 	// execute the command line
-	Cmd_TokenizeString( text );		
+	Cmd_TokenizeString( text );
 
 	if( !Cmd_Argc()) return; // no tokens
 
@@ -751,7 +756,7 @@ void Cmd_ForwardToServer( void )
 {
 #ifndef _DEDICATED
 	char	str[MAX_CMD_BUFFER];
-	
+
 	if( cls.demoplayback )
 	{
 		if( !Q_stricmp( Cmd_Argv( 0 ), "pause" ))
@@ -773,7 +778,7 @@ void Cmd_ForwardToServer( void )
 		Q_strcat( str, Cmd_Argv( 0 ));
 		Q_strcat( str, " " );
 	}
-	
+
 	if( Cmd_Argc() > 1 )
 		Q_strcat( str, Cmd_Args( ));
 	else Q_strcat( str, "\n" );

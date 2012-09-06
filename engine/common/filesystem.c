@@ -12,11 +12,23 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include <fcntl.h>
+
+#ifdef _WIN32
 #include <direct.h>
+#endif
+
 #include <sys/stat.h>
+
+#ifdef _WIN32
 #include <io.h>
+#endif
+
 #include <time.h>
 #include "common.h"
 #include "wadfile.h"
@@ -98,7 +110,7 @@ char		fs_basedir[MAX_SYSPATH]; // base directory of game
 char		fs_falldir[MAX_SYSPATH]; // game current directory
 char		fs_gamedir[MAX_SYSPATH]; // game current directory
 char		gs_basedir[MAX_SYSPATH]; // initial dir before loading gameinfo.txt (used for compilers too)
-qboolean		fs_ext_path = false; // attempt to read\write from ./ or ../ pathes 
+qboolean		fs_ext_path = false; // attempt to read\write from ./ or ../ pathes
 
 static void FS_InitMemory( void );
 const char *FS_FileExtension( const char *in );
@@ -385,13 +397,13 @@ void FS_FileBase( const char *in, char *out )
 
 	len = Q_strlen( in );
 	if( !len ) return;
-	
+
 	// scan backward for '.'
 	end = len - 1;
 
 	while( end && in[end] != '.' && in[end] != '/' && in[end] != '\\' )
 		end--;
-	
+
 	if( in[end] != '.' )
 		end = len-1; // no '.', copy to end
 	else end--; // found ',', copy to left of '.'
@@ -515,7 +527,7 @@ static qboolean FS_AddPack_Fullpath( const char *pakfile, qboolean *already_load
 	searchpath_t	*search;
 	pack_t		*pak = NULL;
 	const char	*ext = FS_FileExtension( pakfile );
-	
+
 	for( search = fs_searchpaths; search; search = search->next )
 	{
 		if( search->pack && !Q_stricmp( search->pack->filename, pakfile ))
@@ -603,7 +615,7 @@ static qboolean FS_AddWad_Fullpath( const char *wadfile, qboolean *already_loade
 			return true; // already loaded
 		}
 	}
-          
+
 	if( already_loaded ) *already_loaded = false;
 	if( !Q_stricmp( ext, "wad" )) wad = W_Open( wadfile, "rb" );
 	else MsgDev( D_ERROR, "\"%s\" doesn't have a wad extension\n", wadfile );
@@ -808,7 +820,7 @@ void FS_ClearSearchPath( void )
 
 		if( search->pack )
 		{
-			if( search->pack->files ) 
+			if( search->pack->files )
 				Mem_Free( search->pack->files );
 			Mem_Free( search->pack );
 		}
@@ -991,7 +1003,7 @@ static qboolean FS_WriteGameInfo( const char *filepath, gameinfo_t *GameInfo )
 		FS_Printf( f, "date\t\t\"%s\"\n", GameInfo->date );
 
 	if( Q_strlen( GameInfo->dll_path ))
-		FS_Printf( f, "dllpath\t\t\"%s\"\n", GameInfo->dll_path );	
+		FS_Printf( f, "dllpath\t\t\"%s\"\n", GameInfo->dll_path );
 	if( Q_strlen( GameInfo->game_dll ))
 		FS_Printf( f, "gamedll\t\t\"%s\"\n", GameInfo->game_dll );
 
@@ -1079,14 +1091,14 @@ void FS_CreateDefaultGameInfo( const char *filename )
 
 	// make simple gameinfo.txt
 	FS_WriteGameInfo( filename, &defGI );
-} 
+}
 
 static qboolean FS_ParseLiblistGam( const char *filename, const char *gamedir, gameinfo_t *GameInfo )
 {
 	char	*afile, *pfile;
 	string	token;
 
-	if( !GameInfo ) return false;	
+	if( !GameInfo ) return false;
 	afile = FS_LoadFile( filename, NULL, false );
 	if( !afile ) return false;
 
@@ -1097,7 +1109,7 @@ static qboolean FS_ParseLiblistGam( const char *filename, const char *gamedir, g
 	GameInfo->max_particles = 4096;
 	GameInfo->version = 1.0f;
 	GameInfo->falldir[0] = '\0';
-	
+
 	Q_strncpy( GameInfo->title, "New Game", sizeof( GameInfo->title ));
 	Q_strncpy( GameInfo->gamedir, gamedir, sizeof( GameInfo->gamedir ));
 	Q_strncpy( GameInfo->basedir, SI.ModuleName, sizeof( GameInfo->basedir ));
@@ -1261,7 +1273,7 @@ static qboolean FS_ParseGameInfo( const char *gamedir, gameinfo_t *GameInfo )
 	GameInfo->max_particles = 4096;
 	GameInfo->version = 1.0f;
 	GameInfo->falldir[0] = '\0';
-	
+
 	Q_strncpy( GameInfo->title, "New Game", sizeof( GameInfo->title ));
 	Q_strncpy( GameInfo->sp_entity, "info_player_start", sizeof( GameInfo->sp_entity ));
 	Q_strncpy( GameInfo->mp_entity, "info_player_deathmatch", sizeof( GameInfo->mp_entity ));
@@ -1474,7 +1486,7 @@ void FS_Init( void )
 	stringlist_t	dirs;
 	qboolean		hasDefaultDir = false;
 	int		i;
-	
+
 	FS_InitMemory();
 
 	Cmd_AddCommand( "fs_rescan", FS_Rescan_f, "rescan filesystem search pathes" );
@@ -1488,13 +1500,13 @@ void FS_Init( void )
 		listdirectory( &dirs, "./" );
 		stringlistsort( &dirs );
 		SI.numgames = 0;
-	
+
 		if( !Sys_GetParmFromCmdLine( "-game", gs_basedir ))
 			Q_strcpy( gs_basedir, SI.ModuleName ); // default dir
 
 		if( FS_CheckNastyPath( gs_basedir, true ))
 		{
-			MsgDev( D_ERROR, "FS_Init: invalid game directory \"%s\"\n", gs_basedir );		
+			MsgDev( D_ERROR, "FS_Init: invalid game directory \"%s\"\n", gs_basedir );
 			Q_strcpy( gs_basedir, SI.ModuleName ); // default dir
 		}
 
@@ -1509,8 +1521,8 @@ void FS_Init( void )
 		}
 
 		if( i == dirs.numstrings )
-		{ 
-			MsgDev( D_INFO, "FS_Init: game directory \"%s\" not exist\n", gs_basedir );		
+		{
+			MsgDev( D_INFO, "FS_Init: game directory \"%s\" not exist\n", gs_basedir );
 			if( hasDefaultDir ) Q_strncpy( gs_basedir, SI.ModuleName, sizeof( gs_basedir )); // default dir
 		}
 
@@ -1529,7 +1541,7 @@ void FS_Init( void )
 				SI.numgames++; // added
 		}
 		stringlistfreecontents( &dirs );
-	}	
+	}
 	MsgDev( D_NOTE, "FS_Init: done\n" );
 }
 
@@ -1567,7 +1579,7 @@ Internal function used to determine filetime
 static long FS_SysFileTime( const char *filename )
 {
 	struct stat buf;
-	
+
 	if( stat( filename, &buf ) == -1 )
 		return -1;
 
@@ -1688,7 +1700,7 @@ Look for a file in the filesystem only
 qboolean FS_SysFileExists( const char *path )
 {
 	int desc;
-     
+
 	desc = open( path, O_RDONLY|O_BINARY );
 
 	if( desc < 0 ) return false;
@@ -1750,7 +1762,7 @@ static searchpath_t *FS_FindFile( const char *name, int* index, qboolean gamedir
 		}
 		else if( search->wad )
 		{
-			dlumpinfo_t	*lump;	
+			dlumpinfo_t	*lump;
 			char		type = W_TypeFromExt( name );
 			qboolean		anywadname = true;
 			string		wadname, wadfolder;
@@ -1848,7 +1860,7 @@ file_t *FS_OpenReadFile( const char *filename, const char *mode, qboolean gamedi
 
 	// not found?
 	if( search == NULL )
-		return NULL; 
+		return NULL;
 
 	if( search->pack )
 		return FS_OpenPackedFile( search->pack, pack_ind );
@@ -1860,7 +1872,7 @@ file_t *FS_OpenReadFile( const char *filename, const char *mode, qboolean gamedi
 		char	path [MAX_SYSPATH];
 		Q_sprintf( path, "%s%s", search->filename, filename );
 		return FS_SysOpen( path, mode );
-	} 
+	}
 	return NULL;
 }
 
@@ -1900,7 +1912,7 @@ file_t *FS_Open( const char *filepath, const char *mode, qboolean gamedironly )
 		FS_CreatePath( real_path );// Create directories up to the file
 		return FS_SysOpen( real_path, mode );
 	}
-	
+
 	// else, we look at the various search paths and open the file in read-only mode
 	return FS_OpenReadFile( filepath, mode, gamedironly );
 }
@@ -2180,10 +2192,10 @@ int FS_Seek( file_t *file, fs_offset_t offset, int whence )
 	case SEEK_END:
 		offset += file->real_length;
 		break;
-	default: 
+	default:
 		return -1;
 	}
-	
+
 	if( offset < 0 || offset > (long)file->real_length )
 		return -1;
 
@@ -2363,7 +2375,7 @@ void FS_DefaultExtension( char *path, const char *extension )
 	while( *src != '/' && src != path )
 	{
 		// it has an extension
-		if( *src == '.' ) return;                 
+		if( *src == '.' ) return;
 		src--;
 	}
 	Q_strcat( path, extension );
@@ -2395,7 +2407,7 @@ const char *FS_GetDiskPath( const char *name, qboolean gamedironly )
 {
 	int		index;
 	searchpath_t	*search;
-	
+
 	search = FS_FindFile( name, &index, gamedironly );
 
 	if( search )
@@ -2481,7 +2493,7 @@ dll_user_t *FS_FindLibrary( const char *dllname, qboolean directpath )
 	}
 
 	// all done, create dll_user_t struct
-	hInst = Mem_Alloc( host.mempool, sizeof( dll_user_t ));	
+	hInst = Mem_Alloc( host.mempool, sizeof( dll_user_t ));
 
 	// save dllname for debug purposes
 	Q_strncpy( hInst->dllName, dllname, sizeof( hInst->dllName ));
@@ -2502,7 +2514,7 @@ dll_user_t *FS_FindLibrary( const char *dllname, qboolean directpath )
 		hInst->custom_loader = true;	// loading from pack or wad - for release, debug don't working
 	}
 	fs_ext_path = false; // always reset direct paths
-		
+
 	return hInst;
 }
 
@@ -2517,7 +2529,7 @@ fs_offset_t FS_FileSize( const char *filename, qboolean gamedironly )
 {
 	file_t	*fp;
 	int	length = 0;
-	
+
 	fp = FS_Open( filename, "rb", gamedironly );
 
 	if( fp )
@@ -2554,7 +2566,7 @@ fs_offset_t FS_FileTime( const char *filename, qboolean gamedironly )
 {
 	searchpath_t	*search;
 	int		pack_ind;
-	
+
 	search = FS_FindFile( filename, &pack_ind, gamedironly );
 	if( !search ) return -1; // doesn't exist
 
@@ -2640,7 +2652,7 @@ void FS_FileCopy( file_t *pOutput, file_t *pInput, int fileSize )
 
 		FS_Read( pInput, buf, size );
 		FS_Write( pOutput, buf, size );
-		
+
 		fileSize -= size;
 	}
 }
@@ -2864,7 +2876,7 @@ search_t *FS_Search( const char *pattern, int caseinsensitive, int gamedironly )
 
 void FS_InitMemory( void )
 {
-	fs_mempool = Mem_AllocPool( "FileSystem Pool" );	
+	fs_mempool = Mem_AllocPool( "FileSystem Pool" );
 
 	// add a path separator to the end of the basedir if it lacks one
 	if( fs_basedir[0] && fs_basedir[Q_strlen(fs_basedir) - 1] != '/' && fs_basedir[Q_strlen(fs_basedir) - 1] != '\\' )
@@ -2899,7 +2911,7 @@ static char W_TypeFromExt( const char *lumpname )
 	// we not known about filetype, so match only by filename
 	if( !Q_strcmp( ext, "*" ) || !Q_strcmp( ext, "" ))
 		return TYP_ANY;
-	
+
 	for( type = wad_types; type->ext; type++ )
 	{
 		if(!Q_stricmp( ext, type->ext ))
@@ -2934,7 +2946,7 @@ static dlumpinfo_t *W_FindLump( wfile_t *wad, const char *name, const char match
 	// look for the file (binary search)
 	left = 0;
 	right = wad->numlumps - 1;
-	
+
 	while( left <= right )
 	{
 		int	diff;
@@ -3022,7 +3034,7 @@ static dlumpinfo_t *W_AddFileToWad( const char *name, wfile_t *wad, int filepos,
 
 	// check for Quake 'conchars' issues (only lmp loader supposed to read this lame pic)
 	if( !Q_stricmp( plump->name, "conchars" ) && plump->type == TYP_QMIP )
-		plump->type = TYP_QPIC; 
+		plump->type = TYP_QPIC;
 
 	return plump;
 }
@@ -3049,7 +3061,7 @@ static qboolean W_ReadLumpTable( wfile_t *wad )
 		return false;
 	}
 
-	// swap everything 
+	// swap everything
 	for( i = 0; i < numlumps; i++ )
 	{
 		char	name[16];
@@ -3190,7 +3202,7 @@ wfile_t *W_Open( const char *filename, const char *mode )
 		wad->lumps = Mem_Alloc( wad->mempool, wad->numlumps * sizeof( dlumpinfo_t ));
 
 		if( wad->mode == O_APPEND )
-		{ 
+		{
 			size_t	lat_size = wad->numlumps * sizeof( dlumpinfo_t );
 
 			if( read( wad->handle, wad->lumps, lat_size ) != lat_size )
@@ -3210,7 +3222,7 @@ wfile_t *W_Open( const char *filename, const char *mode )
 			switch( header.ident )
 			{
 			case IDWAD2HEADER:
-			case IDWAD3HEADER: 
+			case IDWAD3HEADER:
 				if(!W_ReadLumpTable( wad ))
 					return NULL;
 				break;
@@ -3234,7 +3246,7 @@ void W_Close( wfile_t *wad )
 		// write the lumpingo
 		ofs = tell( wad->handle );
 		write( wad->handle, wad->lumps, wad->numlumps * sizeof( dlumpinfo_t ));
-		
+
 		// write the header
 		hdr.ident = IDWAD3HEADER;
 		hdr.numlumps = wad->numlumps;
@@ -3245,7 +3257,7 @@ void W_Close( wfile_t *wad )
 	}
 
 	Mem_FreePool( &wad->mempool );
-	if( wad->handle >= 0 ) close( wad->handle );	
+	if( wad->handle >= 0 ) close( wad->handle );
 	Mem_Free( wad ); // free himself
 }
 
@@ -3263,6 +3275,6 @@ static byte *W_LoadFile( const char *path, fs_offset_t *lumpsizeptr, qboolean ga
 
 	search = FS_FindFile( path, &index, gamedironly );
 	if( search && search->wad )
-		return W_ReadLump( search->wad, &search->wad->lumps[index], lumpsizeptr ); 
+		return W_ReadLump( search->wad, &search->wad->lumps[index], lumpsizeptr );
 	return NULL;
 }

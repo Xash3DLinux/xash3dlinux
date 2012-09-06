@@ -14,6 +14,7 @@ typedef unsigned short WORD;
 typedef char CHAR;
 typedef CHAR *LPSTR;
 typedef unsigned char BYTE;
+typedef long LONG;
 
 typedef void *LPVOID;
 typedef void *PVOID;
@@ -22,6 +23,12 @@ typedef HANDLE HWND;
 
 #define TRUE 1
 #define FALSE 0
+
+#define BI_RGB 0 //
+
+#define _stdcall
+#define __cdecl
+#define _inline inline
 
 #define MAX_PATHLEN 256
 
@@ -42,6 +49,7 @@ typedef HANDLE HWND;
 #pragma GCC diagnostic ignored "-Wformat"
 #pragma GCC diagnostic ignored "-Waddress"
 #pragma GCC diagnostic ignored "-Wunused-value"
+#pragma GCC diagnostic ignored "-Wtype-limits"
 
 
 

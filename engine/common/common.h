@@ -20,6 +20,7 @@ GNU General Public License for more details.
 extern "C" {
 #endif
 
+#ifdef _WIN32
 // disable some warnings
 #pragma warning(disable : 4244)	// MIPS
 #pragma warning(disable : 4018)	// signed/unsigned mismatch
@@ -27,12 +28,19 @@ extern "C" {
 #pragma warning(disable : 4115)	// named type definition in parentheses
 #pragma warning(disable : 4100)	// unreferenced formal parameter
 #pragma warning(disable : 4127)	// conditional expression is constant
+#endif
 
 #define MAX_STRING		256	// generic string
 #define MAX_INFO_STRING	256	// infostrings are transmitted across network
 #define MAX_SYSPATH		1024	// system filepath
 #define MAX_MODS		512	// environment games that engine can keep visible
+
+#ifdef _WIN32
 #define EXPORT		__declspec( dllexport )
+#else
+#define EXPORT
+#endif
+
 #define BIT( n )		(1<<( n ))
 
 #ifndef __cplusplus
@@ -62,13 +70,13 @@ enum
 {
 	D_INFO = 1,	// "-dev 1", shows various system messages
 	D_WARN,		// "-dev 2", shows not critical system warnings
-	D_ERROR,		// "-dev 3", shows critical warnings 
+	D_ERROR,		// "-dev 3", shows critical warnings
 	D_AICONSOLE,	// "-dev 4", special case for game aiconsole
 	D_NOTE		// "-dev 5", show system notifications for engine developers
 };
 
 typedef enum
-{	
+{
 	HOST_NORMAL,	// listen server, singleplayer
 	HOST_DEDICATED,
 	HOST_CREDITS	// easter egg
@@ -153,7 +161,7 @@ typedef struct gameinfo_s
 	char		gamefolder[64];	// used for change game '-game x'
 	char		basedir[64];	// base game directory (like 'id1' for Quake or 'valve' for Half-Life)
 	char		gamedir[64];	// game directory (can be match with basedir, used as game dir and as write path)
-	char		falldir[64];	// used as second basedir 
+	char		falldir[64];	// used as second basedir
 	char		startmap[64];	// map to start singleplayer game
 	char		trainmap[64];	// map to start hazard course (if specified)
 	char		title[64];	// Game Main Title
@@ -202,7 +210,7 @@ typedef enum
 {
 	HOST_INIT = 0,	// initalize operations
 	HOST_FRAME,	// host running
-	HOST_SHUTDOWN,	// shutdown operations	
+	HOST_SHUTDOWN,	// shutdown operations
 	HOST_ERR_FATAL,	// sys error
 	HOST_SLEEP,	// sleeped by different reason, e.g. minimize window
 	HOST_NOFOCUS,	// same as HOST_FRAME, but disable mouse
@@ -278,7 +286,9 @@ typedef struct host_parm_s
 {
 	HINSTANCE			hInst;
 	HANDLE			hMutex;
+#ifdef _WIN32
 	LPTOP_LEVEL_EXCEPTION_FILTER	oldFilter;
+#endif
 
 	host_state	state;		// global host state
 	uint		type;		// running at
@@ -318,7 +328,7 @@ typedef struct host_parm_s
 	qboolean		crashed;		// set to true if crashed
 
 	char		rootdir[256];	// member root directory
-	char		gamefolder[64];	// it's a default gamefolder	
+	char		gamefolder[64];	// it's a default gamefolder
 	byte		*imagepool;	// imagelib mempool
 	byte		*soundpool;	// soundlib mempool
 
@@ -422,7 +432,7 @@ typedef enum
 	PF_INDEXED_32,	// deflated palette (1024 bytes)
 	PF_RGBA_32,	// normal rgba buffer
 	PF_BGRA_32,	// big endian RGBA (MacOS)
-	PF_RGB_24,	// uncompressed dds or another 24-bit image 
+	PF_RGB_24,	// uncompressed dds or another 24-bit image
 	PF_BGR_24,	// big-endian RGB (MacOS)
 	PF_TOTALCOUNT,	// must be last
 } pixformat_t;
@@ -462,11 +472,11 @@ typedef enum
 	IMAGE_FLIP_Y	= BIT(17),	// flip the image by height
 	IMAGE_ROT_90	= BIT(18),	// flip from upper left corner to down right corner
 	IMAGE_ROT180	= IMAGE_FLIP_X|IMAGE_FLIP_Y,
-	IMAGE_ROT270	= IMAGE_FLIP_X|IMAGE_FLIP_Y|IMAGE_ROT_90,	
+	IMAGE_ROT270	= IMAGE_FLIP_X|IMAGE_FLIP_Y|IMAGE_ROT_90,
 	IMAGE_ROUND	= BIT(19),	// round image to nearest Pow2
 	IMAGE_RESAMPLE	= BIT(20),	// resample image to specified dims
 	IMAGE_PALTO24	= BIT(21),	// turn 32-bit palette into 24-bit mode (only for indexed images)
-	IMAGE_ROUNDFILLER	= BIT(22),	// round image to Pow2 and fill unused entries with single color	
+	IMAGE_ROUNDFILLER	= BIT(22),	// round image to Pow2 and fill unused entries with single color
 	IMAGE_FORCE_RGBA	= BIT(23),	// force image to RGBA buffer
 	IMAGE_MAKE_LUMA	= BIT(24),	// create luma texture from indexed
 	IMAGE_QUANTIZE	= BIT(25),	// make indexed image from 24 or 32- bit image
@@ -679,6 +689,14 @@ void MD5Update( MD5Context_t *ctx, const byte *buf, uint len );
 void MD5Final( byte digest[16], MD5Context_t *ctx );
 qboolean MD5_HashFile( byte digest[16], const char *pszFileName, uint seed[4] );
 uint Com_HashKey( const char *string, uint hashSize );
+
+#ifndef _WIN32
+struct resource_s;
+struct cl_entity_s;
+struct mstudioevent_s;
+struct con_nprint_s;
+struct physent_s;
+#endif
 
 //
 // hpak.c

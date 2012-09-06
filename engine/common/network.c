@@ -12,6 +12,12 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+
+
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include <winsock.h>
 #include <wsipx.h>
@@ -246,7 +252,7 @@ static qboolean NET_StringToSockaddr( const char *s, struct sockaddr *sadr )
 	char		*colon;
 	char		copy[MAX_SYSPATH];
 	int		val;
-	
+
 	Q_memset( sadr, 0, sizeof( *sadr ));
 
 	if((Q_strlen( s ) >= 23 ) && ( s[8] == ':' ) && ( s[21] == ':' )) // check for an IPX address
@@ -279,10 +285,10 @@ static qboolean NET_StringToSockaddr( const char *s, struct sockaddr *sadr )
 			if( *colon == ':' )
 			{
 				*colon = 0;
-				((struct sockaddr_in *)sadr)->sin_port = pHtons((short)Q_atoi( colon + 1 ));	
+				((struct sockaddr_in *)sadr)->sin_port = pHtons((short)Q_atoi( colon + 1 ));
 			}
 		}
-		
+
 		if( copy[0] >= '0' && copy[0] <= '9' )
 		{
 			*(int *)&((struct sockaddr_in *)sadr)->sin_addr = pInet_Addr( copy );
@@ -594,7 +600,7 @@ static int NET_IPSocket( const char *netInterface, int port )
 	dword		_true = 1;
 
 	MsgDev( D_NOTE, "NET_UDPSocket( %s, %i )\n", netInterface, port );
-	
+
 	if(( net_socket = pSocket( PF_INET, SOCK_DGRAM, IPPROTO_UDP )) == SOCKET_ERROR )
 	{
 		err = pWSAGetLastError();
@@ -835,7 +841,7 @@ void NET_Config( qboolean multiplayer )
 	old_config = multiplayer;
 
 	if( !multiplayer )
-	{	
+	{
 		int	i;
 
 		// shut down any existing sockets
@@ -855,7 +861,7 @@ void NET_Config( qboolean multiplayer )
 		}
 	}
 	else
-	{	
+	{
 		// open sockets
 		if( !noip ) NET_OpenIP();
 		if( !noipx ) NET_OpenIPX();

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="dedicated" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Win32 Release">
+				<Option output="/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/../temp/dedicated/!release/dedicated" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../temp/dedicated/!release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-fexceptions" />
+					<Add option="-O2" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_DEDICATED" />
+					<Add option="-D_DEBUG" />
+					<Add directory="./" />
+					<Add directory="common" />
+					<Add directory="common/imagelib" />
+					<Add directory="common/soundlib" />
+					<Add directory="server" />
+					<Add directory="client" />
+					<Add directory="client/vgui" />
+					<Add directory="../common" />
+					<Add directory="../game_shared" />
+					<Add directory="../pm_shared" />
+					<Add directory="../utils/vgui/include" />
+				</Compiler>
+				<Linker>
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="winspool" />
+					<Add library="comdlg32" />
+					<Add library="advapi32" />
+					<Add library="shell32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="uuid" />
+					<Add library="odbc32" />
+					<Add library="odbccp32" />
+					<Add library="msvcrt" />
+					<Add library="winmm" />
+					<Add library="mpeg" />
+					<Add library="../utils/vgui/lib/win32_vc6/vgui" />
+					<Add directory="./common/soundlib" />
+				</Linker>
+			</Target>
+			<Target title="Win32 Debug">
+				<Option output="/home/fire64/Рабочий стол/Projekts/Xash3DLinux/engine/../temp/dedicated/!debug/dedicated" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../temp/dedicated/!debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-fexceptions" />
+					<Add option="-g" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_DEDICATED" />
+					<Add directory="./" />
+					<Add directory="common" />
+					<Add directory="common/imagelib" />
+					<Add directory="common/soundlib" />
+					<Add directory="server" />
+					<Add directory="client" />
+					<Add directory="client/vgui" />
+					<Add directory="../common" />
+					<Add directory="../game_shared" />
+					<Add directory="../pm_shared" />
+					<Add directory="../utils/vgui/include" />
+				</Compiler>
+				<Linker>
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="winspool" />
+					<Add library="comdlg32" />
+					<Add library="advapi32" />
+					<Add library="shell32" />
+					<Add library="ole32" />
+					<Add library="oleaut32" />
+					<Add library="uuid" />
+					<Add library="odbc32" />
+					<Add library="odbccp32" />
+					<Add library="winmm" />
+					<Add library="mpeg" />
+					<Add library="../utils/vgui/lib/win32_vc6/vgui" />
+					<Add directory="./common/soundlib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="client/cl_tent.h" />
+		<Unit filename="client/client.h" />
+		<Unit filename="client/gl_export.h" />
+		<Unit filename="client/gl_local.h" />
+		<Unit filename="client/sound.h" />
+		<Unit filename="client/vgui/vgui_draw.h" />
+		<Unit filename="client/vgui/vgui_main.h" />
+		<Unit filename="client/vox.h" />
+		<Unit filename="common/build.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/cmd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/common.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/common.h" />
+		<Unit filename="common/con_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/console.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/crclib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/crtlib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/crtlib.h" />
+		<Unit filename="common/cvar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/filesystem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/filesystem.h" />
+		<Unit filename="common/gamma.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/host.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/hpak.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/imagelib/imagelib.h" />
+		<Unit filename="common/imagelib/img_bmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/imagelib/img_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/imagelib/img_quant.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/imagelib/img_tga.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/imagelib/img_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/imagelib/img_wad.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/infostring.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/input.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/library.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/library.h" />
+		<Unit filename="common/mathlib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/mathlib.h" />
+		<Unit filename="common/matrixlib.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/mod_local.h" />
+		<Unit filename="common/mod_studio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/model.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/net_buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/net_buffer.h" />
+		<Unit filename="common/net_chan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/net_encode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/net_encode.h" />
+		<Unit filename="common/net_huff.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/network.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/pm_surface.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/pm_trace.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/protocol.h" />
+		<Unit filename="common/random.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/soundlib/snd_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/soundlib/snd_mp3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/soundlib/snd_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/soundlib/snd_wav.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/soundlib/soundlib.h" />
+		<Unit filename="common/sys_con.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/sys_win.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/system.h" />
+		<Unit filename="common/world.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="common/world.h" />
+		<Unit filename="common/zone.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/server.h" />
+		<Unit filename="server/sv_client.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_cmds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_custom.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_frame.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_move.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_phys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_pmove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_save.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="server/sv_world.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "netchan.h"
@@ -90,9 +94,9 @@ Huff_PrepareTree
 static _inline void Huff_PrepareTree( tree_t tree )
 {
 	void	**node;
-	
+
 	Q_memset( tree, 0, sizeof( tree_t ));
-	
+
 	// create first node
 	node = &tree[263];
 	VALUE( tree[0] )++;
@@ -252,7 +256,7 @@ static void Huff_IncrementFreq_r( void **tree1, void **tree2 )
 		Huff_DeleteNode( tree1, tree2[5] );
 	}
 
-	
+
 	VALUE( tree2[6] )++;
 	a = tree2[3];
 	if( a && a[6] == tree2[6] )
@@ -269,7 +273,7 @@ static void Huff_IncrementFreq_r( void **tree1, void **tree2 )
 	if( tree2[2] )
 	{
 		Huff_IncrementFreq_r( tree1, tree2[2] );
-	
+
 		if( tree2[4] == tree2[2] )
 		{
 			Huff_SwapTrees( tree2, tree2[2] );
@@ -332,7 +336,7 @@ static void Huff_AddReference( void **tree, int ch )
 		d[0] = a;
 
 	}
-	
+
 	d = tree[3];
 	d[3] = a;
 	a[4] = tree[3];
@@ -518,7 +522,7 @@ void Huff_CompressPacket( sizebuf_t *msg, int offset )
 	int	i, inLen;
 
 	data = BF_GetData( msg ) + offset;
-	inLen = BF_GetNumBytesWritten( msg ) - offset;	
+	inLen = BF_GetNumBytesWritten( msg ) - offset;
 	if( inLen <= 0 || inLen >= NET_MAX_PAYLOAD )
 		return;
 
@@ -533,7 +537,7 @@ void Huff_CompressPacket( sizebuf_t *msg, int offset )
 		Huff_EmitByteDynamic( tree, data[i], buffer );
 		Huff_AddReference( tree, data[i] );
 	}
-	
+
 	outLen = (huffBitPos >> 3) + 1;
 	msg->iCurBit = (offset + outLen) << 3;
 	Q_memcpy( data, buffer, outLen );
@@ -564,7 +568,7 @@ void Huff_DecompressPacket( sizebuf_t *msg, int offset )
 
 	outLen = ( data[0] << 8 ) + data[1];
 	huffBitPos = 16;
-	
+
 	if( outLen > NET_MAX_PAYLOAD - offset )
 		outLen = NET_MAX_PAYLOAD - offset;
 

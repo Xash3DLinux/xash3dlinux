@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "soundlib.h"
 
@@ -67,7 +71,7 @@ void Sound_Init( void )
 	{
 	case HOST_NORMAL:
 		sound.loadformats = load_game;
-		sound.streamformat = stream_game;		
+		sound.streamformat = stream_game;
 		break;
 	default:	// all other instances not using soundlib or will be reinstalling later
 		sound.loadformats = load_null;
@@ -90,7 +94,7 @@ byte *Sound_Copy( size_t size )
 	out = Mem_Alloc( host.soundpool, size );
 	Q_memcpy( out, sound.tempbuffer, size );
 
-	return out; 
+	return out;
 }
 
 uint Sound_GetApproxWavePlayLen( const char *filepath )
@@ -257,7 +261,7 @@ qboolean Sound_Process( wavdata_t **wav, int rate, int width, uint flags )
 {
 	wavdata_t	*snd = *wav;
 	qboolean	result = true;
-				
+
 	// check for buffers
 	if( !snd || !snd->buffer )
 	{

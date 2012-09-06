@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "server.h"
@@ -206,7 +210,7 @@ void SV_ClearCustomizationList( customization_t *pHead )
 		{
 			if( pCur->resource.type == t_decal )
 			{
-				wad = (cachewad_t *)pCur->pInfo; 
+				wad = (cachewad_t *)pCur->pInfo;
 				Mem_Free( wad->filename );
 				FS_Close( wad->file );
 			}
@@ -324,7 +328,7 @@ void SV_SendConsistencyList( sizebuf_t *msg )
 	// write end of the list
 	BF_WriteOneBit( msg, 0 );
 }
-   
+
 void SV_SendResources( sizebuf_t *msg )
 {
 	byte	nullrguc[32];

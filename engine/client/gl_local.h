@@ -16,6 +16,15 @@ GNU General Public License for more details.
 #ifndef GL_LOCAL_H
 #define GL_LOCAL_H
 
+#ifndef _WIN32
+//X Windows
+#include <GL/glx.h>    /* this includes the necessary X headers */
+#include <GL/gl.h>
+
+#include <X11/X.h>    /* X11 constant (e.g. TrueColor) */
+#include <X11/keysym.h>
+#endif
+
 #include "gl_export.h"
 #include "com_model.h"
 #include "cl_entity.h"
@@ -116,7 +125,7 @@ typedef struct
 	qboolean		drawWorld;	// ignore world for drawing PlayerModel
 	qboolean		thirdPerson;	// thirdperson camera is enabled
 	qboolean		isSkyVisible;	// sky is visible
-	qboolean		drawOrtho;	// draw world as orthogonal projection	
+	qboolean		drawOrtho;	// draw world as orthogonal projection
 
 	ref_params_t	refdef;		// actual refdef
 
@@ -209,11 +218,11 @@ typedef struct
 	uint		num_solid_entities;
 	uint		num_trans_entities;
 	uint		num_child_entities;
-         
+
 	// OpenGL matrix states
 	qboolean		modelviewIdentity;
 	qboolean		fResetVis;
-	
+
 	int		visframecount;	// PVS frame
 	int		dlightframecount;	// dynamic light frame
 	int		realframecount;	// not including passes
@@ -412,6 +421,10 @@ void R_StudioInit( void );
 void Mod_LoadStudioModel( model_t *mod, const void *buffer, qboolean *loaded );
 void R_DrawStudioModel( cl_entity_t *e );
 
+#ifndef _WIN32
+struct mip_s;
+#endif
+
 //
 // gl_warp.c
 //
@@ -488,7 +501,7 @@ void R_NewMap( void );
 enum
 {
 	GL_OPENGL_110 = 0,		// base
-	GL_WGL_SWAPCONTROL,		
+	GL_WGL_SWAPCONTROL,
 	GL_WGL_PROCADDRESS,
 	GL_HARDWARE_GAMMA_CONTROL,
 	GL_ARB_VERTEX_BUFFER_OBJECT_EXT,
@@ -504,14 +517,22 @@ enum
 	GL_SGIS_MIPMAPS_EXT,
 	GL_DRAW_RANGEELEMENTS_EXT,
 	GL_LOCKARRAYS_EXT,
+#ifdef _WIN32
 	GL_TEXTURE_3D_EXT,
+#else
+	Dummy1,
+#endif
 	GL_CLAMPTOEDGE_EXT,
 	GL_BLEND_MINMAX_EXT,
 	GL_STENCILTWOSIDE_EXT,
 	GL_BLEND_SUBTRACT_EXT,
 	GL_SHADER_OBJECTS_EXT,
-	GL_VERTEX_SHADER_EXT,	// glsl vertex program
-	GL_FRAGMENT_SHADER_EXT,	// glsl fragment program	
+#ifdef _WIN32
+	GL_VERTEX_SHADER_EXT,
+#else
+	Dummy2,
+#endif
+	GL_FRAGMENT_SHADER_EXT,	// glsl fragment program
 	GL_EXT_POINTPARAMETERS,
 	GL_SEPARATESTENCIL_EXT,
 	GL_ARB_TEXTURE_NPOT_EXT,
@@ -523,6 +544,7 @@ enum
 	GL_EXTCOUNT,		// must be last
 };
 
+#ifdef _WIN32
 enum
 {
 	GL_TEXTURE0 = 0,
@@ -531,6 +553,9 @@ enum
 	GL_TEXTURE3,		// g-cont. 4 units should be enough
 	MAX_TEXTURE_UNITS		// must be last
 };
+#else
+#define MAX_TEXTURE_UNITS 4
+#endif
 
 typedef struct
 {
@@ -586,8 +611,12 @@ typedef struct
 
 typedef struct
 {
+#ifdef _WIN32
 	HDC		hDC;		// handle to device context
 	HGLRC		hGLRC;		// handle to GL rendering context
+#else
+//later
+#endif
 
 	int		desktopBitsPixel;
 	int		desktopWidth;

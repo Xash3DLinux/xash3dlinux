@@ -81,7 +81,7 @@ typedef struct
 						// render a frame yet
 	int		parsecount;		// server message counter
 	int		parsecountmod;		// modulo with network window
-									
+
 	qboolean		video_prepped;		// false if on new level or new ref dll
 	qboolean		audio_prepped;		// false if on new level or new snd dll
 	qboolean		force_refdef;		// vid has changed, so we can't use a paused refdef
@@ -188,7 +188,7 @@ typedef struct
 	char		name[32];
 	int		number;	// svc_ number
 	int		size;	// if size == -1, size come from first byte after svcnum
-	pfnUserMsgHook	func;	// user-defined function	
+	pfnUserMsgHook	func;	// user-defined function
 } cl_user_message_t;
 
 typedef void (*pfnEventHook)( event_args_t *args );
@@ -306,6 +306,12 @@ typedef struct
 	double			timesend;	// time when request was sended
 	int			flags;	// FNETAPI_MULTIPLE_RESPONSE etc
 } net_request_t;
+
+#ifndef _WIN32
+struct engine_studio_api_s;
+struct r_studio_interface_s;
+#endif
+
 
 typedef struct
 {
@@ -447,7 +453,7 @@ typedef struct
 	keydest_t		key_dest;
 
 	byte		*mempool;			// client premamnent pool: edicts etc
-	
+
 	int		framecount;
 	int		quakePort;		// a 16 bit value that allows quake servers
 						// to work around address translating routers
@@ -467,7 +473,7 @@ typedef struct
 	float		packet_loss;
 	double		packet_loss_recalc_time;
 
-	float		nextcmdtime;		// when can we send the next command packet?                
+	float		nextcmdtime;		// when can we send the next command packet?
 	int		lastoutgoingcommand;	// sequence number of last outgoing command
 
 	// internal images
@@ -661,7 +667,7 @@ _inline cl_entity_t *CL_EDICT_NUM( int n )
 		return clgame.entities + n;
 
 	Host_Error( "CL_EDICT_NUM: bad number %i\n", n );
-	return NULL;	
+	return NULL;
 }
 
 //

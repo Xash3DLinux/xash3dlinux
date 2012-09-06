@@ -1,9 +1,9 @@
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
+*
+*	This product contains software technology licensed from Id
+*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc.
 *	All Rights Reserved.
 *
 *   Use, distribution, and modification of this source code and/or resulting
@@ -27,6 +27,10 @@
 // Set this flag for things like broadcast requests, etc. where the engine should not
 // kill the request hook after receiving the first response
 #define FNETAPI_MULTIPLE_RESPONSE		( 1<<0 )
+
+#ifndef _WIN32
+struct net_response_s;
+#endif
 
 typedef void (*net_api_response_func_t) ( struct net_response_s *response );
 
@@ -63,7 +67,7 @@ typedef struct net_response_s
 typedef struct net_status_s
 {
 	// Connected to remote server?  1 == yes, 0 otherwise
-	int		connected; 
+	int		connected;
 	// Client's IP address
 	netadr_t		local_address;
 	// Address of remote server

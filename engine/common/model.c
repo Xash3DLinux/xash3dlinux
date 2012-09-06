@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "mod_local.h"
 #include "sprite.h"
@@ -36,7 +40,7 @@ int		bmodel_version;		// global stuff to detect bsp version
 char		modelname[64];		// short model name (without path and ext)
 convar_t		*mod_studiocache;
 convar_t		*mod_allow_materials;
-		
+
 model_t		*loadmodel;
 model_t		*worldmodel;
 
@@ -181,10 +185,10 @@ byte *Mod_CompressVis( const byte *in, size_t *size )
 		Host_Error( "Mod_CompressVis: no worldmodel\n" );
 		return NULL;
 	}
-	
+
 	dest_p = visdata;
 	visrow = (worldmodel->numleafs + 7)>>3;
-	
+
 	for( j = 0; j < visrow; j++ )
 	{
 		*dest_p++ = in[j];
@@ -222,11 +226,11 @@ byte *Mod_DecompressVis( const byte *in )
 		return NULL;
 	}
 
-	row = (worldmodel->numleafs + 7)>>3;	
+	row = (worldmodel->numleafs + 7)>>3;
 	out = visdata;
 
 	if( !in )
-	{	
+	{
 		// no vis info, so make all visible
 		while( row )
 		{
@@ -348,7 +352,7 @@ static void Mod_BoxLeafnums_r( leaflist_t *ll, mnode_t *node )
 			ll->list[ll->count++] = leaf - worldmodel->leafs - 1;
 			return;
 		}
-	
+
 		plane = node->plane;
 		s = BOX_ON_PLANE_SIDE( ll->mins, ll->maxs, plane );
 
@@ -436,7 +440,7 @@ void Mod_AmbientLevels( const vec3_t p, byte *pvolumes )
 	mleaf_t	*leaf;
 
 	if( !worldmodel || !p || !pvolumes )
-		return;	
+		return;
 
 	leaf = Mod_PointInLeaf( p, worldmodel->nodes );
 	*(int *)pvolumes = *(int *)leaf->ambient_sound_level;
@@ -573,7 +577,7 @@ static void Mod_LoadSubmodels( const dlump_t *l )
 	dmodel_t	*in;
 	dmodel_t	*out;
 	int	i, j, count;
-	
+
 	in = (void *)(mod_base + l->fileofs);
 	if( l->filelen % sizeof( *in )) Host_Error( "Mod_LoadBModel: funny lump size\n" );
 	count = l->filelen / sizeof( *in );
@@ -613,7 +617,7 @@ static void Mod_LoadSubmodels( const dlump_t *l )
 			VectorAverage( out->mins, out->maxs, out->origin );
 		}
 
-		world.max_surfaces = max( world.max_surfaces, out->numfaces ); 
+		world.max_surfaces = max( world.max_surfaces, out->numfaces );
 	}
 
 	if( world.loading )
@@ -634,7 +638,7 @@ static void Mod_LoadTextures( const dlump_t *l )
 	int		num, max, altmax;
 	char		texname[64];
 	mip_t		*mt;
-	int 		i, j; 
+	int 		i, j;
 
 	if( world.loading )
 	{
@@ -671,7 +675,7 @@ static void Mod_LoadTextures( const dlump_t *l )
 			// create default texture (some mods requires this)
 			tx = Mem_Alloc( loadmodel->mempool, sizeof( *tx ));
 			loadmodel->textures[i] = tx;
-		
+
 			Q_strncpy( tx->name, "*default", sizeof( tx->name ));
 #ifndef _DEDICATED
 			tx->gl_texturenum = tr.defaultTexture;
@@ -700,7 +704,7 @@ static void Mod_LoadTextures( const dlump_t *l )
 
 		// check for multi-layered sky texture
 		if( world.loading && !Q_strncmp( mt->name, "sky", 3 ) && mt->width == 256 && mt->height == 128 )
-		{	
+		{
 			if( mod_allow_materials != NULL && mod_allow_materials->integer )
 			{
 				// build standard path: "materials/mapname/texname_solid.tga"
@@ -767,7 +771,7 @@ static void Mod_LoadTextures( const dlump_t *l )
 				world.sky_sphere = true;
 #endif
 		}
-		else 
+		else
 		{
 			if( mod_allow_materials != NULL && mod_allow_materials->integer )
 			{
@@ -874,7 +878,7 @@ load_wad_textures:
 				{
 					// in case we failed to loading 32-bit luma texture
 					MsgDev( D_ERROR, "Couldn't load %s\n", texname );
-				} 
+				}
 			}
 		}
 
@@ -1025,7 +1029,7 @@ load_wad_textures:
 			tx2->anim_min = j * ANIM_CYCLE;
 			tx2->anim_max = (j + 1) * ANIM_CYCLE;
 			tx2->anim_next = anims[(j + 1) % max];
-		}	
+		}
 	}
 }
 
@@ -1041,14 +1045,14 @@ static void Mod_LoadTexInfo( const dlump_t *l )
 	int		miptex;
 	int		i, j, count;
 	float		len1, len2;
-	
+
 	in = (void *)(mod_base + l->fileofs);
 	if( l->filelen % sizeof( *in ))
 		Host_Error( "Mod_LoadTexInfo: funny lump size in %s\n", loadmodel->name );
 
 	count = l->filelen / sizeof( *in );
           out = Mem_Alloc( loadmodel->mempool, count * sizeof( *out ));
-	
+
 	loadmodel->texinfo = out;
 	loadmodel->numtexinfo = count;
 
@@ -1371,7 +1375,7 @@ static void Mod_BuildPolygon( mextrasurf_t *info, msurface_t *surf, int numVerts
 
 	// clear colors (it can be used for pushable vertex lighting)
 	Q_memset( mesh->colors, 0xFF, numVerts * sizeof( rgba_t ));
-	
+
 	for( i = 0; i < numVerts; i++, verts += 3 )
 	{
 		// vertex
@@ -1466,10 +1470,10 @@ static void Mod_SubdividePolygon( mextrasurf_t *info, msurface_t *surf, int numV
 				VectorCopy( v, back[b] );
 				b++;
 			}
-			
+
 			if( dists[j] == 0 || dists[j+1] == 0 )
 				continue;
-			
+
 			if(( dists[j] > 0 ) != ( dists[j+1] > 0 ))
 			{
 				// clip point
@@ -1793,7 +1797,7 @@ static void Mod_LoadSurfaces( const dlump_t *l )
 		{
 			MsgDev( D_ERROR, "Bad surface %i from %i\n", i, count );
 			continue;
-		} 
+		}
 
 		out->firstedge = in->firstedge;
 		out->numedges = in->numedges;
@@ -1911,7 +1915,7 @@ static void Mod_LoadEdges( const dlump_t *l )
 	medge_t	*out;
 	int	i, count;
 
-	in = (void *)( mod_base + l->fileofs );	
+	in = (void *)( mod_base + l->fileofs );
 	if( l->filelen % sizeof( *in ))
 		Host_Error( "Mod_LoadEdges: funny lump size in %s\n", loadmodel->name );
 
@@ -1936,7 +1940,7 @@ static void Mod_LoadSurfEdges( const dlump_t *l )
 	dsurfedge_t	*in;
 	int		count;
 
-	in = (void *)( mod_base + l->fileofs );	
+	in = (void *)( mod_base + l->fileofs );
 	if( l->filelen % sizeof( *in ))
 		Host_Error( "Mod_LoadSurfEdges: funny lump size in %s\n", loadmodel->name );
 
@@ -1957,8 +1961,8 @@ static void Mod_LoadMarkSurfaces( const dlump_t *l )
 	dmarkface_t	*in;
 	int		i, j, count;
 	msurface_t	**out;
-	
-	in = (void *)( mod_base + l->fileofs );	
+
+	in = (void *)( mod_base + l->fileofs );
 	if( l->filelen % sizeof( *in ))
 		Host_Error( "Mod_LoadMarkFaces: funny lump size in %s\n", loadmodel->name );
 
@@ -1999,7 +2003,7 @@ static void Mod_LoadNodes( const dlump_t *l )
 	dnode_t	*in;
 	mnode_t	*out;
 	int	i, j, p;
-	
+
 	in = (void *)(mod_base + l->fileofs);
 	if( l->filelen % sizeof( *in )) Host_Error( "Mod_LoadNodes: funny lump size\n" );
 	loadmodel->numnodes = l->filelen / sizeof( *in );
@@ -2042,7 +2046,7 @@ static void Mod_LoadLeafs( const dlump_t *l )
 	dleaf_t 	*in;
 	mleaf_t	*out;
 	int	i, j, p, count;
-		
+
 	in = (void *)(mod_base + l->fileofs);
 	if( l->filelen % sizeof( *in )) Host_Error( "Mod_LoadLeafs: funny lump size\n" );
 
@@ -2062,7 +2066,7 @@ static void Mod_LoadLeafs( const dlump_t *l )
 		}
 
 		out->contents = in->contents;
-	
+
 		p = in->visofs;
 
 		if( p == -1 ) out->compressed_vis = NULL;
@@ -2100,7 +2104,7 @@ static void Mod_LoadPlanes( const dlump_t *l )
 	dplane_t	*in;
 	mplane_t	*out;
 	int	i, j, count;
-	
+
 	in = (void *)(mod_base + l->fileofs);
 	if( l->filelen % sizeof( *in )) Host_Error( "Mod_LoadPlanes: funny lump size\n" );
 	count = l->filelen / sizeof( *in );
@@ -2158,7 +2162,7 @@ static void Mod_LoadEntities( const dlump_t *l )
 	byte	*in;
 
 	in = (void *)(mod_base + l->fileofs);
-	loadmodel->entities = Mem_Alloc( loadmodel->mempool, l->filelen );	
+	loadmodel->entities = Mem_Alloc( loadmodel->mempool, l->filelen );
 	Q_memcpy( loadmodel->entities, mod_base + l->fileofs, l->filelen );
 	if( world.loading ) world.entdatasize = l->filelen;
 }
@@ -2177,7 +2181,7 @@ static void Mod_LoadClipnodes( const dlump_t *l )
 	in = (void *)(mod_base + l->fileofs);
 	if( l->filelen % sizeof( *in )) Host_Error( "Mod_LoadClipnodes: funny lump size\n" );
 	count = l->filelen / sizeof( *in );
-	out = Mem_Alloc( loadmodel->mempool, count * sizeof( *out ));	
+	out = Mem_Alloc( loadmodel->mempool, count * sizeof( *out ));
 
 	loadmodel->clipnodes = out;
 	loadmodel->numclipnodes = count;
@@ -2256,8 +2260,8 @@ static void Mod_FindModelOrigin( const char *entities, const char *modelname, ve
 
 			Q_strncpy( keyname, token, sizeof( keyname ));
 
-			// parse value	
-			if(( pfile = COM_ParseFile( pfile, token )) == NULL ) 
+			// parse value
+			if(( pfile = COM_ParseFile( pfile, token )) == NULL )
 				Host_Error( "Mod_FindModelOrigin: EOF without closing brace\n" );
 
 			if( token[0] == '}' )
@@ -2274,7 +2278,7 @@ static void Mod_FindModelOrigin( const char *entities, const char *modelname, ve
 		}
 
 		if( model_found ) break;
-	}	
+	}
 }
 
 /*
@@ -2290,12 +2294,12 @@ static void Mod_MakeHull0( void )
 	dclipnode_t	*out;
 	hull_t		*hull;
 	int		i, j, count;
-	
-	hull = &loadmodel->hulls[0];	
-	
+
+	hull = &loadmodel->hulls[0];
+
 	in = loadmodel->nodes;
 	count = loadmodel->numnodes;
-	out = Mem_Alloc( loadmodel->mempool, count * sizeof( *out ));	
+	out = Mem_Alloc( loadmodel->mempool, count * sizeof( *out ));
 
 	hull->clipnodes = out;
 	hull->firstclipnode = 0;
@@ -2408,7 +2412,7 @@ void Mod_CalcPHS( void )
 
 		// compress PHS data back
 		comp = Mod_CompressVis( (byte *)dest, &rowsize );
-		visofs[i] = vismap_p - vismap; // leaf 0 is a common solid 
+		visofs[i] = vismap_p - vismap; // leaf 0 is a common solid
 		total_size += rowsize;
 
 		if( total_size > phsdatasize )
@@ -2497,7 +2501,7 @@ static void Mod_LoadBrushModel( model_t *mod, const void *buffer, qboolean *load
 	dheader_t	*header;
 	dmodel_t 	*bm;
 
-	if( loaded ) *loaded = false;	
+	if( loaded ) *loaded = false;
 	header = (dheader_t *)buffer;
 	loadmodel->type = mod_brush;
 	i = header->version;
@@ -2552,10 +2556,10 @@ static void Mod_LoadBrushModel( model_t *mod, const void *buffer, qboolean *load
 	Mod_LoadSubmodels( &header->lumps[LUMP_MODELS] );
 
 	Mod_MakeHull0 ();
-	
+
 	loadmodel->numframes = 2;	// regular and alternate animation
 	ents = loadmodel->entities;
-	
+
 	// set up the submodels
 	for( i = 0; i < mod->numsubmodels; i++ )
 	{
@@ -2567,11 +2571,11 @@ static void Mod_LoadBrushModel( model_t *mod, const void *buffer, qboolean *load
 			mod->hulls[j].firstclipnode = bm->headnode[j];
 			mod->hulls[j].lastclipnode = mod->numclipnodes - 1;
 		}
-		
+
 		mod->firstmodelsurface = bm->firstface;
 		mod->nummodelsurfaces = bm->numfaces;
 
-		VectorCopy( bm->mins, mod->mins );		
+		VectorCopy( bm->mins, mod->mins );
 		VectorCopy( bm->maxs, mod->maxs );
 
 		mod->radius = RadiusFromBounds( mod->mins, mod->maxs );
@@ -2644,14 +2648,14 @@ model_t *Mod_FindName( const char *filename, qboolean create )
 	model_t	*mod;
 	char	name[64];
 	int	i;
-	
+
 	if( !filename || !filename[0] )
 		return NULL;
 
 	if( *filename == '!' ) filename++;
 	Q_strncpy( name, filename, sizeof( name ));
 	COM_FixSlashes( name );
-		
+
 	// search the currently loaded models
 	for( i = 0, mod = cm_models; i < cm_nummodels; i++, mod++ )
 	{
@@ -2664,7 +2668,7 @@ model_t *Mod_FindName( const char *filename, qboolean create )
 		}
 	}
 
-	if( !create ) return NULL;			
+	if( !create ) return NULL;
 
 	// find a free model slot spot
 	for( i = 0, mod = cm_models; i < cm_nummodels; i++, mod++ )
@@ -2709,7 +2713,7 @@ void ReMod_LoadSpriteModel( model_t *mod, const void *buffer, qboolean *loaded, 
 		MsgDev( D_ERROR, "%s has wrong id (%x should be %x)\n", mod->name, pin->ident, IDSPRITEHEADER );
 		return;
 	}
-		
+
 	if( i != SPRITE_VERSION )
 	{
 		MsgDev( D_ERROR, "%s has wrong version number (%i should be %i)\n", mod->name, i, SPRITE_VERSION );
@@ -2720,7 +2724,7 @@ void ReMod_LoadSpriteModel( model_t *mod, const void *buffer, qboolean *loaded, 
 	size = sizeof( msprite_t ) + ( pin->numframes - 1 ) * sizeof( psprite->frames );
 	psprite = Mem_Alloc( mod->mempool, size );
 	mod->cache.data = psprite;	// make link to extradata
-	
+
 	psprite->type = pin->type;
 	psprite->texFormat = pin->texFormat;
 	psprite->numframes = mod->numframes = pin->numframes;
@@ -2762,7 +2766,7 @@ studiohdr_t *ReR_StudioLoadHeader( model_t *mod, const void *buffer )
 	{
 		MsgDev( D_ERROR, "%s has wrong version number (%i should be %i)\n", mod->name, i, STUDIO_VERSION );
 		return NULL;
-	}	
+	}
 
 	return (studiohdr_t *)buffer;
 }
@@ -2824,7 +2828,7 @@ void ReMod_LoadStudioModel( model_t *mod, const void *buffer, qboolean *loaded )
 
 		if( !thdr )
 		{
-			MsgDev( D_WARN, "Mod_LoadStudioModel: %s missing textures file\n", mod->name ); 
+			MsgDev( D_WARN, "Mod_LoadStudioModel: %s missing textures file\n", mod->name );
 			if( buffer2 ) Mem_Free( buffer2 );
 		}
                     else
@@ -2889,7 +2893,7 @@ model_t *Mod_LoadModel( model_t *mod, qboolean crash )
 	{
 		if( crash ) Host_Error( "Mod_ForName: NULL model\n" );
 		else MsgDev( D_ERROR, "Mod_ForName: NULL model\n" );
-		return NULL;		
+		return NULL;
 	}
 
 	// check if already loaded (or inline bmodel)
@@ -2948,7 +2952,7 @@ model_t *Mod_LoadModel( model_t *mod, qboolean crash )
 		return NULL;
 	}
 
-	Mem_Free( buf ); 
+	Mem_Free( buf );
 
 	if( !loaded )
 	{
@@ -2971,7 +2975,7 @@ Loads in a model for the given name
 model_t *Mod_ForName( const char *name, qboolean crash )
 {
 	model_t	*mod;
-	
+
 	mod = Mod_FindName( name, true );
 	return Mod_LoadModel( mod, crash );
 }
@@ -3023,7 +3027,7 @@ void Mod_LoadWorld( const char *name, uint *checksum, qboolean force )
 	world.loading = false;
 
 	if( checksum ) *checksum = world.checksum;
-		
+
 	// calc Potentially Hearable Set and compress it
 	Mod_CalcPHS();
 }

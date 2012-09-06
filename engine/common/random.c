@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 
@@ -44,7 +48,7 @@ long lran1( void )
 
 	static long iy = 0;
 	static long iv[NTAB];
-	
+
 	if( idum <= 0 || !iy )
 	{
 		if(-(idum) < 1) idum=1;
@@ -90,7 +94,7 @@ float Com_RandomFloat( float flLow, float flHigh )
 long Com_RandomLong( long lLow, long lHigh )
 {
 	dword	maxAcceptable;
-	dword	n, x = lHigh-lLow + 1; 	
+	dword	n, x = lHigh-lLow + 1;
 
 	if( idum == 0 ) SeedRandomNumberGenerator(0);
 

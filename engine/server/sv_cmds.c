@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "server.h"
@@ -30,11 +34,11 @@ void SV_ClientPrintf( sv_client_t *cl, int level, char *fmt, ... )
 
 	if( level < cl->messagelevel || cl->fakeclient )
 		return;
-	
+
 	va_start( argptr, fmt );
 	Q_vsprintf( string, fmt, argptr );
 	va_end( argptr );
-	
+
 	BF_WriteByte( &cl->netchan.message, svc_print );
 	BF_WriteByte( &cl->netchan.message, level );
 	BF_WriteString( &cl->netchan.message, string );
@@ -59,7 +63,7 @@ void SV_BroadcastPrintf( int level, char *fmt, ... )
 	va_start( argptr, fmt );
 	Q_vsprintf( string, fmt, argptr );
 	va_end( argptr );
-	
+
 	// echo to console
 	if( host.type == HOST_DEDICATED ) Msg( "%s", string );
 
@@ -86,7 +90,7 @@ void SV_BroadcastCommand( char *fmt, ... )
 {
 	va_list	argptr;
 	char	string[MAX_SYSPATH];
-	
+
 	if( !sv.state ) return;
 	va_start( argptr, fmt );
 	Q_vsprintf( string, fmt, argptr );
@@ -181,7 +185,7 @@ void SV_Map_f( void )
 
 	// hold mapname to other place
 	Q_strncpy( mapname, Cmd_Argv( 1 ), sizeof( mapname ));
-	
+
 	// determine spawn entity classname
 	if( sv_maxclients->integer == 1 )
 		spawn_entity = GI->sp_entity;
@@ -194,7 +198,7 @@ void SV_Map_f( void )
 		Msg( "SV_NewMap: map %s is invalid or not supported\n", mapname );
 		return;
 	}
-	
+
 	if(!( flags & MAP_IS_EXIST ))
 	{
 		Msg( "SV_NewMap: map %s doesn't exist\n", mapname );
@@ -258,7 +262,7 @@ void SV_MapBackground_f( void )
 	// background maps allow without spawnpoints (just throw warning)
 	if(!( flags & MAP_HAS_SPAWNPOINT ))
 		MsgDev( D_WARN, "SV_NewMap: map %s doesn't have a valid spawnpoint\n", mapname );
-		
+
 	Q_strncpy( host.finalmsg, "", MAX_STRING );
 	SV_Shutdown( true );
 	NET_Config ( false ); // close network sockets
@@ -424,7 +428,7 @@ void SV_ChangeLevel_f( void )
 		Msg( "SV_ChangeLevel: map %s is invalid or not supported\n", mapname );
 		return;
 	}
-	
+
 	if(!( flags & MAP_IS_EXIST ))
 	{
 		Msg( "SV_ChangeLevel: map %s doesn't exist\n", mapname );
@@ -446,7 +450,7 @@ void SV_ChangeLevel_f( void )
 	if( c == 3 && !Q_stricmp( sv.name, Cmd_Argv( 1 )))
 	{
 		MsgDev( D_INFO, "SV_ChangeLevel: can't changelevel with same map. Ignored.\n" );
-		return;	
+		return;
 	}
 
 	if( c == 2 && !( flags & MAP_HAS_SPAWNPOINT ))
@@ -454,7 +458,7 @@ void SV_ChangeLevel_f( void )
 		if( sv_validate_changelevel->integer )
 		{
 			MsgDev( D_INFO, "SV_ChangeLevel: map %s doesn't have a valid spawnpoint. Ignored.\n", mapname );
-			return;	
+			return;
 		}
 	}
 
@@ -520,7 +524,7 @@ void SV_Reload_f( void )
 {
 	const char	*save;
 	string		loadname;
-	
+
 	if( sv.state != ss_active || sv.background )
 		return;
 
@@ -582,7 +586,7 @@ void SV_Kill_f( void )
 		return;
 	}
 
-	svgame.dllFuncs.pfnClientKill( svs.currentPlayer->edict );	
+	svgame.dllFuncs.pfnClientKill( svs.currentPlayer->edict );
 }
 
 /*
@@ -781,7 +785,7 @@ void SV_EdictsInfo_f( void )
 		return;
 	}
 
-	active = pfnNumberOfEntities(); 
+	active = pfnNumberOfEntities();
 	Msg( "%5i edicts is used\n", active );
 	Msg( "%5i edicts is free\n", svgame.globals->maxEntities - active );
 	Msg( "%5i total\n", svgame.globals->maxEntities );

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "server.h"
@@ -280,7 +284,7 @@ static void Mod_StudioCalcBoneAdj( float *adj, const byte *pcontroller )
 	int			i, j;
 	float			value;
 	mstudiobonecontroller_t	*pbonecontroller;
-	
+
 	pbonecontroller = (mstudiobonecontroller_t *)((byte *)mod_studiohdr + mod_studiohdr->bonecontrollerindex);
 
 	for( j = 0; j < mod_studiohdr->numbonecontrollers; j++ )
@@ -295,7 +299,7 @@ static void Mod_StudioCalcBoneAdj( float *adj, const byte *pcontroller )
 			{
 				value = pcontroller[i] * (360.0f / 256.0f) + pbonecontroller[j].start;
 			}
-			else 
+			else
 			{
 				value = pcontroller[i] / 255.0f;
 				value = bound( 0.0f, value, 1.0f );
@@ -342,11 +346,11 @@ static void Mod_StudioCalcBoneQuaterion( int frame, float s, mstudiobone_t *pbon
 		{
 			panimvalue = (mstudioanimvalue_t *)((byte *)panim + panim->offset[j+3]);
 			k = frame;
-			
+
 			// debug
 			if( panimvalue->num.total < panimvalue->num.valid )
 				k = 0;
-			
+
 			while( panimvalue->num.total <= k )
 			{
 				k -= panimvalue->num.total;
@@ -423,7 +427,7 @@ static void Mod_StudioCalcBonePosition( int frame, float s, mstudiobone_t *pbone
 		if( panim->offset[j] != 0.0f )
 		{
 			panimvalue = (mstudioanimvalue_t *)((byte *)panim + panim->offset[j]);
-			
+
 			k = frame;
 
 			// debug
@@ -522,18 +526,18 @@ StudioEstimateFrame
 static float Mod_StudioEstimateFrame( float frame, mstudioseqdesc_t *pseqdesc )
 {
 	double	f;
-	
+
 	if( pseqdesc->numframes <= 1 )
 		f = 0;
 	else f = ( frame * ( pseqdesc->numframes - 1 )) / 256.0;
- 
-	if( pseqdesc->flags & STUDIO_LOOPING ) 
+
+	if( pseqdesc->flags & STUDIO_LOOPING )
 	{
 		if( pseqdesc->numframes > 1 )
 			f -= (int)(f / (pseqdesc->numframes - 1)) *  (pseqdesc->numframes - 1);
 		if( f < 0 ) f += (pseqdesc->numframes - 1);
 	}
-	else 
+	else
 	{
 		if( f >= pseqdesc->numframes - 1.001 )
 			f = pseqdesc->numframes - 1.001;
@@ -710,7 +714,7 @@ static void SV_StudioSetupBones( model_t *pModel,	float frame, int sequence, con
 		i = boneused[j];
 
 		Matrix3x4_FromOriginQuat( bonematrix, q[i], pos[i] );
-		if( pbones[i].parent == -1 ) 
+		if( pbones[i].parent == -1 )
 			Matrix3x4_ConcatTransforms( studio_bones[i], studio_transform, bonematrix );
 		else Matrix3x4_ConcatTransforms( studio_bones[i], studio_bones[pbones[i].parent], bonematrix );
 	}
@@ -953,7 +957,7 @@ static server_studio_api_t gStudioAPI =
 	Mod_LoadCacheFile,
 	Mod_Extradata,
 };
-   
+
 /*
 ===============
 Mod_InitStudioAPI

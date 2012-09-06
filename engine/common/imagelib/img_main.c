@@ -12,7 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
-
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 #include "imagelib.h"
 
 // global image variables
@@ -80,7 +83,7 @@ static const cubepack_t load_cubemap[] =
 { NULL, NULL },
 };
 
-// soul of ImageLib - table of image format constants 
+// soul of ImageLib - table of image format constants
 const bpc_desc_t PFDesc[] =
 {
 {PF_UNKNOWN,	"raw",	0x1908, 0 },
@@ -129,7 +132,7 @@ rgbdata_t *ImagePack( void )
 		return NULL;
 	}
 
-	if( image.cubemap ) 
+	if( image.cubemap )
 	{
 		image.flags |= IMAGE_CUBEMAP;
 		pack->buffer = image.cubemap;
@@ -138,7 +141,7 @@ rgbdata_t *ImagePack( void )
 		pack->type = image.source_type;
 		pack->size = image.size * image.num_sides;
 	}
-	else 
+	else
 	{
 		pack->buffer = image.rgba;
 		pack->width = image.width;
@@ -156,7 +159,7 @@ rgbdata_t *ImagePack( void )
 
 	pack->flags = image.flags;
 	pack->palette = image.palette;
-	
+
 	return pack;
 }
 
@@ -170,7 +173,7 @@ qboolean FS_AddSideToPack( const char *name, int adjust_flags )
 {
 	byte	*out, *flipped;
 	qboolean	resampled = false;
-	
+
 	// first side set average size for all cubemap sides!
 	if( !image.cubemap )
 	{
@@ -181,7 +184,7 @@ qboolean FS_AddSideToPack( const char *name, int adjust_flags )
 
 	// keep constant size, render.dll expecting it
 	image.size = image.source_width * image.source_height * 4;
-          
+
 	// mixing dds format with any existing ?
 	if( image.type != image.source_type )
 		return false;
@@ -259,7 +262,7 @@ rgbdata_t *FS_LoadImage( const char *filename, const byte *buffer, size_t size )
 					Mem_Free( f ); // release buffer
 					return ImagePack(); // loaded
 				}
-				else Mem_Free(f); // release buffer 
+				else Mem_Free(f); // release buffer
 			}
 		}
 	}
@@ -281,9 +284,9 @@ rgbdata_t *FS_LoadImage( const char *filename, const byte *buffer, size_t size )
 					f = FS_LoadFile( path, &filesize, false );
 					if( f && filesize > 0 )
 					{
-						// this name will be used only for tell user about problems 
+						// this name will be used only for tell user about problems
 						if( format->loadfunc( path, f, filesize ))
-						{         
+						{
 							Q_snprintf( sidename, sizeof( sidename ), "%s%s.%s", loadname, cmap->type[i].suf, format->ext );
 							if( FS_AddSideToPack( sidename, cmap->type[i].flags )) // process flags to flip some sides
 							{
@@ -299,7 +302,7 @@ rgbdata_t *FS_LoadImage( const char *filename, const byte *buffer, size_t size )
 			if( image.num_sides != i + 1 ) // check side
 			{
 				// first side not found, probably it's not cubemap
-				// it contain info about image_type and dimensions, don't generate black cubemaps 
+				// it contain info about image_type and dimensions, don't generate black cubemaps
 				if( !image.cubemap ) break;
 				MsgDev( D_ERROR, "FS_LoadImage: couldn't load (%s%s), create black image\n", loadname, cmap->type[i].suf );
 
@@ -391,7 +394,7 @@ qboolean FS_SaveImage( const char *filename, rgbdata_t *pix )
 			return false;	// do not happens
 		}
 
-		pix->size /= 6;	// now set as side size 
+		pix->size /= 6;	// now set as side size
 		picBuffer = pix->buffer;
 
 		// save all sides seperately

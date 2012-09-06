@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "server.h"
@@ -21,7 +25,7 @@ GNU General Public License for more details.
 typedef struct
 {
 	int		num_entities;
-	entity_state_t	entities[MAX_VISIBLE_PACKET];	
+	entity_state_t	entities[MAX_VISIBLE_PACKET];
 } sv_ents_t;
 
 static byte *clientpvs;	// FatPVS
@@ -132,7 +136,7 @@ static void SV_AddEntitiesToPacket( edict_t *pViewEnt, edict_t *pClient, client_
 			{
 				ents->num_entities++;	// entity accepted
 				c_fullsend++;		// debug counter
-				
+
 			}
 			else
 			{
@@ -237,7 +241,7 @@ void SV_EmitPacketEntities( sv_client_t *cl, client_frame_t *to, sizebuf_t *msg 
 		}
 
 		if( newnum == oldnum )
-		{	
+		{
 			// delta update from old position
 			// because the force parm is false, this will not result
 			// in any bytes being emited if the entity has not changed at all
@@ -248,7 +252,7 @@ void SV_EmitPacketEntities( sv_client_t *cl, client_frame_t *to, sizebuf_t *msg 
 		}
 
 		if( newnum < oldnum )
-		{	
+		{
 			// this is a new entity, send it from the baseline
 			MSG_WriteDeltaEntity( &svs.baselines[newnum], newent, msg, true, SV_IsPlayerIndex( newent->number ), sv.time );
 			newindex++;
@@ -256,12 +260,12 @@ void SV_EmitPacketEntities( sv_client_t *cl, client_frame_t *to, sizebuf_t *msg 
 		}
 
 		if( newnum > oldnum )
-		{	
+		{
 			qboolean	force;
 
 			if( EDICT_NUM( oldent->number )->free )
 				force = true;	// entity completely removed from server
-			else force = false;		// just removed from delta-message 
+			else force = false;		// just removed from delta-message
 
 			// remove from message
 			MSG_WriteDeltaEntity( oldent, NULL, msg, force, false, sv.time );
@@ -551,7 +555,7 @@ void SV_WriteEntitiesToClient( sv_client_t *cl, sizebuf_t *msg )
 	// add all the entities directly visible to the eye, which
 	// may include portal entities that merge other viewpoints
 	SV_AddEntitiesToPacket( viewent, clent, frame, &frame_ents );
-   
+
 	// if there were portals visible, there may be out of order entities
 	// in the list which will need to be resorted for the delta compression
 	// to work correctly.  This also catches the error condition
@@ -616,7 +620,7 @@ void SV_SendClientDatagram( sv_client_t *cl )
 	BF_Clear( &cl->datagram );
 
 	if( BF_CheckOverflow( &msg ))
-	{	
+	{
 		// must have room left for the packet header
 		MsgDev( D_WARN, "msg overflowed for %s\n", cl->name );
 		BF_Clear( &msg );
@@ -822,7 +826,7 @@ void SV_SendMessagesToAll( void )
 	{
 		if( cl->state >= cs_connected )
 			cl->send_message = true;
-	}	
+	}
 	SV_SendClientMessages();
 }
 
@@ -868,7 +872,7 @@ void SV_InactivateClients( void )
 	for( i = 0, cl = svs.clients; i < sv_maxclients->integer; i++, cl++ )
 	{
 		if( !cl->state || !cl->edict ) continue;
-			
+
 		if( !cl->edict || (cl->edict->v.flags & FL_FAKECLIENT))
 			continue;
 

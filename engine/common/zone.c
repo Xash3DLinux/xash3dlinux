@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 
@@ -183,7 +187,7 @@ static void Mem_FreeBlock( memheader_t *mem, const char *filename, int fileline 
 		Sys_Error( "Mem_Free: trashed header sentinel 1 (alloc at %s:%i, free at %s:%i)\n", mem->filename, mem->fileline, filename, fileline );
 	}
 	if( *((byte *)mem + sizeof( memheader_t ) + mem->size ) != MEMHEADER_SENTINEL2 )
-	{	
+	{
 		mem->filename = Mem_CheckFilename( mem->filename ); // make sure what we don't crash var_args
 		Sys_Error( "Mem_Free: trashed header sentinel 2 (alloc at %s:%i, free at %s:%i)\n", mem->filename, mem->fileline, filename, fileline );
 	}
@@ -270,7 +274,7 @@ void *_Mem_Realloc( byte *poolptr, void *memptr, size_t size, const char *filena
 	nb = _Mem_Alloc( poolptr, size, filename, fileline );
 
 	if( memptr ) // first allocate?
-	{ 
+	{
 		size_t	newsize;
 
 		// get size of old block
@@ -309,7 +313,7 @@ void _Mem_FreePool( byte **poolptr, const char *filename, int fileline )
 {
 	mempool_t	*pool = (mempool_t *)((byte *)*poolptr );
 	mempool_t	**chainaddress;
-          
+
 	if( pool )
 	{
 		// unlink pool from chain
@@ -386,7 +390,7 @@ void Mem_CheckHeaderSentinels( void *data, const char *filename, int fileline )
 		Sys_Error( "Mem_CheckSentinels: trashed header sentinel 1 (block allocated at %s:%i, sentinel check at %s:%i)\n", mem->filename, mem->fileline, filename, fileline);
 	}
 	if( *((byte *) mem + sizeof(memheader_t) + mem->size) != MEMHEADER_SENTINEL2 )
-	{	
+	{
 		mem->filename = Mem_CheckFilename( mem->filename ); // make sure what we don't crash var_args
 		Sys_Error( "Mem_CheckSentinels: trashed header sentinel 2 (block allocated at %s:%i, sentinel check at %s:%i)\n", mem->filename, mem->fileline, filename, fileline);
 	}

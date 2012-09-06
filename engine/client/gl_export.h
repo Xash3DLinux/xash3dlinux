@@ -19,6 +19,8 @@ GNU General Public License for more details.
 #define APIENTRY
 #endif
 
+
+
 typedef uint GLenum;
 typedef byte GLboolean;
 typedef uint GLbitfield;
@@ -34,8 +36,12 @@ typedef float GLfloat;
 typedef float GLclampf;
 typedef double GLdouble;
 typedef double GLclampd;
+
+#ifdef _WIN32
 typedef int GLintptrARB;
 typedef int GLsizeiptrARB;
+#endif
+
 typedef char GLcharARB;
 typedef uint GLhandleARB;
 typedef float GLmatrix[16];
@@ -156,7 +162,10 @@ typedef float GLmatrix[16];
 #define GL_TEXTURE_COORD_ARRAY		0x8078
 #define GL_EDGE_FLAG_ARRAY			0x8079
 
+#ifdef _WIN32
 #define GL_NONE				0
+#endif
+
 #define GL_FRONT_LEFT			0x0400
 #define GL_FRONT_RIGHT			0x0401
 #define GL_BACK_LEFT			0x0402
@@ -295,7 +304,10 @@ typedef float GLmatrix[16];
 #define GL_LIST_BIT				0x00020000
 #define GL_TEXTURE_BIT			0x00040000
 #define GL_SCISSOR_BIT			0x00080000
+
+#ifdef _WIN32
 #define GL_ALL_ATTRIB_BITS			0x000fffff
+#endif
 
 #define GL_STENCIL_TEST			0x0B90
 #define GL_KEEP				0x1E00
@@ -1124,6 +1136,30 @@ void ( APIENTRY * pglSelectTextureSGIS) ( GLenum );
 void ( APIENTRY * pglMTexCoord2fSGIS) ( GLenum, GLfloat, GLfloat );
 void ( APIENTRY * pglSwapInterval) ( int interval );
 extern void *pglGetProcAddress( const GLubyte * );
+
+#ifndef _WIN32
+/*
+void  ( APIENTRY * glXSwapBuffers)(Display *, GLXDrawable);
+//BOOL  ( APIENTRY * pwglSwapBuffers)(HDC);
+
+BOOL  ( APIENTRY * pwglCopyContext)(HGLRC, HGLRC, UINT);
+HGLRC ( APIENTRY * pwglCreateContext)(HDC);
+HGLRC ( APIENTRY * pwglCreateLayerContext)(HDC, int);
+BOOL  ( APIENTRY * pwglDeleteContext)(HGLRC);
+HGLRC ( APIENTRY * pwglGetCurrentContext)(VOID);
+PROC  ( APIENTRY * pwglGetProcAddress)(LPCSTR);
+BOOL  ( APIENTRY * pwglMakeCurrent)(HDC, HGLRC);
+BOOL  ( APIENTRY * pwglShareLists)(HGLRC, HGLRC);
+BOOL  ( APIENTRY * pwglUseFontBitmaps)(HDC, DWORD, DWORD, DWORD);
+BOOL  ( APIENTRY * pwglUseFontOutlines)(HDC, DWORD, DWORD, DWORD, FLOAT, FLOAT, int, LPGLYPHMETRICSFLOAT);
+BOOL  ( APIENTRY * pwglDescribeLayerPlane)(HDC, int, int, UINT, LPLAYERPLANEDESCRIPTOR);
+int   ( APIENTRY * pwglSetLayerPaletteEntries)(HDC, int, int, int, CONST COLORREF *);
+int   ( APIENTRY * pwglGetLayerPaletteEntries)(HDC, int, int, int, COLORREF *);
+BOOL  ( APIENTRY * pwglRealizeLayerPalette)(HDC, int, BOOL);
+BOOL  ( APIENTRY * pwglSwapLayerBuffers)(HDC, UINT);
+BOOL  ( APIENTRY * pwglSwapIntervalEXT)( int interval );
+*/
+#else
 BOOL  ( WINAPI * pwglSwapBuffers)(HDC);
 BOOL  ( WINAPI * pwglCopyContext)(HGLRC, HGLRC, UINT);
 HGLRC ( WINAPI * pwglCreateContext)(HDC);
@@ -1141,5 +1177,6 @@ int   ( WINAPI * pwglGetLayerPaletteEntries)(HDC, int, int, int, COLORREF *);
 BOOL  ( WINAPI * pwglRealizeLayerPalette)(HDC, int, BOOL);
 BOOL  ( WINAPI * pwglSwapLayerBuffers)(HDC, UINT);
 BOOL  ( WINAPI * pwglSwapIntervalEXT)( int interval );
+#endif
 
 #endif//GL_EXPORT_H

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "input.h"
@@ -33,8 +37,8 @@ RECT	window_rect, real_rect;
 uint	in_mouse_wheel;
 int	wnd_caption;
 
-static byte scan_to_key[128] = 
-{ 
+static byte scan_to_key[128] =
+{
 	0,27,'1','2','3','4','5','6','7','8','9','0','-','=',K_BACKSPACE,9,
 	'q','w','e','r','t','y','u','i','o','p','[',']', 13 , K_CTRL,
 	'a','s','d','f','g','h','j','k','l',';','\'','`',
@@ -59,7 +63,7 @@ static int mouse_buttons[] =
 	MK_XBUTTON4,
 	MK_XBUTTON5
 };
-	
+
 /*
 =======
 Host_MapKey
@@ -119,7 +123,7 @@ void IN_StartupMouse( void )
 {
 #ifndef _DEDICATED
 	if( host.type == HOST_DEDICATED ) return;
-	if( Sys_CheckParm( "-nomouse" )) return; 
+	if( Sys_CheckParm( "-nomouse" )) return;
 
 	in_mouse_buttons = 8;
 	in_mouseinitialized = true;
@@ -130,7 +134,7 @@ void IN_StartupMouse( void )
 static qboolean IN_CursorInRect( void )
 {
 	POINT	curpos;
-	
+
 	if( !in_mouseinitialized || !in_mouseactive )
 		return false;
 
@@ -187,7 +191,7 @@ void IN_ToggleClientMouse( int newstate, int oldstate )
 	else if( newstate == key_game )
 	{
 		// reset mouse pos, so cancel effect in game
-		SetCursorPos( host.window_center_x, host.window_center_y );	
+		SetCursorPos( host.window_center_x, host.window_center_y );
 #ifndef _DEDICATED
 		clgame.dllFuncs.IN_ActivateMouse();
 #endif
@@ -216,12 +220,12 @@ void IN_ActivateMouse( qboolean force )
 #ifndef _DEDICATED
 	int		width, height;
 	static int	oldstate;
-			
+
 	if( !in_mouseinitialized )
 		return;
 
 	if( CL_Active() && host.mouse_visible && !force )
-		return;	// VGUI controls  
+		return;	// VGUI controls
 
 	if( cls.key_dest == key_menu && !Cvar_VariableInteger( "fullscreen" ))
 	{
@@ -313,7 +317,7 @@ void IN_MouseMove( void )
 {
 #ifndef _DEDICATED
 	POINT	current_pos;
-	
+
 	if( !in_mouseinitialized || !in_mouseactive || !UI_IsVisible( ))
 		return;
 
@@ -358,7 +362,7 @@ void IN_MouseEvent( int mstate )
 		{
 			Key_Event( K_MOUSE1 + i, false );
 		}
-	}	
+	}
 
 	in_mouse_oldbuttonstate = mstate;
 #endif
@@ -445,7 +449,7 @@ void Host_InputFrame( void )
 #ifndef _DEDICATED
 	if( cl.refdef.paused && cls.key_dest == key_game )
 		shutdownMouse = true; // release mouse during pause or console typeing
-	
+
 	if( shutdownMouse && !Cvar_VariableInteger( "fullscreen" ))
 	{
 		IN_DeactivateMouse();
@@ -548,8 +552,8 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 			RECT	rect;
 			int	xPos, yPos, style;
 
-			xPos = (short)LOWORD( lParam );    // horizontal position 
-			yPos = (short)HIWORD( lParam );    // vertical position 
+			xPos = (short)LOWORD( lParam );    // horizontal position
+			yPos = (short)HIWORD( lParam );    // vertical position
 
 			rect.left = rect.top = 0;
 			rect.right = rect.bottom = 1;

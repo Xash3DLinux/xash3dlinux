@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "netchan.h"
@@ -113,22 +117,22 @@ void Host_EndGame( const char *message, ... )
 {
 	va_list		argptr;
 	static char	string[MAX_SYSPATH];
-	
+
 	va_start( argptr, message );
 	Q_vsprintf( string, message, argptr );
 	va_end( argptr );
 
 	MsgDev( D_INFO, "Host_EndGame: %s\n", string );
-	
+
 	if( SV_Active())
 	{
 		Q_snprintf( host.finalmsg, sizeof( host.finalmsg ), "Host_EndGame: %s", string );
 		SV_Shutdown( false );
 	}
-	
+
 	if( host.type == HOST_DEDICATED )
 		Sys_Break( "Host_EndGame: %s\n", string ); // dedicated servers exit
-	
+
 #ifndef _DEDICATED
 	if( CL_NextDemo( ));
 	else CL_Disconnect();
@@ -201,7 +205,7 @@ void Host_ChangeGame_f( void )
 	}
 	else if( !Q_stricmp( GI->gamefolder, Cmd_Argv( 1 )))
 	{
-		Msg( "%s already active\n", Cmd_Argv( 1 ));	
+		Msg( "%s already active\n", Cmd_Argv( 1 ));
 	}
 	else
 	{
@@ -218,7 +222,7 @@ void Host_Exec_f( void )
 {
 	string	cfgpath;
 	size_t	len;
-	char	*f; 
+	char	*f;
 
 	if( Cmd_Argc() != 2 )
 	{
@@ -233,7 +237,7 @@ void Host_Exec_f( void )
 			return;
 	}
 
-	Q_strncpy( cfgpath, Cmd_Argv( 1 ), sizeof( cfgpath )); 
+	Q_strncpy( cfgpath, Cmd_Argv( 1 ), sizeof( cfgpath ));
 	FS_DefaultExtension( cfgpath, ".cfg" ); // append as default
 
 	f = FS_LoadFile( cfgpath, &len, false );
@@ -366,7 +370,7 @@ void Host_RestartAmbientSounds( void )
 	}
 
 	nSounds = S_GetCurrentStaticSounds( soundInfo, 64 );
-	
+
 	for( i = 0; i < nSounds; i++ )
 	{
 		if( !soundInfo[i].looping || soundInfo[i].entnum == -1 )
@@ -427,7 +431,7 @@ qboolean Host_FilterTime( float time )
 		if(( host.realtime - oldtime ) < minframetime )
 		{
 			// framerate is too high
-			return false;		
+			return false;
 		}
 	}
 
@@ -445,7 +449,7 @@ qboolean Host_FilterTime( float time )
 	{	// don't allow really long or short frames
 		host.frametime = bound( MIN_FRAMETIME, host.frametime, MAX_FRAMETIME );
 	}
-	
+
 	return true;
 }
 
@@ -558,7 +562,7 @@ void Host_Error( const char *error, ... )
 	if( host.state == HOST_SHUTDOWN ) return;
 
 	if( recursive )
-	{ 
+	{
 		Msg( "Host_RecursiveError: %s", hosterror2 );
 		Sys_Error( hosterror1 );
 		return; // don't multiple executes
@@ -680,7 +684,7 @@ void Host_InitCommon( const char *progname, qboolean bChangeGame )
 #ifdef _DEDICATED
 	host.type = HOST_DEDICATED;
 #else
-	if( SI.ModuleName[0] == '#' ) host.type = HOST_DEDICATED; 
+	if( SI.ModuleName[0] == '#' ) host.type = HOST_DEDICATED;
 
 	// determine host type
 	if( progname[0] == '#' )
@@ -688,7 +692,7 @@ void Host_InitCommon( const char *progname, qboolean bChangeGame )
 		Q_strncpy( SI.ModuleName, progname + 1, sizeof( SI.ModuleName ));
 		host.type = HOST_DEDICATED;
 	}
-	else Q_strncpy( SI.ModuleName, progname, sizeof( SI.ModuleName )); 
+	else Q_strncpy( SI.ModuleName, progname, sizeof( SI.ModuleName ));
 
 #endif
 
@@ -720,7 +724,7 @@ void Host_InitCommon( const char *progname, qboolean bChangeGame )
 
 	Con_CreateConsole();
 
-	// first text message into console or log 
+	// first text message into console or log
 	MsgDev( D_NOTE, "Sys_LoadLibrary: Loading xash.dll - ok\n" );
 
 	// startup cmds and cvars subsystem
@@ -790,7 +794,7 @@ int EXPORT Host_Main( const char *progname, int bChangeGame, pfnChangeGame func 
 
 	host_cheats = Cvar_Get( "sv_cheats", "0", CVAR_LATCH, "allow cheat variables to enable" );
 	host_maxfps = Cvar_Get( "fps_max", "72", CVAR_ARCHIVE, "host fps upper limit" );
-	host_framerate = Cvar_Get( "host_framerate", "0", 0, "locks frame timing to this value in seconds" );  
+	host_framerate = Cvar_Get( "host_framerate", "0", 0, "locks frame timing to this value in seconds" );
 	host_serverstate = Cvar_Get( "host_serverstate", "0", CVAR_INIT, "displays current server state" );
 	host_gameloaded = Cvar_Get( "host_gameloaded", "0", CVAR_INIT, "inidcates a loaded game.dll" );
 	host_clientloaded = Cvar_Get( "host_clientloaded", "0", CVAR_INIT, "inidcates a loaded client.dll" );
@@ -922,7 +926,7 @@ void EXPORT Host_Shutdown( void )
 	Host_FreeCommon();
 	Con_DestroyConsole();
 
-	// restore filter	
+	// restore filter
 	if( host.oldFilter ) SetUnhandledExceptionFilter( host.oldFilter );
 }
 

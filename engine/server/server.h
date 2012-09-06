@@ -193,13 +193,13 @@ typedef struct sv_client_s
 
 	qboolean		local_weapons;		// enable weapon predicting
 	qboolean		lag_compensation;		// enable lag compensation
-	qboolean		hltv_proxy;		// this is spectator proxy (hltv)		
+	qboolean		hltv_proxy;		// this is spectator proxy (hltv)
 
 	netchan_t		netchan;
 	int		chokecount;         	// number of messages rate supressed
 	int		delta_sequence;		// -1 = no compression.
 
-	double		next_messagetime;		// time when we should send next world state update  
+	double		next_messagetime;		// time when we should send next world state update
 	double		cl_updaterate;		// default time to wait for next message
 	double		next_checkpingtime;		// time to send all players pings to client
 	double		timebase;			// client timebase
@@ -549,8 +549,7 @@ void SV_CopyTraceToGlobal( trace_t *trace );
 void SV_SetMinMaxSize( edict_t *e, const float *min, const float *max );
 edict_t* SV_FindEntityByString( edict_t *pStartEdict, const char *pszField, const char *pszValue );
 void SV_CreateDecal( const float *origin, int decalIndex, int entityIndex, int modelIndex, int flags );
-void SV_CreateStudioDecal( const float *origin, const float *start, int decalIndex, int entityIndex, int modelIndex,
-int flags, struct modelstate_s *state );
+void SV_CreateStudioDecal( const float *origin, const float *start, int decalIndex, int entityIndex, int modelIndex,int flags, struct modelstate_s *state );
 void SV_PlaybackEventFull( int flags, const edict_t *pInvoker, word eventindex, float delay, float *origin,
 	float *angles, float fparam1, float fparam2, int iparam1, int iparam2, int bparam1, int bparam2 );
 void SV_PlaybackReliableEvent( sizebuf_t *msg, word eventindex, float delay, event_args_t *args );
@@ -581,7 +580,7 @@ _inline edict_t *SV_EDICT_NUM( int n, const char * file, const int line )
 	if((n >= 0) && (n < svgame.globals->maxEntities))
 		return svgame.edicts + n;
 	Host_Error( "SV_EDICT_NUM: bad number %i (called at %s:%i)\n", n, file, line );
-	return NULL;	
+	return NULL;
 }
 
 //

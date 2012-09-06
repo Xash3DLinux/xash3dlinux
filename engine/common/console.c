@@ -12,6 +12,12 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 
@@ -115,7 +121,7 @@ typedef struct
 	cl_font_t		chars[CON_NUMFONTS];// fonts.wad/font1.fnt
 	cl_font_t		*curFont, *lastUsedFont;
 #endif
-	
+
 	// console input
 	field_t		input;
 
@@ -181,7 +187,7 @@ void Con_SetColor_f( void )
 		break;
 	}
 }
-						
+
 /*
 ================
 Con_ClearNotify
@@ -190,7 +196,7 @@ Con_ClearNotify
 void Con_ClearNotify( void )
 {
 	int	i;
-	
+
 	for( i = 0; i < CON_TIMES; i++ )
 		con.times[i] = 0;
 }
@@ -372,7 +378,7 @@ void Con_CheckResize( void )
 			numlines = con.totallines;
 
 		numchars = oldwidth;
-	
+
 		if( con.linewidth < numchars )
 			numchars = con.linewidth;
 
@@ -502,14 +508,14 @@ static void Con_LoadConsoleFont( int fontNumber, sv_font_t *font )
 		byte	*buffer;
 		size_t	length;
 		qfont_t	*src;
-	
+
 		// half-life font with variable chars witdh
 		buffer = FS_LoadFile( va( "fonts/font%i", fontNumber ), &length, false );
 
 		if( buffer && length >= sizeof( qfont_t ))
 		{
 			int	i;
-	
+
 			src = (qfont_t *)buffer;
 			font->charHeight = src->rowheight;
 
@@ -554,7 +560,7 @@ static void Con_LoadConchars( void )
 
 	// sets the current font
 	con.lastUsedFont = con.curFont = &con.chars[fontSize];
-	
+
 }
 
 static int Con_DrawGenericChar( int x, int y, int number, rgba_t color )
@@ -590,7 +596,7 @@ static int Con_DrawGenericChar( int x, int y, int number, rgba_t color )
 	height = rc->bottom - rc->top;
 
 	TextAdjustSize( &x, &y, &width, &height );
-	R_DrawStretchPic( x, y, width, height, s1, t1, s2, t2, con.curFont->hFontTexture );		
+	R_DrawStretchPic( x, y, width, height, s1, t1, s2, t2, con.curFont->hFontTexture );
 	pglColor4ub( 255, 255, 255, 255 ); // don't forget reset color
 #endif
 
@@ -599,7 +605,7 @@ static int Con_DrawGenericChar( int x, int y, int number, rgba_t color )
 
 void Con_SetFont( int fontNum )
 {
-	fontNum = bound( 0, fontNum, 2 ); 
+	fontNum = bound( 0, fontNum, 2 );
 	con.curFont = &con.chars[fontNum];
 }
 
@@ -710,7 +716,7 @@ int Con_DrawGenericString( int x, int y, const char *string, rgba_t setColor, qb
 		numDraws++;
 		s++;
 	}
-          
+
 	pglColor4ub( 255, 255, 255, 255 );
 	return drawLen;
 }
@@ -804,7 +810,7 @@ void Con_Print( const char *txt )
 	// client not running
 	if( host.type == HOST_DEDICATED ) return;
           if( !con.initialized ) return;
-	
+
 	color = ColorIndex( COLOR_DEFAULT );
 
 	while(( c = *txt ) != 0 )
@@ -1119,18 +1125,18 @@ void Con_CompleteCommand( field_t *field )
 		{
 			if( Cmd_CheckName( list->name ))
 			{
-				result = list->func( Cmd_Argv( 1 ), filename, MAX_STRING ); 
+				result = list->func( Cmd_Argv( 1 ), filename, MAX_STRING );
 				break;
 			}
 		}
 
 		if( result )
-		{         
-			Q_sprintf( con.completionField->buffer, "%s %s", Cmd_Argv( 0 ), filename ); 
+		{
+			Q_sprintf( con.completionField->buffer, "%s %s", Cmd_Argv( 0 ), filename );
 			con.completionField->cursor = Q_strlen( con.completionField->buffer );
 			return;
 		}
-	}  
+	}
 
 	if( con.matchCount == 1 )
 	{
@@ -1239,7 +1245,7 @@ void Field_KeyDownEvent( field_t *edit, int key )
 		return;
 	}
 
-	if( key == K_RIGHTARROW ) 
+	if( key == K_RIGHTARROW )
 	{
 		if( edit->cursor < len ) edit->cursor++;
 		if( edit->cursor >= edit->scroll + edit->widthInChars && edit->cursor <= len )
@@ -1247,7 +1253,7 @@ void Field_KeyDownEvent( field_t *edit, int key )
 		return;
 	}
 
-	if( key == K_LEFTARROW ) 
+	if( key == K_LEFTARROW )
 	{
 		if( edit->cursor > 0 ) edit->cursor--;
 		if( edit->cursor < edit->scroll ) edit->scroll--;
@@ -1326,7 +1332,7 @@ void Field_CharEvent( field_t *edit, int ch )
 	if( ch < 32 ) return;
 
 	if( host.key_overstrike )
-	{	
+	{
 		if ( edit->cursor == MAX_STRING - 1 ) return;
 		edit->buffer[edit->cursor] = ch;
 		edit->cursor++;
@@ -1391,7 +1397,7 @@ void Field_DrawInputLine( int x, int y, field_t *edit )
 
 	if( host.key_overstrike && cursorChar && !((int)( host.realtime * 4 ) & 1 ))
 		hideChar = edit->cursor - prestep; // skip this char
-	
+
 	// draw it
 	Con_DrawGenericString( x, y, str, colorDefault, false, hideChar );
 
@@ -1543,12 +1549,12 @@ void Key_Console( int key )
 	}
 
 	if( key == K_MWHEELDOWN )
-	{	
+	{
 		Con_PageDown();
 
 #ifndef _DEDICATED
 		if( Key_IsDown( K_CTRL ))
-		{	
+		{
 			Con_PageDown();
 			Con_PageDown();
 		}
@@ -1670,7 +1676,7 @@ int Con_DrawDebugLines( void )
 	int	defaultX;
 
 	defaultX = glState.width / 4;
-	
+
 	for( i = 0; i < MAX_DBG_NOTIFY; i++ )
 	{
 		if( host.realtime < con.notify[i].expire && con.notify[i].key_dest == cls.key_dest )
@@ -1758,7 +1764,7 @@ void Con_DrawNotify( void )
 			v += con.curFont->charHeight;
 		}
 	}
-	
+
 #ifndef _DEDICATED
 	if( cls.key_dest == key_message )
 	{
@@ -1852,7 +1858,7 @@ void Con_DrawSolidConsole( float frac )
 		y -= con.curFont->charHeight;
 		rows--;
 	}
-	
+
 	row = con.display;
 	if( con.x == 0 ) row--;
 
@@ -1865,7 +1871,7 @@ void Con_DrawSolidConsole( float frac )
 		if( con.current - row >= con.totallines )
 		{
 			// past scrollback wrap point
-			continue;	
+			continue;
 		}
 
 		text = con.text + ( row % con.totallines ) * con.linewidth;
@@ -1938,14 +1944,14 @@ void Con_DrawConsole( void )
 		break;
 	case ca_connected:
 	case ca_connecting:
-		// force to show console always for -dev 3 and higher 
+		// force to show console always for -dev 3 and higher
 		if( con.displayFrac ) Con_DrawSolidConsole( con.displayFrac );
 		break;
 	case ca_active:
-	case ca_cinematic: 
+	case ca_cinematic:
 		if( Cvar_VariableInteger( "sv_background" ))
 		{
-			if( cls.key_dest == key_console ) 
+			if( cls.key_dest == key_console )
 				Con_DrawSolidConsole( 1.0f );
 		}
 		else
@@ -1993,7 +1999,7 @@ void Con_DrawVersion( void )
 
 	if( host.force_draw_version || draw_version )
 		Q_snprintf( curbuild, MAX_STRING, "Xash3D v%i/%g (build %i)", PROTOCOL_VERSION, XASH_VERSION, Q_buildnum( ));
-	else Q_snprintf( curbuild, MAX_STRING, "v%i/%g (build %i)", PROTOCOL_VERSION, XASH_VERSION, Q_buildnum( )); 
+	else Q_snprintf( curbuild, MAX_STRING, "v%i/%g (build %i)", PROTOCOL_VERSION, XASH_VERSION, Q_buildnum( ));
 	Con_DrawStringLen( curbuild, &stringLen, &charH );
 	start = scr_width->integer - stringLen * 1.05f;
 	stringLen = Con_StringLength( curbuild );
@@ -2019,7 +2025,7 @@ void Con_RunConsole( void )
 	{
 		if( cls.state == ca_disconnected )
 			con.finalFrac = 1.0f;// full screen
-		else con.finalFrac = 0.5f;	// half screen	
+		else con.finalFrac = 0.5f;	// half screen
 	}
 	else con.finalFrac = 0; // none visible
 

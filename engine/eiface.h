@@ -97,6 +97,10 @@ typedef struct
 
 typedef unsigned long	CRC32_t;
 
+#ifndef _WIN32
+struct delta_s;
+#endif
+
 // Engine hands this to DLLs for functionality callbacks
 typedef struct enginefuncs_s
 {

@@ -12,6 +12,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
+#ifndef _WIN32
+#include "recdefs.h"
+#include <stdarg.h>
+#endif
 
 #include "common.h"
 #include "protocol.h"
@@ -28,7 +32,7 @@ static dword	ExtraMasks[32];
 short BF_BigShort( short swap )
 {
 	short *s = &swap;
-	
+
 	__asm {
 		mov ebx, s
 		mov al, [ebx+1]
@@ -57,7 +61,7 @@ void BF_InitMasks( void )
 	for( maskBit = 0; maskBit < 32; maskBit++ )
 		ExtraMasks[maskBit] = BIT( maskBit ) - 1;
 }
- 
+
 void BF_InitExt( sizebuf_t *bf, const char *pDebugName, void *pData, int nBytes, int nMaxBits )
 {
 	bf->pDebugName = pDebugName;
@@ -110,7 +114,7 @@ static qboolean BF_Overflow( sizebuf_t *bf, int nBits )
 qboolean BF_CheckOverflow( sizebuf_t *bf )
 {
 	ASSERT( bf );
-	
+
 	return BF_Overflow( bf, 0 );
 }
 
@@ -262,7 +266,7 @@ qboolean BF_WriteBits( sizebuf_t *bf, const void *pData, int nBits )
 		nBitsLeft -= 8;
 		++pOut;
 	}
-	
+
 	// Read the remaining bits.
 	if( nBitsLeft )
 	{
@@ -279,7 +283,7 @@ void BF_WriteBitAngle( sizebuf_t *bf, float fAngle, int numbits )
 	int	d;
 
 	// clamp the angle before receiving
-	if( fAngle > 360.0f ) fAngle -= 360.0f; 
+	if( fAngle > 360.0f ) fAngle -= 360.0f;
 	else if( fAngle < 0 ) fAngle += 360.0f;
 
 	shift = ( 1 << numbits );
@@ -313,7 +317,7 @@ void BF_WriteBitCoord( sizebuf_t *bf, const float f )
 			intval--;
 			BF_WriteUBitLong( bf, (uint)intval, COORD_INTEGER_BITS );
 		}
-		
+
 		// send the fraction if we have one
 		if( fractval )
 		{
@@ -386,7 +390,7 @@ void BF_WriteBitVec3Normal( sizebuf_t *bf, const float *fa )
 
 	if( xflag ) BF_WriteBitNormal( bf, fa[0] );
 	if( yflag ) BF_WriteBitNormal( bf, fa[1] );
-	
+
 	// Write z sign bit
 	signbit = ( fa[2] <= -NORMAL_RESOLUTION );
 	BF_WriteOneBit( bf, signbit );
@@ -438,7 +442,7 @@ qboolean BF_WriteString( sizebuf_t *bf, const char *pStr )
 		} while( *( pStr - 1 ));
 	}
 	else BF_WriteChar( bf, 0 );
-	
+
 	return !bf->bOverflow;
 }
 
@@ -493,7 +497,7 @@ uint BF_ReadUBitLong( sizebuf_t *bf, int numbits )
 	{
 		int	nExtraBits = bf->iCurBit & 31;
 		uint	dword2 = ((uint *)bf->pData)[idword1+1] & ExtraMasks[nExtraBits];
-		
+
 		// no need to mask since we hit the end of the dword.
 		// shift the second dword's part into the high bits.
 		ret |= (dword2 << ( numbits - nExtraBits ));
@@ -531,7 +535,7 @@ qboolean BF_ReadBits( sizebuf_t *bf, void *pOutData, int nBits )
 {
 	byte	*pOut = (byte *)pOutData;
 	int	nBitsLeft = nBits;
-	
+
 	// get output dword-aligned.
 	while((( dword )pOut & 3) != 0 && nBitsLeft >= 8 )
 	{
@@ -555,7 +559,7 @@ qboolean BF_ReadBits( sizebuf_t *bf, void *pOutData, int nBits )
 		++pOut;
 		nBitsLeft -= 8;
 	}
-	
+
 	// read the remaining bits.
 	if( nBitsLeft )
 	{
@@ -576,7 +580,7 @@ float BF_ReadBitAngle( sizebuf_t *bf, int numbits )
 	fReturn = (float)i * ( 360.0f / shift );
 
 	// clamp the finale angle
-	if( fReturn < -180.0f ) fReturn += 360.0f; 
+	if( fReturn < -180.0f ) fReturn += 360.0f;
 	else if( fReturn > 180.0f ) fReturn -= 360.0f;
 
 	return fReturn;
@@ -647,12 +651,12 @@ void BF_ReadBitVec3Coord( sizebuf_t *bf, vec3_t fa )
 {
 	int	xflag, yflag, zflag;
 
-	// This vector must be initialized! Otherwise, If any of the flags aren't set, 
+	// This vector must be initialized! Otherwise, If any of the flags aren't set,
 	// the corresponding component will not be read and will be stack garbage.
 	fa[0] = fa[1] = fa[2] = 0.0f;
 
 	xflag = BF_ReadOneBit( bf );
-	yflag = BF_ReadOneBit( bf ); 
+	yflag = BF_ReadOneBit( bf );
 	zflag = BF_ReadOneBit( bf );
 
 	if( xflag ) fa[0] = BF_ReadBitCoord( bf );
@@ -680,7 +684,7 @@ float BF_ReadBitNormal( sizebuf_t *bf )
 void BF_ReadBitVec3Normal( sizebuf_t *bf, vec3_t fa )
 {
 	int	xflag = BF_ReadOneBit( bf );
-	int	yflag = BF_ReadOneBit( bf ); 
+	int	yflag = BF_ReadOneBit( bf );
 	int	znegative;
 	float	fafafbfb;
 
@@ -753,7 +757,7 @@ char *BF_ReadStringExt( sizebuf_t *bf, qboolean bLine )
 {
 	static char	string[MAX_SYSPATH];
 	int		l = 0, c;
-	
+
 	do
 	{
 		// use BF_ReadByte so -1 is out of bounds
