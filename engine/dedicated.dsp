@@ -94,36 +94,6 @@ LINK32=link.exe
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90"
-# Begin Group "temp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\client\gl_sprite.c
-
-!IF  "$(CFG)" == "dedicated - Win32 Release"
-
-# PROP Exclude_From_Build 1
-
-!ELSEIF  "$(CFG)" == "dedicated - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=.\client\gl_studio.c
-
-!IF  "$(CFG)" == "dedicated - Win32 Release"
-
-# PROP Exclude_From_Build 1
-
-!ELSEIF  "$(CFG)" == "dedicated - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\common\build.c

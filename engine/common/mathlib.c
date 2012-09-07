@@ -134,6 +134,7 @@ void SinCos( float radians, float *sine, float *cosine )
     asm("fsincos":"=t"(cv),"=u"(sv):"0"(radians):"st(2)","st(3)");\
     *cosine = cv;\
     *sine = sv;\
+
 #endif
 }
 

@@ -1273,7 +1273,7 @@ event_args_t communication
 MSG_WriteDeltaEvent
 =====================
 */
-void MSG_WriteDeltaEvent( sizebuf_t *msg, struct event_args_t *from, struct event_args_t *to )
+void MSG_WriteDeltaEvent( sizebuf_t *msg, event_args_t *from, event_args_t *to )
 {
 	delta_t		*pField;
 	delta_info_t	*dt;
