@@ -20,20 +20,28 @@ GNU General Public License for more details.
 #include "common.h"
 #include "input.h"
 #include "client.h"
+
+#ifdef _WIN32
 #include "vgui_draw.h"
+#endif
 
 #define PRINTSCREEN_ID	1
 #define WND_HEADSIZE	wnd_caption		// some offset
 #define WND_BORDER		3			// sentinel border in pixels
 
+#ifdef _WIN32
 HICON	in_mousecursor;
+#endif
+
 qboolean	in_mouseactive;		// false when not focus app
 qboolean	in_restore_spi;
 qboolean	in_mouseinitialized;
 int	in_mouse_oldbuttonstate;
 qboolean	in_mouse_suspended;
 int	in_mouse_buttons;
+#ifdef _WIN32
 RECT	window_rect, real_rect;
+#endif
 uint	in_mouse_wheel;
 int	wnd_caption;
 
@@ -51,6 +59,7 @@ static byte scan_to_key[128] =
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 
+#ifdef _WIN32
 // extra mouse buttons
 static int mouse_buttons[] =
 {
@@ -63,6 +72,7 @@ static int mouse_buttons[] =
 	MK_XBUTTON4,
 	MK_XBUTTON5
 };
+#endif
 
 /*
 =======
@@ -133,6 +143,7 @@ void IN_StartupMouse( void )
 
 static qboolean IN_CursorInRect( void )
 {
+#ifdef _WIN32
 	POINT	curpos;
 
 	if( !in_mouseinitialized || !in_mouseactive )
@@ -150,6 +161,7 @@ static qboolean IN_CursorInRect( void )
 	if( curpos.y > real_rect.bottom - WND_BORDER * 3 )
 		return false;
 	return true;
+#endif
 }
 
 static void IN_ActivateCursor( void )
@@ -162,6 +174,7 @@ static void IN_ActivateCursor( void )
 #endif
 }
 
+#ifdef _WIN32
 void IN_SetCursor( HICON hCursor )
 {
 #ifndef _DEDICATED
@@ -170,6 +183,7 @@ void IN_SetCursor( HICON hCursor )
 	IN_ActivateCursor();
 #endif
 }
+#endif
 
 /*
 ===========
@@ -470,6 +484,7 @@ main window procedure
 */
 long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 {
+#ifdef _WIN32
 	int	i, temp = 0;
 	qboolean	fActivate;
 
@@ -630,4 +645,7 @@ long IN_WndProc( void *hWnd, uint uMsg, uint wParam, long lParam )
 		break;
 	}
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
+#else
+    return 0;
+#endif
 }
