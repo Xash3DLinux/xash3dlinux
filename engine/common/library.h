@@ -16,11 +16,14 @@ GNU General Public License for more details.
 #ifndef LIBRARY_H
 #define LIBRARY_H
 
+#ifndef STANDART_LOAD
 #define DOS_SIGNATURE		0x5A4D		// MZ
 #define NT_SIGNATURE		0x00004550	// PE00
 #define NUMBER_OF_DIRECTORY_ENTRIES	16
+#endif
 #define MAX_LIBRARY_EXPORTS		4096
 
+#ifndef STANDART_LOAD
 typedef struct
 {	
 	// dos .exe header
@@ -133,6 +136,7 @@ typedef struct
 	dword	AddressOfNames;		// RVA from base of image
 	dword	AddressOfNameOrdinals;	// RVA from base of image
 } EXPORT_DIRECTORY;
+#endif
 
 typedef struct dll_user_s
 {
@@ -150,9 +154,12 @@ typedef struct dll_user_s
 	dword	funcBase;			// base offset
 } dll_user_t;
 
+
 dll_user_t *FS_FindLibrary( const char *dllname, qboolean directpath );
 void *Com_LoadLibrary( const char *dllname, int build_ordinals_table );
+#ifndef STANDART_LOAD
 void *Com_LoadLibraryExt( const char *dllname, int build_ordinals_table, qboolean directpath );
+#endif
 void *Com_GetProcAddress( void *hInstance, const char *name );
 const char *Com_NameForFunction( void *hInstance, dword function );
 dword Com_FunctionFromName( void *hInstance, const char *pName );
