@@ -15,6 +15,7 @@ GNU General Public License for more details.
 #ifndef _WIN32
 #include "recdefs.h"
 #include <stdarg.h>
+#include <dlfcn.h>
 #endif
 
 #include "common.h"
@@ -23,6 +24,17 @@ GNU General Public License for more details.
 
 #ifndef _WIN32
 #define STANDART_LOAD
+
+typedef struct {
+    const char *dli_fname;  /* Pathname of shared object that
+                               contains address */
+    void       *dli_fbase;  /* Address at which shared object
+                               is loaded */
+    const char *dli_sname;  /* Name of nearest symbol with address
+                               lower than addr */
+    void       *dli_saddr;  /* Exact address of symbol named
+                               in dli_sname */
+} Dl_info;
 #endif
 
 
@@ -36,7 +48,11 @@ void *Com_LoadLibrary( const char *dllname, int build_ordinals_table )
 	int		pack_ind;
 	char	path [MAX_SYSPATH];
 
+#ifdef _WIN32
 	void *pHandle = LoadLibrary( dllname );
+#else
+	void *pHandle = dlopen( dllname, RTLD_NOW );
+#endif
 
 	if(!pHandle)
 	{
@@ -48,7 +64,12 @@ void *Com_LoadLibrary( const char *dllname, int build_ordinals_table )
 		}
 
 		sprintf( path, "%s%s", search->filename, dllname );
+
+#ifdef _WIN32
 		return LoadLibrary( path );
+#else
+        return dlopen( path, RTLD_NOW );
+#endif
 	}
 
 	return pHandle;
@@ -56,22 +77,39 @@ void *Com_LoadLibrary( const char *dllname, int build_ordinals_table )
 
 void Com_FreeLibrary( void *hInstance )
 {
+#ifdef _WIN32
 	FreeLibrary( hInstance );
+#else
+    dlclose( hInstance );
+#endif
 }
 
 void *Com_GetProcAddress( void *hInstance, const char *name )
 {
+#ifdef _WIN32
 	return GetProcAddress( hInstance, name );
+#else
+    return dlsym( hInstance, name );
+#endif
 }
 
 dword Com_FunctionFromName( void *hInstance, const char *pName )
 {
+#ifdef _WIN32
 	return (dword)GetProcAddress( hInstance, pName );
+#else
+    return dlsym( hInstance, pName );
+#endif
 }
 
 const char *Com_NameForFunction( void *hInstance, dword function )
 {
-	return NULL; //later???
+#ifdef _WIN32
+	return NULL; //later
+#else
+    Dl_info info;
+    return dladdr(function, &info);
+#endif
 }
 #else
 /*
